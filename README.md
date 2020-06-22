@@ -3,8 +3,8 @@
 The target of the GribMagic project is to unify the download process of grib1/grib2 and netcdf data from numerical weather prediction models.
 
 
-![CI](https://github.com/earthobservations/python_dwd/workflows/CI/badge.svg?branch=master)
-[![codecov](https://codecov.io/gh/earthobservations/python_dwd/branch/master/graph/badge.svg)](https://codecov.io/gh/earthobservations/python_dwd)
+![CI](https://github.com/earthobservations/GribMagic/workflows/CI/badge.svg?branch=master)
+[![codecov](https://codecov.io/gh/earthobservations/GribMagic/branch/master/graph/badge.svg)](https://codecov.io/gh/earthobservations/GribMagic)
 
 # Setting up and installation
 
@@ -25,13 +25,13 @@ The **BASE_STORE_DIR** points to the project intern **data** directory per defau
 To use the weather_forecast_downloader in a Docker container, you just have to build the image from this project
 
 ```
-docker build -t "weather_forecast_downloader" .
+docker build -t "grib_magic_image" .
 ```
 
 To run the tests in the given environment, just call 
 
 ```
-docker run -ti -v $(pwd):/app weather_forecast_downloader:latest pytest tests/
+docker run -ti -v $(pwd):/app grib_magic_image:latest pytest tests/
 ```
 from the main directory. To work in an iPython shell you just have to change the command `pytest tests/` to `ipython`.
 
