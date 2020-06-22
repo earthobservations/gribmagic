@@ -1,0 +1,41 @@
+icon_eu:
+     air_temperature_2m: t_2m
+     snow_height: h_snow
+     max_wind_gust_10m: vmax_10m
+     wind_u_10m: u_10m
+     wind_v_10m: v_10m
+     dewpoint_2m: td_2m
+     total_precipitation: tot_prec
+     convective_snow: snow_con
+     grid_scale_snow: snow_gsp
+     convective_rain: rain_con
+     grid_scale_rain: rain_gsp
+     global_horizontal_irradiance: asob_s
+     direct_normal_irradiance: aswdir_s
+     diffuse_horizontal_irradiance: aswdiff_s
+     mixed_layer_cape: cape_ml
+     pressure_mean_sea_level: pmsl
+     max_air_temperature_2m: tmax_2m
+     min_air_temperature_2m: tmin_2m
+     weather_synop_code: ww
+     soil_temperature: t_g
+     total_cloud_cover: clct
+     relative_humidity_2m: relhum_2m
+
+gfs:
+     air_temperature_2m: t2m
+     snow_height: sde
+     max_wind_gust_10m: gust
+     wind_u_10m: u10
+     wind_v_10m: v10
+     dewpoint_2m: d2m
+     total_precipitation_rate: prate
+     convective_snow: csnow
+     convective_rain: crain
+     global_horizontal_irradiance: dswrf
+     mixed_layer_cape: cape
+     pressure_mean_sea_level: prmsl
+     max_air_temperature_2m: tmax
+     min_air_temperature_2m: tmin
+     sunshine_duration: SUNSD
+     total_cloud_cover: tcc

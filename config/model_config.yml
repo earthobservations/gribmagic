@@ -1,0 +1,48 @@
+icon_eu:
+    remote_server: opendata.dwd.de/weather/nwp
+    remote_server_type: https
+    initialization_times: [0,3,6,9,12,15,18,21]
+    forecast_steps:
+      0: [[0, 78,1], [78, 123, 3]]
+      3:  [[0, 30,1]]
+      6: [[0, 78,1], [78, 123, 3]]
+      9:  [[0, 30,1]]
+      12: [[0, 78,1], [78, 123, 3]]
+      15:  [[0, 30,1]]
+      18: [[0, 78,1], [78, 123, 3]]
+      21:  [[0, 30,1]]
+    variables: [air_temperature_2m,snow_height, max_wind_gust_10m,wind_u_10m, wind_v_10m, dewpoint_2m,
+                total_precipitation, convective_snow,grid_scale_snow,convective_rain,grid_scale_rain,
+                global_horizontal_irradiance,direct_normal_irradiance,diffuse_horizontal_irradiance,
+                mixed_layer_cape,pressure_mean_sea_level, max_air_temperature_2m, min_air_temperature_2m,
+                weather_synop_code,soil_temperature, total_cloud_cover, relative_humidity_2m]
+    directory_template: icon-eu/grib/{initialization_time}/{variable_name_lower}
+    file_template: icon-eu_europe_regular-lat-lon_{level_type}_{initialization_date}{initialization_time}_{forecast_step}_{variable_name_upper}.grib2.bz2
+    file_postfix: .grib2.bz2
+    initialization_date_format: '%Y%m%d'
+    compression: bz2
+
+
+cosmo_d2:
+    remote_server: opendata.dwd.de/weather/nwp
+    remote_server_type: https
+    initialization_times: [0,3,6,9,12,15,18,21]
+    forecast_steps:
+      0: [[0, 28,1]]
+      3:  [[0, 46,1]]
+      6: [[0, 28,1]]
+      9:  [[0, 28,1]]
+      12: [[0, 28,1]]
+      15:  [[0, 28,1]]
+      18: [[0, 28,1]]
+      21:  [[0, 28,1]]
+    variables: [air_temperature_2m,snow_height, max_wind_gust_10m,wind_u_10m, wind_v_10m, dewpoint_2m,
+                total_precipitation, convective_snow,grid_scale_snow,convective_rain,grid_scale_rain,
+                global_horizontal_irradiance,direct_normal_irradiance,diffuse_horizontal_irradiance,
+                mixed_layer_cape,pressure_mean_sea_level, max_air_temperature_2m, min_air_temperature_2m,
+                weather_synop_code,soil_temperature, total_cloud_cover, relative_humidity_2m]
+    directory_template: cosmo-d2/grib/{initialization_time}/{variable_name_lower}
+    file_template: cosmo-de2_germany_regular-lat-lon_{level_type}_{initialization_date}{initialization_time}_{forecast_step}_{variable_name_upper}.grib2.bz2
+    file_postfix: .grib2.bz2
+    initialization_date_format: '%Y%m%d'
+    compression: bz2

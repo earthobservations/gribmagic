@@ -1,0 +1,37 @@
+""" unified NWP variables enumerations """
+from enum import Enum
+
+
+class ForecastVariables(Enum):
+    """Enumeration of variables from weather_models"""
+    AIR_TEMPERATURE_2M = 'air_temperature_2m'
+    SNOW_HEIGHT = 'snow_height'
+    MAX_WIND_GUST_10M = 'max_wind_gust_10m'
+    WIND_U_10M = 'wind_u_10m'
+    WIND_V_10M = 'wind_v_10m'
+    DEWPOINT_2M = 'dewpoint_2m'
+    TOTAL_PRECIPITATION = 'total_precipitation'
+    CONVECTIVE_SNOW = 'convective_snow'
+    GRID_SCALE_SNOW = 'grid_scale_snow'
+    CONVECTIVE_RAIN = 'convective_rain'
+    GRID_SCALE_RAIN = 'grid_scale_rain'
+    GLOBAL_HORIZONTAL_IRRADIANCE = 'global_horizontal_irradiance'
+    DIFFUSE_HORIZONTAL_IRRADIANCE = 'diffuse_horizontal_irradiance'
+    DIRECT_NORMAL_IRRADIANCE = 'direct_normal_irradiance'
+    MIXED_LAYER_CAPE = 'mixed_layer_cape'
+    MOST_UNSTABLE_CAPE = 'most_unstable_cape'
+    SURFACE_BASED_CAPE = 'surface_based_cape'
+    PRESSURE_MEAN_SEA_LEVEL = 'pressure_mean_sea_level'
+    MAX_AIR_TEMPERATURE_2M = 'max_air_temperature_2m'
+    MIN_AIR_TEMPERATURE_2M = 'min_air_temperature_2m'
+    WEATHER_SYNOP_CODE = 'weather_synop_code'
+    SOIL_TEMPERATURE = 'soil_temperature'
+    TOTAL_CLOUD_COVER = 'total_cloud_cover'
+    RELATIVE_HUMIDITY_2M = 'relative_humidity_2m'
+    RELATIVE_HUMIDITY = 'relative_humidity'
+    GEOPOTENTIAL_HEIGHT = 'geopotential_height'
+    SUNSHINE_DURATION = 'sunshine_duration'
+    LOW_LEVEL_CLOUDS = 'low_level_clouds'
+    MEDIUM_LEVEL_CLOUDS = 'medium_level_clouds'
+    HIGH_LEVEL_CLOUDS = 'high_level_clouds'
+    TOTAL_PRECIPITATION_RATE = 'total_precipitation_rate'
