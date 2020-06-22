@@ -1,6 +1,10 @@
-# weather_forecast_downloader
-Project to handle download of public weather forecast data. 
+# GribMagic - generic weather forecast downloader 
 
+The target of the GribMagic project is to unify the download process of grib1/grib2 and netcdf data from numerical weather prediction models.
+
+
+![CI](https://github.com/earthobservations/python_dwd/workflows/CI/badge.svg?branch=master)
+[![codecov](https://codecov.io/gh/earthobservations/python_dwd/branch/master/graph/badge.svg)](https://codecov.io/gh/earthobservations/python_dwd)
 
 # Setting up and installation
 
