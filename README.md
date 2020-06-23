@@ -6,6 +6,7 @@ This is a Work in Progress. We are happy if you are willing to contribute.
 
 ![CI](https://github.com/earthobservations/GribMagic/workflows/CI/badge.svg?branch=master)
 [![codecov](https://codecov.io/gh/earthobservations/GribMagic/branch/master/graph/badge.svg)](https://codecov.io/gh/earthobservations/GribMagic)
+![python](https://img.shields.io/badge/Python-3.7-green.svg)
 
 # Setting up and installation
 
