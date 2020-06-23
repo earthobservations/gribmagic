@@ -17,10 +17,8 @@ jobs:
         python-version: 3.7
     - name: Generate coverage report
       run: |
-        pip install -r requirements.txt
-        pip install pytest
-        pip install pytest-cov
-        pytest --cov-report=xml --cov=GribMagic tests/
+        docker build -t "grib_magic_image" .
+        docker run -v $(pwd):/app grib_magic_image:latest pytest --cov-report=xml --cov=GribMagic tests/
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v1.0.7
       with:
