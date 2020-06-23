@@ -18,7 +18,7 @@ jobs:
     - name: build test image 
       run: docker build -t "grib_magic_image" .
     - name: Generate coverage report
-      run: docker run -v $(pwd):/app grib_magic_image:latest pytest --cov-report=xml --cov=GribMagic tests/
+      run: docker run -v $(pwd):/app grib_magic_image:latest pytest --cov-report=xml --cov=src tests/
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v1.0.7
       with:
