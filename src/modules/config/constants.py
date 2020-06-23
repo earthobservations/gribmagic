@@ -10,7 +10,7 @@ KEY_FILE_TEMPLATE = 'file_template'
 KEY_FILE_POSTFIX = 'file_postfix'
 KEY_INITIALIZATION_DATE_FORMAT = 'initialization_date_format'
 KEY_LOCAL_FILE_PATHS = 'local_file_paths'
-KEY_LOCAL_STORE_FILE_PATHS = 'local_file_paths'
+KEY_LOCAL_STORE_FILE_PATHS = 'local_store_file_paths'
 KEY_REMOTE_FILE_PATHS = 'remote_file_paths'
 KEY_COMPRESSION = 'compression'
 

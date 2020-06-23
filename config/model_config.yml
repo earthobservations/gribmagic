@@ -46,3 +46,17 @@ cosmo_d2:
     file_postfix: .grib2.bz2
     initialization_date_format: '%Y%m%d'
     compression: bz2
+
+
+test_model:
+    remote_server: test1
+    remote_server_type: https
+    initialization_times: [0]
+    forecast_steps:
+      0: [[0,2,1]]
+    variables: [air_temperature_2m]
+    directory_template: test_remote_dir/{initialization_time}/{variable_name_lower}
+    file_template: test_remote_file_{level_type}_{initialization_date}{initialization_time}_{forecast_step}_{variable_name_upper}.grib2.bz2
+    file_postfix: .grib2
+    initialization_date_format: '%Y%m%d'
+    compression: ''

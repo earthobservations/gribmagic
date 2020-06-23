@@ -1,15 +1,16 @@
 """ functions to create remote lists of remote files that should be downloaded """
 from datetime import datetime
+from pathlib import Path
 from typing import Dict, List
 
-from pathlib import Path
-
+from src.enumerations.weather_models import WeatherModels
+from src.modules.config.constants import KEY_LOCAL_FILE_PATHS, \
+    KEY_REMOTE_FILE_PATHS, KEY_LOCAL_STORE_FILE_PATHS
+from src.modules.file_list_handling.local_file_list_creation import \
+    build_local_file_list_for_variables, \
+    build_local_store_file_list_for_variables
 from src.modules.file_list_handling.remote_file_list_creation import \
     build_remote_file_lists_for_variable_files
-from src.modules.file_list_handling.local_file_list_creation import build_local_file_list_for_variables, \
-    build_local_store_file_list_for_variables
-from src.enumerations.weather_models import WeatherModels
-from src.modules.config.constants import KEY_LOCAL_FILE_PATHS, KEY_REMOTE_FILE_PATHS, KEY_LOCAL_STORE_FILE_PATHS
 
 
 def build_model_file_lists(
@@ -33,13 +34,16 @@ def build_model_file_lists(
 
     """
     return {
-        KEY_LOCAL_STORE_FILE_PATHS: build_local_store_file_list_for_variables(weather_model,
-                                                                              initialization_time,
-                                                                              run_date),
-        KEY_LOCAL_FILE_PATHS: build_local_file_list_for_variables(weather_model,
-                                                                  initialization_time,
-                                                                  run_date),
-        KEY_REMOTE_FILE_PATHS: build_remote_file_lists_for_variable_files(weather_model,
-                                                                          initialization_time,
-                                                                          run_date)
+        KEY_LOCAL_STORE_FILE_PATHS: build_local_store_file_list_for_variables(
+            weather_model,
+            initialization_time,
+            run_date),
+        KEY_LOCAL_FILE_PATHS: build_local_file_list_for_variables(
+            weather_model,
+            initialization_time,
+            run_date),
+        KEY_REMOTE_FILE_PATHS: build_remote_file_lists_for_variable_files(
+            weather_model,
+            initialization_time,
+            run_date)
     }

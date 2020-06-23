@@ -11,3 +11,4 @@ class WeatherModels(Enum):
     AROME = 'arome'
     ARPEGE = 'arpege'
     GEOS5 = 'geos_5'
+    TEST = 'test_model'

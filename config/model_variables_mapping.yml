@@ -39,3 +39,6 @@ gfs:
      min_air_temperature_2m: tmin
      sunshine_duration: SUNSD
      total_cloud_cover: tcc
+
+test_model:
+     air_temperature_2m: t2m

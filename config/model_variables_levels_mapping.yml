@@ -21,3 +21,6 @@ icon_eu:
      soil_temperature: single-level
      total_cloud_cover: single-level
      relative_humidity_2m: single-level
+
+test_model:
+     air_temperature_2m: single-level
