@@ -1,6 +1,6 @@
 # GribMagic - generic weather forecast downloader 
 
-The target of the GribMagic project is to unify the download process of grib1/grib2 and netcdf data from numerical weather prediction models.
+The target of the GribMagic project is to unify the download process of grib1/grib2 and netcdf data from numerical weather prediction models. Step by step all public available weather models should be implemented. Data unifying is optional. 
 
 
 ![CI](https://github.com/earthobservations/GribMagic/workflows/CI/badge.svg?branch=master)
