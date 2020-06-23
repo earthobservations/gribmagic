@@ -70,7 +70,7 @@ def __download_parallel(
         download_specifications: List[Tuple[WeatherModels, Path, Path]],
         n_processes: int = DEFAULT_NUMBER_OF_PARALLEL_PROCESSES) -> None:
     """
-
+    Script to run download in parallel 
     Args:
         download_specifications: List of Tuple with
             - WeatherModels
