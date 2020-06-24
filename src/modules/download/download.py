@@ -81,4 +81,4 @@ def __download_parallel(
         None
     """
     pool = Pool(processes=n_processes)
-    pool.imap_unordered(__download, download_specifications)
+    pool.map(__download, download_specifications)
