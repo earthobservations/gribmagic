@@ -27,6 +27,4 @@ def test_concatenate_all_variable_files():
     assert dataset.time.values == np.datetime64('2020-06-23T00:00:00.000000000')
     assert dataset.step.values == np.timedelta64(0)
 
-    os.remove(Path(os.getcwd(), 'tests', 'modules', 'download', 'fixtures',
-                       'test.grib2'))
     os.remove(output_file)
