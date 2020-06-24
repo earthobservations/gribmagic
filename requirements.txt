@@ -22,3 +22,4 @@ pytest-cov==2.10.0
 mock==0.7.2
 pyproj==2.4.0
 cfgrib==0.9.8.2
+fire==0.3.1

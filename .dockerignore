@@ -1,0 +1,8 @@
+.git
+.cache
+**/*.p
+**/*.csv
+**/*.html
+**/*.bz2
+**/*.grib2
+**/*.grib
