@@ -1,16 +1,39 @@
-icon_eu:
+dwd_config: &dwd_config
     remote_server: opendata.dwd.de/weather/nwp
     remote_server_type: https
+    initialization_date_format: '%Y%m%d'
+    file_postfix: grib2
+    compression: bz2
+
+icon_global:
+    <<: *dwd_config
+    initialization_times: [0,6,12,18]
+    forecast_steps:
+      0: [[0, 78, 1], [78, 180, 3]]
+      6: [[0, 78, 1], [78, 180, 3]]
+      12: [[0, 78, 1], [78, 180, 3]]
+      18: [[0, 78, 1], [78, 180, 3]]
+    variables: [air_temperature_2m,snow_height, max_wind_gust_10m,wind_u_10m, wind_v_10m, dewpoint_2m,
+                total_precipitation, convective_snow,grid_scale_snow,convective_rain,grid_scale_rain,
+                global_horizontal_irradiance,direct_normal_irradiance,diffuse_horizontal_irradiance,
+                mixed_layer_cape,pressure_mean_sea_level, max_air_temperature_2m, min_air_temperature_2m,
+                weather_synop_code,soil_temperature, total_cloud_cover, relative_humidity_2m]
+    directory_template: icon/grib/{initialization_time}/{variable_name_lower}
+    file_template: icon_global_icosahedral_{level_type}_{initialization_date}{initialization_time}_{forecast_step}_{variable_name_upper}.grib2.bz2
+
+
+icon_eu:
+    <<: *dwd_config
     initialization_times: [0,3,6,9,12,15,18,21]
     forecast_steps:
-      0: [[0, 78,1], [78, 123, 3]]
-      3:  [[0, 30,1]]
-      6: [[0, 78,1], [78, 123, 3]]
-      9:  [[0, 30,1]]
-      12: [[0, 78,1], [78, 123, 3]]
-      15:  [[0, 30,1]]
-      18: [[0, 78,1], [78, 123, 3]]
-      21:  [[0, 30,1]]
+      0: [[0, 78, 1], [78, 123, 3]]
+      3:  [[0, 30, 1]]
+      6: [[0, 78, 1], [78, 123, 3]]
+      9:  [[0, 30, 1]]
+      12: [[0, 78, 1], [78, 123, 3]]
+      15:  [[0, 30, 1]]
+      18: [[0, 78, 1], [78, 123, 3]]
+      21:  [[0, 30, 1]]
     variables: [air_temperature_2m,snow_height, max_wind_gust_10m,wind_u_10m, wind_v_10m, dewpoint_2m,
                 total_precipitation, convective_snow,grid_scale_snow,convective_rain,grid_scale_rain,
                 global_horizontal_irradiance,direct_normal_irradiance,diffuse_horizontal_irradiance,
@@ -18,13 +41,10 @@ icon_eu:
                 weather_synop_code,soil_temperature, total_cloud_cover, relative_humidity_2m]
     directory_template: icon-eu/grib/{initialization_time}/{variable_name_lower}
     file_template: icon-eu_europe_regular-lat-lon_{level_type}_{initialization_date}{initialization_time}_{forecast_step}_{variable_name_upper}.grib2.bz2
-    initialization_date_format: '%Y%m%d'
-    compression: bz2
 
 
 cosmo_d2:
-    remote_server: opendata.dwd.de/weather/nwp
-    remote_server_type: https
+    <<: *dwd_config
     initialization_times: [0,3,6,9,12,15,18,21]
     forecast_steps:
       0: [[0, 28,1]]
@@ -42,8 +62,6 @@ cosmo_d2:
                 weather_synop_code,soil_temperature, total_cloud_cover, relative_humidity_2m]
     directory_template: cosmo-d2/grib/{initialization_time}/{variable_name_lower}
     file_template: cosmo-de2_germany_regular-lat-lon_{level_type}_{initialization_date}{initialization_time}_{forecast_step}_{variable_name_upper}.grib2.bz2
-    initialization_date_format: '%Y%m%d'
-    compression: bz2
 
 
 arome_meteo_france:
@@ -60,4 +78,5 @@ arome_meteo_france:
     variables: [air_temperature_2m]
     file_template: PS_GetCache_DCPCPreviNum?model=AROME&grid=0.01&package={grib_package_type}&time={forecast_step}H&referencetime={initialization_date}T{initialization_time}:00:00Z&format=grib2
     initialization_date_format: '%Y-%m-%d'
+    file_postfix: grib2
     compression: ''

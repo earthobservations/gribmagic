@@ -17,6 +17,8 @@ def parse_model_config() -> Dict[str, any]:
         model_config = yaml.load(yaml_file, Loader=yaml.FullLoader)
     
     for model in list(model_config.keys()):
+        if model == 'dwd_config':
+            continue
         for init_time in list(model_config[model][KEY_FORECAST_STEPS].keys()):
             model_config[model][KEY_FORECAST_STEPS][init_time] = \
                 [i for ranges in model_config[model][KEY_FORECAST_STEPS][init_time] for i in range(ranges[0], ranges[1], ranges[2]) ]

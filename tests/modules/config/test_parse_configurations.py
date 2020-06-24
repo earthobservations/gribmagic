@@ -19,7 +19,8 @@ def test_parse_model_config():
                  28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42]},
                        'grib_package_types': ['HP', 'SP1', 'SP2', 'SP3'], 'variables': ['air_temperature_2m'],
                        'file_template': 'PS_GetCache_DCPCPreviNum?model=AROME&grid=0.01&package={grib_package_type}&time={forecast_step}H&referencetime={initialization_date}T{initialization_time}:00:00Z&format=grib2',
-                       'initialization_date_format': '%Y-%m-%d', 'compression': ''}
+                       'initialization_date_format': '%Y-%m-%d',
+                       'file_postfix': 'grib2',  'compression': ''}
 
 
 def test_parse_model_variables_levels_mapping():

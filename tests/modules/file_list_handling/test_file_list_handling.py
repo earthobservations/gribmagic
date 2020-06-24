@@ -4,7 +4,7 @@ from src.enumerations.weather_models import WeatherModels
 from datetime import datetime
 from pathlib import Path
 from src.modules.config.constants import KEY_VARIABLES, KEY_FORECAST_STEPS, \
-    KEY_DIRECTORY_TEMPLATE, KEY_REMOTE_SERVER, KEY_FILE_TEMPLATE, KEY_INITIALIZATION_DATE_FORMAT
+    KEY_DIRECTORY_TEMPLATE, KEY_REMOTE_SERVER, KEY_FILE_TEMPLATE, KEY_INITIALIZATION_DATE_FORMAT, KEY_FILE_POSTFIX
 
 
 @patch(
@@ -19,6 +19,7 @@ from src.modules.config.constants import KEY_VARIABLES, KEY_FORECAST_STEPS, \
                                    '{forecast_step}_{variable_name_upper}.grib2.bz2',
                 KEY_REMOTE_SERVER: 'test1',
                 KEY_INITIALIZATION_DATE_FORMAT: '%Y%m%d',
+                KEY_FILE_POSTFIX: 'grib'
             }}
 )
 @patch(
@@ -33,6 +34,7 @@ from src.modules.config.constants import KEY_VARIABLES, KEY_FORECAST_STEPS, \
                                    '{forecast_step}_{variable_name_upper}.grib2.bz2',
                 KEY_REMOTE_SERVER: 'test1',
                 KEY_INITIALIZATION_DATE_FORMAT: '%Y%m%d',
+                KEY_FILE_POSTFIX: 'grib'
             }}
 )
 def test_build_model_file_lists():

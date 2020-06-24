@@ -8,7 +8,7 @@ from pathlib import Path
 from src.enumerations.weather_models import WeatherModels
 from src.modules.config.configurations import MODEL_CONFIG
 from src.modules.config.constants import KEY_VARIABLES, LOCAL_FILE_POSTFIX,\
-    KEY_FORECAST_STEPS, KEY_GRIB_PACKAGE_TYPES
+    KEY_FORECAST_STEPS, KEY_GRIB_PACKAGE_TYPES, KEY_FILE_POSTFIX
 from src.exceptions.grib_package_exception import GribPackageException
 
 
@@ -79,7 +79,7 @@ def build_local_file_list(
                 Path(
                     base_path,
                     'tmp',
-                    f"{weather_model.value}_{run_date.strftime('%Y%m%d')}_{str(initialization_time).zfill(2)}_{var}_{forecast_step}.grib"
+                    f"{weather_model.value}_{run_date.strftime('%Y%m%d')}_{str(initialization_time).zfill(2)}_{var}_{forecast_step}.{model_config[KEY_FILE_POSTFIX]}"
                     ))
     return local_file_list
 

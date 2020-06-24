@@ -6,7 +6,7 @@ from datetime import datetime
 from pathlib import Path
 import pytest
 from src.exceptions.grib_package_exception import GribPackageException
-from src.modules.config.constants import KEY_VARIABLES, KEY_GRIB_PACKAGE_TYPES, KEY_FORECAST_STEPS
+from src.modules.config.constants import KEY_VARIABLES, KEY_GRIB_PACKAGE_TYPES, KEY_FORECAST_STEPS, KEY_FILE_POSTFIX
 
 
 @patch(
@@ -15,7 +15,8 @@ from src.modules.config.constants import KEY_VARIABLES, KEY_GRIB_PACKAGE_TYPES, 
         WeatherModels.ICON_EU.value:
             {
                 KEY_VARIABLES: ['air_temperature_2m'],
-                KEY_FORECAST_STEPS: {0: [0, 1]}
+                KEY_FORECAST_STEPS: {0: [0, 1]},
+                KEY_FILE_POSTFIX: 'grib'
             }}
 )
 def test_build_local_file_list_for_variables():
@@ -31,7 +32,9 @@ def test_build_local_file_list_for_variables():
     {
         WeatherModels.ICON_EU.value: {
             KEY_VARIABLES: ['air_temperature_2m'],
-            KEY_FORECAST_STEPS: {0: [0, 1]}
+            KEY_FORECAST_STEPS: {0: [0, 1]},
+            KEY_FILE_POSTFIX: 'grib'
+
         }}
 )
 def test_build_local_store_file_list_for_variables():
@@ -47,7 +50,8 @@ def test_build_local_store_file_list_for_variables():
         WeatherModels.ICON_EU.value: {
             KEY_VARIABLES: ['air_temperature_2m'],
             KEY_FORECAST_STEPS: {0: [1, 2]},
-            KEY_GRIB_PACKAGE_TYPES: ['Package1']
+            KEY_GRIB_PACKAGE_TYPES: ['Package1'],
+            KEY_FILE_POSTFIX: 'grib'
         }}
 )
 def test_build_local_file_list_for_variables_not_grib_package():
@@ -65,7 +69,9 @@ def test_build_local_file_list_for_variables_not_grib_package():
         WeatherModels.AROME_METEO_FRANCE.value: {
             KEY_VARIABLES: ['air_temperature_2m'],
             KEY_FORECAST_STEPS: {0: [0, 1]},
-            KEY_GRIB_PACKAGE_TYPES: ['Package1']
+            KEY_GRIB_PACKAGE_TYPES: ['Package1'],
+            KEY_FILE_POSTFIX: 'grib'
+
         }}
 )
 def test_build_local_file_list_for_variables_grib_package():

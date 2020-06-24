@@ -1,4 +1,4 @@
-icon_eu:
+icon_global: &icon_global
      air_temperature_2m: single-level
      snow_height: single-level
      max_wind_gust_10m: single-level
@@ -26,35 +26,12 @@ icon_eu:
      wind_v: model-level
      relative_humidity: pressure-level
      geopotential_height: pressure-level
+
+icon_eu: &icon_eu
+     <<: *icon_global
      snowfall_height: single-level
 
+
 cosmo_d2:
-     air_temperature_2m: single-level
-     snow_height: single-level
-     max_wind_gust_10m: single-level
-     wind_u_10m: single-level
-     wind_v_10m: single-level
-     dewpoint_2m: single-level
-     total_precipitation: single-level
-     convective_snow: single-level
-     grid_scale_snow: single-level
-     convective_rain: single-level
-     grid_scale_rain: single-level
-     global_horizontal_irradiance: single-level
-     direct_normal_irradiance: single-level
-     diffuse_horizontal_irradiance: single-level
-     mixed_layer_cape: single-level
-     pressure_mean_sea_level: single-level
-     max_air_temperature_2m: single-level
-     min_air_temperature_2m: single-level
-     weather_synop_code: single-level
-     soil_temperature: single-level
-     total_cloud_cover: single-level
-     relative_humidity_2m: single-level
+     <<: *icon_eu
      max_radar_reflectivity: single-level
-     temperature: model-level
-     wind_u: model-level
-     wind_v: model-level
-     relative_humidity: pressure-level
-     geopotential_height: pressure-level
-     snowfall_height: single-level

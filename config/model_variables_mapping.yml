@@ -1,4 +1,4 @@
-icon_eu:
+icon_global: &icon_global
      albedo: alb_rad
      air_temperature_2m: t_2m
      snow_height: h_snow
@@ -26,40 +26,15 @@ icon_eu:
      wind_u: u
      wind_v: v
      geopotential_height: fi
-     snowfall_height: snowlmt
      relative_humidity: relhum
+
+icon_eu: &icon_eu
+     <<: *icon_global
+     snowfall_height: snowlmt
 
 
 cosmo_d2:
-     albedo: alb_rad
-     air_temperature_2m: t_2m
-     snow_height: h_snow
-     max_wind_gust_10m: vmax_10m
-     wind_u_10m: u_10m
-     wind_v_10m: v_10m
-     dewpoint_2m: td_2m
-     total_precipitation: tot_prec
-     convective_snow: snow_con
-     grid_scale_snow: snow_gsp
-     convective_rain: rain_con
-     grid_scale_rain: rain_gsp
-     global_horizontal_irradiance: asob_s
-     direct_normal_irradiance: aswdir_s
-     diffuse_horizontal_irradiance: aswdiff_s
-     mixed_layer_cape: cape_ml
-     pressure_mean_sea_level: pmsl
-     max_air_temperature_2m: tmax_2m
-     min_air_temperature_2m: tmin_2m
-     weather_synop_code: ww
-     soil_temperature: t_g
-     total_cloud_cover: clct
-     relative_humidity_2m: relhum_2m
-     temperature: t
-     wind_u: u
-     wind_v: v
-     geopotential_height: fi
-     snowfall_height: snowlmt
-     relative_humidity: relhum
+     <<: *icon_eu
      max_radar_reflectivity: dbz_cmax
 
 gfs:
