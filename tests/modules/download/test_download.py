@@ -1,11 +1,7 @@
-import pytest
 from unittest.mock import patch, MagicMock
-import numpy as np
 import os
-from io import BytesIO
 from pathlib import Path
 
-from src.modules.parsing.parse_grib_data import concatenate_all_variable_files
 from src.enumerations.weather_models import WeatherModels
 from src.modules.config.constants import KEY_LOCAL_FILE_PATHS,\
     KEY_REMOTE_FILE_PATHS, KEY_LOCAL_STORE_FILE_PATHS
