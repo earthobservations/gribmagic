@@ -57,8 +57,27 @@ def test___download_parallel():
               'rb')
     )
 )
-def test_download():
+def test_download_bunzip():
     download(WeatherModels.ICON_EU,
+             {KEY_LOCAL_FILE_PATHS: [output_file],
+              KEY_REMOTE_FILE_PATHS: [Path('test', 'mock')],
+              KEY_LOCAL_STORE_FILE_PATHS: [Path('not', 'used', 'in', 'download')]})
+
+    assert output_file.is_file() is True
+
+    os.remove(output_file)
+
+
+@patch(
+    'src.modules.download.download.urlopen',
+    MagicMock(
+        return_value=open(f"{os.getcwd()}/tests/modules/download/fixtures/"
+              f"icon-eu_europe_regular-lat-lon_single-level_2020062300_000_T_2M.grib2.bz2",
+              'rb')
+    )
+)
+def test_download_store():
+    download(WeatherModels.TEST,
              {KEY_LOCAL_FILE_PATHS: [output_file],
               KEY_REMOTE_FILE_PATHS: [Path('test', 'mock')],
               KEY_LOCAL_STORE_FILE_PATHS: [Path('not', 'used', 'in', 'download')]})
