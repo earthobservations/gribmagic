@@ -7,7 +7,7 @@ from src.enumerations.unified_forecast_variables import ForecastVariables
 from src.modules.config.constants import KEY_LOCAL_FILE_PATHS
 
 
-def caoncatenate_all_variable_files(
+def concatenate_all_variable_files(
         model_file_list: Dict[str, List[Path]],
         variable: ForecastVariables) -> xarray.Dataset:
     """
@@ -17,8 +17,8 @@ def caoncatenate_all_variable_files(
         variable:
 
     Returns:
-
+        Dataset for ForecastVariables along all Forecast Horizons
     """
     variable_file_list = \
-        [file for file in model_file_list[KEY_LOCAL_FILE_PATHS] if variable.value in file]
+        [file for file in model_file_list[KEY_LOCAL_FILE_PATHS] if variable.value in str(file)]
     return xarray.open_mfdataset(variable_file_list, engine='cfgrib')
