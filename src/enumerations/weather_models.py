@@ -6,7 +6,7 @@ class WeatherModels(Enum):
     """Enumeration of weather models"""
     ICON_EU = 'icon_eu'
     ICON_GLOBAL = 'icon_global'
-    COSMO_DE2 = 'cosmo_de2'
+    COSMO_DE2 = 'cosmo_d2'
     GFS = 'gfs'
     AROME = 'arome'
     ARPEGE = 'arpege'
