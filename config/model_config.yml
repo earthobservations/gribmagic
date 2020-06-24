@@ -18,7 +18,6 @@ icon_eu:
                 weather_synop_code,soil_temperature, total_cloud_cover, relative_humidity_2m]
     directory_template: icon-eu/grib/{initialization_time}/{variable_name_lower}
     file_template: icon-eu_europe_regular-lat-lon_{level_type}_{initialization_date}{initialization_time}_{forecast_step}_{variable_name_upper}.grib2.bz2
-    file_postfix: .grib2.bz2
     initialization_date_format: '%Y%m%d'
     compression: bz2
 
@@ -43,20 +42,22 @@ cosmo_d2:
                 weather_synop_code,soil_temperature, total_cloud_cover, relative_humidity_2m]
     directory_template: cosmo-d2/grib/{initialization_time}/{variable_name_lower}
     file_template: cosmo-de2_germany_regular-lat-lon_{level_type}_{initialization_date}{initialization_time}_{forecast_step}_{variable_name_upper}.grib2.bz2
-    file_postfix: .grib2.bz2
     initialization_date_format: '%Y%m%d'
     compression: bz2
 
 
-test_model:
-    remote_server: test1
-    remote_server_type: https
-    initialization_times: [0]
+arome_meteo_france:
+    remote_server: dcpc-nwp.meteo.fr/services
+    remote_server_type: http
+    initialization_times: [0,3,6,12,18]
     forecast_steps:
-      0: [[0,2,1]]
+      0: [[0, 43,1]]
+      3:  [[0, 43,1]]
+      6: [[0, 43,1]]
+      12: [[0, 43,1]]
+      18: [[0, 43,1]]
+    grib_package_types: [HP, SP1, SP2, SP3]
     variables: [air_temperature_2m]
-    directory_template: test_remote_dir/{initialization_time}/{variable_name_lower}
-    file_template: test_remote_file_{level_type}_{initialization_date}{initialization_time}_{forecast_step}_{variable_name_upper}.grib2.bz2
-    file_postfix: .grib2
-    initialization_date_format: '%Y%m%d'
+    file_template: PS_GetCache_DCPCPreviNum?model=AROME&grid=0.01&package={grib_package_type}&time={forecast_step}H&referencetime={initialization_date}T{initialization_time}:00:00Z&format=grib2
+    initialization_date_format: '%Y-%m-%d'
     compression: ''

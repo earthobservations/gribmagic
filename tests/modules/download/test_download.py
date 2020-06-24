@@ -77,7 +77,7 @@ def test_download_bunzip():
     )
 )
 def test_download_store():
-    download(WeatherModels.TEST,
+    download(WeatherModels.ICON_EU,
              {KEY_LOCAL_FILE_PATHS: [output_file],
               KEY_REMOTE_FILE_PATHS: [Path('test', 'mock')],
               KEY_LOCAL_STORE_FILE_PATHS: [Path('not', 'used', 'in', 'download')]})

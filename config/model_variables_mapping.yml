@@ -1,4 +1,5 @@
 icon_eu:
+     albedo: alb_rad
      air_temperature_2m: t_2m
      snow_height: h_snow
      max_wind_gust_10m: vmax_10m
@@ -21,6 +22,45 @@ icon_eu:
      soil_temperature: t_g
      total_cloud_cover: clct
      relative_humidity_2m: relhum_2m
+     temperature: t
+     wind_u: u
+     wind_v: v
+     geopotential_height: fi
+     snowfall_height: snowlmt
+     relative_humidity: relhum
+
+
+cosmo_d2:
+     albedo: alb_rad
+     air_temperature_2m: t_2m
+     snow_height: h_snow
+     max_wind_gust_10m: vmax_10m
+     wind_u_10m: u_10m
+     wind_v_10m: v_10m
+     dewpoint_2m: td_2m
+     total_precipitation: tot_prec
+     convective_snow: snow_con
+     grid_scale_snow: snow_gsp
+     convective_rain: rain_con
+     grid_scale_rain: rain_gsp
+     global_horizontal_irradiance: asob_s
+     direct_normal_irradiance: aswdir_s
+     diffuse_horizontal_irradiance: aswdiff_s
+     mixed_layer_cape: cape_ml
+     pressure_mean_sea_level: pmsl
+     max_air_temperature_2m: tmax_2m
+     min_air_temperature_2m: tmin_2m
+     weather_synop_code: ww
+     soil_temperature: t_g
+     total_cloud_cover: clct
+     relative_humidity_2m: relhum_2m
+     temperature: t
+     wind_u: u
+     wind_v: v
+     geopotential_height: fi
+     snowfall_height: snowlmt
+     relative_humidity: relhum
+     max_radar_reflectivity: dbz_cmax
 
 gfs:
      air_temperature_2m: t2m
@@ -39,6 +79,3 @@ gfs:
      min_air_temperature_2m: tmin
      sunshine_duration: SUNSD
      total_cloud_cover: tcc
-
-test_model:
-     air_temperature_2m: t2m

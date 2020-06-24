@@ -7,7 +7,9 @@ from pathlib import Path
 
 from src.enumerations.weather_models import WeatherModels
 from src.modules.config.configurations import MODEL_CONFIG
-from src.modules.config.constants import KEY_VARIABLES, LOCAL_FILE_POSTFIX, KEY_FORECAST_STEPS
+from src.modules.config.constants import KEY_VARIABLES, LOCAL_FILE_POSTFIX,\
+    KEY_FORECAST_STEPS, KEY_GRIB_PACKAGE_TYPES
+from src.exceptions.grib_package_exception import GribPackageException
 
 
 def build_local_store_file_list_for_variables(
@@ -41,13 +43,13 @@ def build_local_store_file_list_for_variables(
     return local_file_list
 
 
-def build_local_file_list_for_variables(
+def build_local_file_list(
         weather_model: WeatherModels,
         initialization_time: int,
-        run_date: datetime.date
+        run_date: datetime.date,
 ) -> List[Path]:
     """
-    Generic file path generator for intermediate storing downloaded grib data 
+    Generic file path generator downloaded grib data per each variable
 
     Args:
         weather_model: defines the weather model 
@@ -59,14 +61,25 @@ def build_local_file_list_for_variables(
 
     """
     model_config = MODEL_CONFIG[weather_model.value]
+    grib_packages = KEY_GRIB_PACKAGE_TYPES in list(model_config.keys())
+    
+    if grib_packages and weather_model not in [WeatherModels.AROME_METEO_FRANCE, WeatherModels.GEOS5]:
+        raise GribPackageException(f"You have set grib_packages flag True, but "
+                                   f"{weather_model.value} does not provide grib data in packages")
+    elif grib_packages:
+        iterator_values = model_config[KEY_GRIB_PACKAGE_TYPES]
+    else:
+        iterator_values = model_config[KEY_VARIABLES]
+        
     base_path = Path(os.environ['BASE_STORE_DIR'])
     local_file_list = []
-    for variable in model_config[KEY_VARIABLES]:
+    for var in iterator_values:
         for forecast_step in model_config[KEY_FORECAST_STEPS][initialization_time]:
             local_file_list.append(
                 Path(
                     base_path,
                     'tmp',
-                    f"{weather_model.value}_{run_date.strftime('%Y%m%d')}_{str(initialization_time).zfill(2)}_{variable}_{forecast_step}.grib"
+                    f"{weather_model.value}_{run_date.strftime('%Y%m%d')}_{str(initialization_time).zfill(2)}_{var}_{forecast_step}.grib"
                     ))
     return local_file_list
+

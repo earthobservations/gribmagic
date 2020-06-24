@@ -7,10 +7,10 @@ from src.enumerations.weather_models import WeatherModels
 from src.modules.config.constants import KEY_LOCAL_FILE_PATHS, \
     KEY_REMOTE_FILE_PATHS, KEY_LOCAL_STORE_FILE_PATHS
 from src.modules.file_list_handling.local_file_list_creation import \
-    build_local_file_list_for_variables, \
+    build_local_file_list, \
     build_local_store_file_list_for_variables
 from src.modules.file_list_handling.remote_file_list_creation import \
-    build_remote_file_lists_for_variable_files
+    build_remote_file_list
 
 
 def build_model_file_lists(
@@ -38,11 +38,11 @@ def build_model_file_lists(
             weather_model,
             initialization_time,
             run_date),
-        KEY_LOCAL_FILE_PATHS: build_local_file_list_for_variables(
+        KEY_LOCAL_FILE_PATHS: build_local_file_list(
             weather_model,
             initialization_time,
             run_date),
-        KEY_REMOTE_FILE_PATHS: build_remote_file_lists_for_variable_files(
+        KEY_REMOTE_FILE_PATHS: build_remote_file_list(
             weather_model,
             initialization_time,
             run_date)
