@@ -10,7 +10,7 @@ from src.exceptions.wrong_weather_model_exception import \
 from src.modules.config.constants import KEY_VARIABLES, KEY_GRIB_PACKAGE_TYPES, \
     KEY_FORECAST_STEPS, \
     KEY_DIRECTORY_TEMPLATE, KEY_REMOTE_SERVER, KEY_FILE_TEMPLATE, \
-    KEY_INITIALIZATION_DATE_FORMAT
+    KEY_INITIALIZATION_DATE_FORMAT, KEY_FORECAST_STEPS_STR_LEN
 from src.modules.file_list_handling.remote_file_list_creation import \
     build_remote_file_lists_for_variable_files, \
     build_remote_file_lists_for_package_files, \
@@ -63,7 +63,9 @@ def test_build_remote_model_file_lists_wrong_weather_model():
                                    '{forecast_step}_{grib_package_type}.grib2.bz2',
                 KEY_REMOTE_SERVER: 'test1',
                 KEY_INITIALIZATION_DATE_FORMAT: '%Y%m%d',
-                KEY_GRIB_PACKAGE_TYPES: ['Package1']
+                KEY_GRIB_PACKAGE_TYPES: ['Package1'],
+                KEY_FORECAST_STEPS_STR_LEN: 2,
+                KEY_DIRECTORY_TEMPLATE: ''
             }}
 )
 def test_build_remote_model_file_lists_for_package():
@@ -74,6 +76,7 @@ def test_build_remote_model_file_lists_for_package():
     assert to_test == [
         Path('test1/test_remote_file_2020061000_00_Package1.grib2.bz2'),
         Path('test1/test_remote_file_2020061000_01_Package1.grib2.bz2')]
+
 
 @patch(
     'src.modules.file_list_handling.remote_file_list_creation.MODEL_CONFIG',
@@ -86,7 +89,9 @@ def test_build_remote_model_file_lists_for_package():
                                    '{forecast_step}_{grib_package_type}.grib2.bz2',
                 KEY_REMOTE_SERVER: 'test1',
                 KEY_INITIALIZATION_DATE_FORMAT: '%Y%m%d',
-                KEY_GRIB_PACKAGE_TYPES: ['Package1']
+                KEY_GRIB_PACKAGE_TYPES: ['Package1'],
+                KEY_FORECAST_STEPS_STR_LEN: 2,
+                KEY_DIRECTORY_TEMPLATE: ''
             }}
 )
 def test_build_remote_file_list():
@@ -105,4 +110,4 @@ def test_build_remote_model_file_lists_for_package_wrong_model():
                                                       0,
                                                       datetime(2020, 6,
                                                                10).date())
-    assert str(excinfo.value) == 'Please choose one of [arome_meteo_france, geos5]'
+    assert str(excinfo.value) == 'Please choose one of [arome_meteo_france, geos5, gfs]'

@@ -63,7 +63,9 @@ def build_local_file_list(
     model_config = MODEL_CONFIG[weather_model.value]
     grib_packages = KEY_GRIB_PACKAGE_TYPES in list(model_config.keys())
     
-    if grib_packages and weather_model not in [WeatherModels.AROME_METEO_FRANCE, WeatherModels.GEOS5]:
+    if grib_packages and weather_model not in [WeatherModels.AROME_METEO_FRANCE,
+                                               WeatherModels.GEOS5,
+                                               WeatherModels.GFS_025]:
         raise GribPackageException(f"You have set grib_packages flag True, but "
                                    f"{weather_model.value} does not provide grib data in packages")
     elif grib_packages:

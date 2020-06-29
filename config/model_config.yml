@@ -1,3 +1,19 @@
+ncep_gfs_025:
+    remote_server: nomads.ncep.noaa.gov/pub/data/nccf/com/gfs/prod
+    remote_server_type: https
+    directory_template: gfs.{initialization_date}/{initialization_time}
+    initialization_date_format: '%Y%m%d'
+    file_template: gfs.t{initialization_time}z.pgrb2.0p25.f{forecast_step}
+    initialization_times: [0,6,12,18]
+    grib_package_types: ['']
+    forecast_steps:
+      0: [[0, 121, 1], [120, 243, 3]]
+      6: [[0, 121, 1], [120, 243, 3]]
+      12: [[0, 121, 1], [120, 243, 3]]
+      18: [[0, 121, 1], [120, 243, 3]]
+    forecast_steps_string_length: 3
+
+
 dwd_config: &dwd_config
     remote_server: opendata.dwd.de/weather/nwp
     remote_server_type: https
@@ -111,7 +127,9 @@ arome_meteo_france:
       18: [[0, 43,1]]
     grib_package_types: [HP, SP1, SP2, SP3]
     variables: [air_temperature_2m, temperature]
-    file_template: PS_GetCache_DCPCPreviNum?model=AROME&grid=0.01&package={grib_package_type}&time={forecast_step}H&referencetime={initialization_date}T{initialization_time}:00:00Z&format=grib2
+    file_template: package={grib_package_type}&time={forecast_step}H&referencetime={initialization_date}T{initialization_time}:00:00Z&format=grib2
     initialization_date_format: '%Y-%m-%d'
+    directory_template: PS_GetCache_DCPCPreviNum?model=AROME&grid=0.01&
     file_postfix: grib2
     compression: ''
+    forecast_steps_string_length: 2

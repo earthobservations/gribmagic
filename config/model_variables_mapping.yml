@@ -44,7 +44,7 @@ cosmo_d2:
      <<: *icon_eu
      max_radar_reflectivity: dbz_cmax
 
-gfs:
+ncep_gfs_025:
      air_temperature_2m: t2m
      snow_height: sde
      max_wind_gust_10m: gust

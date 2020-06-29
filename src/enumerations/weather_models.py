@@ -7,7 +7,7 @@ class WeatherModels(Enum):
     ICON_EU = 'icon_eu'
     ICON_GLOBAL = 'icon_global'
     COSMO_D2 = 'cosmo_d2'
-    GFS = 'gfs'
+    GFS_025 = 'ncep_gfs_025'
     AROME_METEO_FRANCE = 'arome_meteo_france'
     ARPEGE = 'arpege'
     GEOS5 = 'geos_5'
