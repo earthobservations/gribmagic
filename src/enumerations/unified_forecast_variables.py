@@ -42,3 +42,7 @@ class ForecastVariables(Enum):
     WIND_U = 'wind_u'
     WIND_V = 'wind_v'
     SNOWFALL_HEIGHT = 'snowfall_height'
+    TURBULENT_KINETIC_ENERGY = 'turbulent_kinetic_energy'
+    SPECIFIC_HUMIDITY = 'specific_humidity'
+    SURFACE_SPECIFIC_HUMIDITY = 'surface_specific_humidity'
+    PRESSURE_SURFACE = 'pressure_surface'

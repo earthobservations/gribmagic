@@ -26,11 +26,12 @@ icon_global: &icon_global
      wind_v: model-level
      relative_humidity: pressure-level
      geopotential_height: pressure-level
+     pressure_surface: single-level
 
 icon_eu: &icon_eu
      <<: *icon_global
      snowfall_height: single-level
-
+     turbulent_kinetic_energy: model-level
 
 cosmo_d2:
      <<: *icon_eu

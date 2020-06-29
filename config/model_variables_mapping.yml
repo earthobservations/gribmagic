@@ -27,10 +27,17 @@ icon_global: &icon_global
      wind_v: v
      geopotential_height: fi
      relative_humidity: relhum
+     specific_humidity: qv
+     pressure_surface: ps
 
 icon_eu: &icon_eu
      <<: *icon_global
      snowfall_height: snowlmt
+     surface_specific_humidity: qv_s
+     turbulent_kinetic_energy: tke
+
+icon_eu_eps:
+     <<: *icon_eu
 
 
 cosmo_d2:

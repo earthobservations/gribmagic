@@ -17,7 +17,8 @@ icon_global:
                 total_precipitation, convective_snow,grid_scale_snow,convective_rain,grid_scale_rain,
                 global_horizontal_irradiance,direct_normal_irradiance,diffuse_horizontal_irradiance,
                 mixed_layer_cape,pressure_mean_sea_level, max_air_temperature_2m, min_air_temperature_2m,
-                weather_synop_code,soil_temperature, total_cloud_cover, relative_humidity_2m]
+                weather_synop_code,soil_temperature, total_cloud_cover, relative_humidity_2m, temperature,
+                wind_u, wind_v]
     directory_template: icon/grib/{initialization_time}/{variable_name_lower}
     file_template: icon_global_icosahedral_{level_type}_{initialization_date}{initialization_time}_{forecast_step}_{variable_name_upper}.grib2.bz2
 
@@ -38,9 +39,25 @@ icon_eu:
                 total_precipitation, convective_snow,grid_scale_snow,convective_rain,grid_scale_rain,
                 global_horizontal_irradiance,direct_normal_irradiance,diffuse_horizontal_irradiance,
                 mixed_layer_cape,pressure_mean_sea_level, max_air_temperature_2m, min_air_temperature_2m,
-                weather_synop_code,soil_temperature, total_cloud_cover, relative_humidity_2m]
+                weather_synop_code,soil_temperature, total_cloud_cover, relative_humidity_2m, temperature,
+                wind_u, wind_v, relative_humidity]
     directory_template: icon-eu/grib/{initialization_time}/{variable_name_lower}
     file_template: icon-eu_europe_regular-lat-lon_{level_type}_{initialization_date}{initialization_time}_{forecast_step}_{variable_name_upper}.grib2.bz2
+
+
+icon_eu_eps:
+    <<: *dwd_config
+    initialization_times: [0,6,12,18]
+    forecast_steps:
+      0: [[0, 49, 1], [48, 123, 3]]
+      6: [[0, 49, 1], [48, 123, 3]]
+      12: [[0, 49, 1], [48, 123, 3]]
+      18: [[0, 49, 1], [48, 123, 3]]
+    variables: [air_temperature_2m, wind_u, wind_v, max_wind_gust, temperature, wind_u_10m, wind_v_10m,
+                total_precipitation, convective_snow, grid_scale_snow, convective_rain,grid_scale_rain,
+                surface_specific_humidity,direct_normal_irradiance,diffuse_horizontal_irradiance]
+    directory_template: icon-eu-eps/grib/{initialization_time}/{variable_name_lower}
+    file_template: icon-eu-eps_europe_icosahedral_{level_type}_{initialization_date}{initialization_time}_{forecast_step}_{variable_name_upper}.grib2.bz2
 
 
 cosmo_d2:
@@ -59,9 +76,27 @@ cosmo_d2:
                 total_precipitation, convective_snow,grid_scale_snow,convective_rain,grid_scale_rain,
                 global_horizontal_irradiance,direct_normal_irradiance,diffuse_horizontal_irradiance,
                 mixed_layer_cape,pressure_mean_sea_level, max_air_temperature_2m, min_air_temperature_2m,
-                weather_synop_code,soil_temperature, total_cloud_cover, relative_humidity_2m]
+                weather_synop_code,soil_temperature, total_cloud_cover, relative_humidity_2m, temperature,
+                wind_u, wind_v, max_radar_reflectivity]
     directory_template: cosmo-d2/grib/{initialization_time}/{variable_name_lower}
-    file_template: cosmo-de2_germany_regular-lat-lon_{level_type}_{initialization_date}{initialization_time}_{forecast_step}_{variable_name_upper}.grib2.bz2
+    file_template: cosmo-d2_germany_regular-lat-lon_{level_type}_{initialization_date}{initialization_time}_{forecast_step}_{variable_name_upper}.grib2.bz2
+
+
+cosmo_d2_eps:
+    <<: *dwd_config
+    initialization_times: [0,6,12,18]
+    forecast_steps:
+      0: [[0, 49, 1], [48, 123, 3]]
+      6: [[0, 49, 1], [48, 123, 3]]
+      12: [[0, 49, 1], [48, 123, 3]]
+      18: [[0, 49, 1], [48, 123, 3]]
+    variables: [air_temperature_2m, wind_u, wind_v, max_wind_gust, temperature, wind_u_10m, wind_v_10m,
+                total_precipitation, convective_snow, grid_scale_snow, convective_rain,grid_scale_rain,
+                surface_specific_humidity,direct_normal_irradiance,diffuse_horizontal_irradiance,
+                global_horizontal_irradiance,pressure_mean_sea_level, max_radar_reflectivity,
+                supercell_detection_index_2, dewpoint_2m, mixed_layer_cape]
+    directory_template: cosmo-d2-eps/grib/{initialization_time}/{variable_name_lower}
+    file_template: cosmo-d2-eps_germany_rotated-lat-lon_{level_type}_{initialization_date}{initialization_time}_{forecast_step}_{variable_name_upper}.grib2.bz2
 
 
 arome_meteo_france:
@@ -75,7 +110,7 @@ arome_meteo_france:
       12: [[0, 43,1]]
       18: [[0, 43,1]]
     grib_package_types: [HP, SP1, SP2, SP3]
-    variables: [air_temperature_2m]
+    variables: [air_temperature_2m, temperature]
     file_template: PS_GetCache_DCPCPreviNum?model=AROME&grid=0.01&package={grib_package_type}&time={forecast_step}H&referencetime={initialization_date}T{initialization_time}:00:00Z&format=grib2
     initialization_date_format: '%Y-%m-%d'
     file_postfix: grib2
