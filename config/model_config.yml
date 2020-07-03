@@ -133,3 +133,16 @@ arome_meteo_france:
     file_postfix: grib2
     compression: ''
     forecast_steps_string_length: 2
+
+harmonie_knmi:
+    remote_server: data.knmi.nl/download/harmonie_arome_cy40_p3/0.2/noversion
+    remote_server_type: https
+    initialization_times: [0,6,12,18]
+    forecast_steps:
+      0: [[0, 49,1]]
+      6: [[0, 49,1]]
+      12: [[0, 49,1]]
+      18: [[0, 49,1]]
+    directory_template: 0000/00/00
+    file_template: harm40_v1_p3_{initialization_time}.tar
+    file_postfix: grib2
