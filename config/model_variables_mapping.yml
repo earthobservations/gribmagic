@@ -45,13 +45,16 @@ cosmo_d2:
      max_radar_reflectivity: dbz_cmax
 
 ncep_gfs_025:
+     albedo: al
      air_temperature_2m: t2m
      snow_height: sde
      max_wind_gust_10m: gust
      wind_u_10m: u10
      wind_v_10m: v10
      dewpoint_2m: d2m
+     total_precipitation: tp
      total_precipitation_rate: prate
+     convective_precipitation_rate: cprat
      convective_snow: csnow
      convective_rain: crain
      global_horizontal_irradiance: dswrf
@@ -61,3 +64,68 @@ ncep_gfs_025:
      min_air_temperature_2m: tmin
      sunshine_duration: SUNSD
      total_cloud_cover: tcc
+     max_radar_reflectivity: refc
+     soil_temperature: st
+     soil_moisture_content: soilw
+     wind_u: u
+     wind_v: v
+     specific_humidity: q
+     relative_humidity_2m: r2m
+     apparent_temperature: aptmp
+     storm_motion_u: ustm
+     storm_motion_v: vstm
+     storm_relative_helicity: hlcy
+     ice_grwoth_rate: iceg
+     cloud_mixing_ratio: clwmr
+     ice_water_mixing_ratio: icmr
+     rain_water_mixing_ratio: rwmr
+     snow_water_mixing_ratio: snmr
+     graupel_mixing_ratio: grle
+     geopotential_height: gh
+     absolute_vorticity: absv
+     ozone_mixing_ratio: o3mr
+     relative_humidity: r
+     vertical_velocity: w
+     geometric_vertical_velocity: wz
+     five_wave_geopotential_height: 5wavh
+     icing_severity: ICSEV
+     icao_standard_atmosphere: icaht
+     pressure_mean_sea_level_eta_level: mslet
+     upward_short_wave_radiation: uswrf
+     upward_long_wave_radiation: ulwrf
+     downward_short_wave_radiation: dswrf
+     downward_long_wave_radiation: dlwrf
+     convective_inhibition: cin
+     pressure_level_parcel_lift: plpl
+     potential_temperature: pt,
+     sea_ice_cover: si
+     surface_air_pressure: sp
+     land_sea_mask: lsm
+     visibility: vis
+     convective_precipitation_water: acpcp
+     orography: orog
+     latent_heat_flux_net: lhtfl
+     sensible_heat_flux_net: shtfl
+     categorical_freezing_rain: cfrzr
+     categorical_ice_pellets: cicep
+     percent_frozen_precipitation: cpofp
+     potential_evaporation_rate: pevpr
+     snow_water_equivalent_accumulated: sdwe
+     momentum_flux_u: uflx
+     momentum_flux_v: vflx
+     zonal_flux_gravity_wave_stress: u-gwd
+     meridonal_flux_gravity_wave_stress: u-gwd
+     boundary_layer_height: hpbl
+     lifted_index: lftx
+     lifted_index_four_layer: 4lftx
+     water_runoff: watr
+     ground_heat_flux: gflux
+     haines_index: hindex
+     wilting_point: wilt
+     land_sea_coverage: landn
+     field_capacity: fldcp
+     precipitable_water: pwat
+     cloud_water: cwat
+     cloud_work_function: cwork
+     ozone_totale: tozne
+     ventilation_rate: VRATE

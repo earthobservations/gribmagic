@@ -6,12 +6,15 @@ ncep_gfs_025:
     file_template: gfs.t{initialization_time}z.pgrb2.0p25.f{forecast_step}
     initialization_times: [0,6,12,18]
     grib_package_types: ['']
+    variables: [air_temperature_2m]
     forecast_steps:
       0: [[0, 121, 1], [120, 243, 3]]
       6: [[0, 121, 1], [120, 243, 3]]
       12: [[0, 121, 1], [120, 243, 3]]
       18: [[0, 121, 1], [120, 243, 3]]
     forecast_steps_string_length: 3
+    file_postfix: ''
+    compression: ''
 
 
 dwd_config: &dwd_config
