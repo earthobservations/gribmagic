@@ -39,4 +39,6 @@ ENV MODEL_CONFIG "/app/config/model_config.yml"
 ENV MODEL_VARIABLES_MAPPING "/app/config/model_variables_mapping.yml"
 ENV MODEL_VARIABLES_LEVELS_MAPPING "/app/config/model_variables_levels_mapping.yml"
 
+ENV ECCODES_DEFINITION_PATH=/app/eccodes_defintions/defintions:/usr/share/eccodes/definitions
+
 WORKDIR /app

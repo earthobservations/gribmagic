@@ -43,7 +43,6 @@ class ForecastVariables(Enum):
     MAX_RADAR_REFLECTIVITY = 'max_radar_reflectivity'
     WIND_U = 'wind_u'
     WIND_V = 'wind_v'
-    SNOWFALL_HEIGHT = 'snowfall_height'
     TURBULENT_KINETIC_ENERGY = 'turbulent_kinetic_energy'
     SPECIFIC_HUMIDITY = 'specific_humidity'
     SURFACE_SPECIFIC_HUMIDITY = 'surface_specific_humidity'
@@ -104,3 +103,8 @@ class ForecastVariables(Enum):
     CLOUD_WORK_FUNCTION = "cloud_work_function"
     OZONE_TOTALE = "ozone_totale"
     VENTILATION_RATE = "ventilation_rate"
+    MAX_WIND_GUST_U = 'max_wind_gust_u'
+    MAX_WIND_GUST_V = 'max_wind_gust_v'
+    GRAUPEL = 'graupel'
+    MIXED_LAYER_DEPTH = 'mixed_layer_depth'
+    SNOW_RATE = 'snow_rate'

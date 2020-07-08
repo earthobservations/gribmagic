@@ -129,3 +129,31 @@ ncep_gfs_025:
      cloud_work_function: cwork
      ozone_totale: tozne
      ventilation_rate: VRATE
+
+harmonie_knmi:
+     graupel: grpl
+     max_wind_gust_u: ugst
+     max_wind_gust_v: vgst
+     snow_height: sd
+     visibility: vis
+     mixed_layer_depth: mld
+     total_cloud_cover: tcc
+     low_level_clouds: lcc
+     medium_level_clouds: mcc
+     high_level_clouds: hcc
+     land_sea_coverage: lsm
+     downward_short_wave_radiation: nswrs
+     downward_long_wave_radiation: nlwrs
+     global_horizontal_irradiance: grad
+     sensible_heat_flux_net: shf
+     latent_heat_flux_net: lhf
+     total_precipitation_rate: rain
+     snow_rate: snow
+     air_temperature_2m: t
+     air_temperature: t
+     dewpoint_2m: td
+     relative_humidity_2m: r
+     wind_u: u
+     wind_v: v
+     pressure_mean_sea_level: pres
+     geopotential_height: z

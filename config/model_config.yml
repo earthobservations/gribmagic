@@ -13,7 +13,7 @@ ncep_gfs_025:
       12: [[0, 121, 1], [120, 243, 3]]
       18: [[0, 121, 1], [120, 243, 3]]
     forecast_steps_string_length: 3
-    file_postfix: ''
+    file_postfix: 'grib2'
     compression: ''
 
 

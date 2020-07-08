@@ -18,9 +18,14 @@ MODEL_VARIABLES_MAPPING={PATH_TO_PROJECT}/config/model_variables_mapping.yml"
 MODEL_VARIABLES_LEVELS_MAPPING={PATH_TO_PROJECT}/config/model_variables_levels_mapping.yml"
 
 BASE_STORE_DIR={PATH_TO_PROJECT}/data
+ECCODES_DEFINITION_PATH={PATH_TO_PROJECT}/eccodes_defintions/defintions:/usr/share/eccodes/definitions
+
 ```
 The **BASE_STORE_DIR** points to the project intern **data** directory per default. 
- 
+
+### Required Installations
+t.b.c
+
 
 ### Using Docker
 
