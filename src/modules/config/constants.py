@@ -15,5 +15,7 @@ KEY_LOCAL_STORE_FILE_PATHS = 'local_store_file_paths'
 KEY_REMOTE_FILE_PATHS = 'remote_file_paths'
 KEY_COMPRESSION = 'compression'
 KEY_FORECAST_STEPS_STR_LEN = 'forecast_steps_string_length'
+KEY_LEVEL_TYPE = 'level_type'
+KEY_LIST_INDEX = 'list_index'
 
 LOCAL_FILE_POSTFIX = 'nc'
