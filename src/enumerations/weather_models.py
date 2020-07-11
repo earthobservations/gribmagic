@@ -8,7 +8,7 @@ class WeatherModels(Enum):
     ICON_EU_EPS = 'icon_eu_eps'
     ICON_GLOBAL = 'icon_global'
     COSMO_D2 = 'cosmo_d2'
-    COSMO_D2_EPS = 'cosmo_d2'
+    COSMO_D2_EPS = 'cosmo_d2_eps'
     GFS_025 = 'ncep_gfs_025'
     AROME_METEO_FRANCE = 'arome_meteo_france'
     HARMONIE_KNMI = 'harmonie_knmi'

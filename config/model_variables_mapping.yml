@@ -40,9 +40,12 @@ icon_eu_eps:
      <<: *icon_eu
 
 
-cosmo_d2:
+cosmo_d2: &cosmo_d2
      <<: *icon_eu
      max_radar_reflectivity: dbz_cmax
+
+cosmo_d2_eps:
+     <<: *cosmo_d2
 
 ncep_gfs_025:
      albedo: al

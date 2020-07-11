@@ -49,7 +49,7 @@ def test_build_remote_model_file_lists_wrong_weather_model():
             0,
             datetime(2020, 6, 10).date())
     assert str(
-        exc.value) == 'Please choose one of [icon_global, icon_eu, cosmo_d2]'
+        exc.value) == 'Please choose one of [icon_global, icon_eu, cosmo_d2, cosmo_d2_eps, icon_eu_eps]'
 
 
 @patch(

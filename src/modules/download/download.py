@@ -87,8 +87,8 @@ def __download_parallel(
     Returns:
         None
     """
-    pool = Pool(processes=n_processes)
-    pool.map(__download, download_specifications)
+    with Pool(processes=n_processes) as pool_process:
+        print(pool_process.map(__download, download_specifications))
 
 
 def __download_tar_file(

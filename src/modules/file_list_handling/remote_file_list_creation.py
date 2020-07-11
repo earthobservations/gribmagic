@@ -60,8 +60,13 @@ def build_remote_file_lists_for_variable_files(
         List of remote file paths
 
     """
-    if weather_model not in [WeatherModels.ICON_GLOBAL, WeatherModels.COSMO_D2, WeatherModels.ICON_EU]:
-        raise WrongWeatherModelException('Please choose one of [icon_global, icon_eu, cosmo_d2]')
+    if weather_model not in [WeatherModels.ICON_GLOBAL,
+                             WeatherModels.COSMO_D2,
+                             WeatherModels.ICON_EU,
+                             WeatherModels.COSMO_D2_EPS,
+                             WeatherModels.ICON_EU_EPS]:
+        raise WrongWeatherModelException('Please choose one of [icon_global, icon_eu, '
+                                         'cosmo_d2, cosmo_d2_eps, icon_eu_eps]')
 
     model_config = MODEL_CONFIG[weather_model.value]
     base_path = Path(model_config[KEY_REMOTE_SERVER])

@@ -1,6 +1,7 @@
 from src.modules.file_list_handling.local_file_list_creation import \
-    build_local_file_list, build_local_store_file_list_for_variables
-from unittest.mock import patch, MagicMock
+    build_local_file_list, build_local_store_file_list_for_variables, \
+    _local_file_paths_for_harmonie
+from unittest.mock import patch
 from src.enumerations.weather_models import WeatherModels
 from datetime import datetime
 from pathlib import Path
@@ -87,3 +88,41 @@ def test_build_local_file_list_for_variables_grib_package():
                                     datetime(2020, 6, 10).date())
     assert to_test == [Path('/app/data/tmp/arome_meteo_france_20200610_00_Package1_0.grib'),
                        Path('/app/data/tmp/arome_meteo_france_20200610_00_Package1_1.grib')]
+
+
+@patch(
+    'src.modules.file_list_handling.local_file_list_creation.MODEL_CONFIG',
+    {
+        WeatherModels.HARMONIE_KNMI.value:
+            {
+                KEY_VARIABLES: ['air_temperature_2m'],
+                KEY_FORECAST_STEPS: {0: [0, 1]},
+                KEY_FILE_POSTFIX: 'grib',
+                KEY_FILE_TEMPLATE: "harm40_{grib_package_type}_{initialization_time}.tar",
+                KEY_GRIB_PACKAGE_TYPES: ['v1_p3']
+
+            }}
+)
+def test_build_local_file_list_for_harmonie():
+    to_test = build_local_file_list(WeatherModels.HARMONIE_KNMI,
+                                    0,
+                                    datetime(2020, 6, 10).date())
+    assert to_test == [Path('/app/data/tmp/harmonie_knmi_20200610_00_0.grib'),
+                       Path('/app/data/tmp/harmonie_knmi_20200610_00_1.grib')]
+
+
+def test__local_file_paths_for_harmonie():
+    to_test = _local_file_paths_for_harmonie(
+        datetime(2020, 6, 10).date(),
+        0,
+        {
+
+                    KEY_VARIABLES: ['air_temperature_2m'],
+                    KEY_FORECAST_STEPS: {0: [0, 1]},
+                    KEY_FILE_POSTFIX: 'grib',
+                    KEY_FILE_TEMPLATE: "harm40_{grib_package_type}_{initialization_time}.tar",
+                    KEY_GRIB_PACKAGE_TYPES: ['v1_p3']}
+    )
+
+    assert to_test == [Path('/app/data/tmp/harmonie_knmi_20200610_00_0.grib'),
+                       Path('/app/data/tmp/harmonie_knmi_20200610_00_1.grib')]
