@@ -110,4 +110,4 @@ def test_build_remote_model_file_lists_for_package_wrong_model():
                                                       0,
                                                       datetime(2020, 6,
                                                                10).date())
-    assert str(excinfo.value) == 'Please choose one of [arome_meteo_france, geos5, gfs]'
+    assert str(excinfo.value) == 'Please choose one of [arome_meteo_france, geos5, gfs, harmonie_knmi]'

@@ -99,7 +99,7 @@ def _build_local_file_list_with_variables_iterator(
     base_path = Path(os.environ['BASE_STORE_DIR'])
     local_file_list = []
     for var in variables_iterator:
-        if KEY_FORECAST_STEPS in model_config[KEY_FILE_TEMPLATE]:
+        if KEY_FORECAST_STEPS[:-1] in model_config[KEY_FILE_TEMPLATE]:
             for forecast_step in model_config[KEY_FORECAST_STEPS][initialization_time]:
                 local_file_list.append(
                     Path(

@@ -114,7 +114,7 @@ def build_remote_file_lists_for_package_files(
     base_path = Path(model_config[KEY_REMOTE_SERVER])
     remote_file_list = []
     for grib_package in model_config[KEY_GRIB_PACKAGE_TYPES]:
-        if KEY_FORECAST_STEPS in model_config[KEY_FILE_TEMPLATE]:
+        if KEY_FORECAST_STEPS[:-1] in model_config[KEY_FILE_TEMPLATE]:
             for forecast_step in model_config[KEY_FORECAST_STEPS][initialization_time]:
                 remote_file_list.append(
                     Path(

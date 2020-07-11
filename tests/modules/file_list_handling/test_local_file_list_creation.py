@@ -6,7 +6,8 @@ from datetime import datetime
 from pathlib import Path
 import pytest
 from src.exceptions.grib_package_exception import GribPackageException
-from src.modules.config.constants import KEY_VARIABLES, KEY_GRIB_PACKAGE_TYPES, KEY_FORECAST_STEPS, KEY_FILE_POSTFIX
+from src.modules.config.constants import KEY_VARIABLES, KEY_GRIB_PACKAGE_TYPES, KEY_FORECAST_STEPS, \
+    KEY_FILE_POSTFIX, KEY_FILE_TEMPLATE
 
 
 @patch(
@@ -16,7 +17,9 @@ from src.modules.config.constants import KEY_VARIABLES, KEY_GRIB_PACKAGE_TYPES, 
             {
                 KEY_VARIABLES: ['air_temperature_2m'],
                 KEY_FORECAST_STEPS: {0: [0, 1]},
-                KEY_FILE_POSTFIX: 'grib'
+                KEY_FILE_POSTFIX: 'grib',
+                KEY_FILE_TEMPLATE: "icon-eu_europe_regular-lat-lon_{level_type}_{initialization_date}"
+                                   "{initialization_time}_{forecast_step}_{variable_name_upper}.grib2.bz2"
             }}
 )
 def test_build_local_file_list_for_variables():
@@ -33,8 +36,9 @@ def test_build_local_file_list_for_variables():
         WeatherModels.ICON_EU.value: {
             KEY_VARIABLES: ['air_temperature_2m'],
             KEY_FORECAST_STEPS: {0: [0, 1]},
-            KEY_FILE_POSTFIX: 'grib'
-
+            KEY_FILE_POSTFIX: 'grib',
+            KEY_FILE_TEMPLATE: "icon-eu_europe_regular-lat-lon_{level_type}_{initialization_date}"
+                               "{initialization_time}_{forecast_step}_{variable_name_upper}.grib2.bz2"
         }}
 )
 def test_build_local_store_file_list_for_variables():
@@ -51,7 +55,9 @@ def test_build_local_store_file_list_for_variables():
             KEY_VARIABLES: ['air_temperature_2m'],
             KEY_FORECAST_STEPS: {0: [1, 2]},
             KEY_GRIB_PACKAGE_TYPES: ['Package1'],
-            KEY_FILE_POSTFIX: 'grib'
+            KEY_FILE_POSTFIX: 'grib',
+            KEY_FILE_TEMPLATE: "icon-eu_europe_regular-lat-lon_{level_type}_{initialization_date}"
+                               "{initialization_time}_{forecast_step}_{variable_name_upper}.grib2.bz2"
         }}
 )
 def test_build_local_file_list_for_variables_not_grib_package():
@@ -70,8 +76,9 @@ def test_build_local_file_list_for_variables_not_grib_package():
             KEY_VARIABLES: ['air_temperature_2m'],
             KEY_FORECAST_STEPS: {0: [0, 1]},
             KEY_GRIB_PACKAGE_TYPES: ['Package1'],
-            KEY_FILE_POSTFIX: 'grib'
-
+            KEY_FILE_POSTFIX: 'grib',
+            KEY_FILE_TEMPLATE: "package={grib_package_type}&time={forecast_step}H&referencetime"
+                               "={initialization_date}T{initialization_time}:00:00Z&format=grib2"
         }}
 )
 def test_build_local_file_list_for_variables_grib_package():

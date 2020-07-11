@@ -62,7 +62,7 @@ def __download(
     """
     weather_model = download_specification[0].value
     downloaded_file = urlopen(
-        f"{MODEL_CONFIG[weather_model.value][KEY_REMOTE_SERVER_TYPE]}:"
+        f"{MODEL_CONFIG[weather_model][KEY_REMOTE_SERVER_TYPE]}:"
         f"//{download_specification[2]}")
 
     if not download_specification[1].parent.is_dir(): download_specification[1].parent.mkdir()
@@ -97,7 +97,7 @@ def __download_tar_file(
         local_file_list: List[Path]
 ) -> None:
     """
-
+    Downloads a weather forecast package with one tar archive
     Args:
         weather_model:
         remote_file:
