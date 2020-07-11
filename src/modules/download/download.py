@@ -9,7 +9,7 @@ from multiprocessing import Pool
 
 
 from src.enumerations.weather_models import WeatherModels
-from src.modules.download.local_store import bunzip_store, store
+from src.modules.download.local_store import bunzip_store, store, tarfile_store
 from src.modules.config.constants import KEY_LOCAL_FILE_PATHS, \
     KEY_REMOTE_FILE_PATHS, KEY_COMPRESSION, KEY_REMOTE_SERVER_TYPE
 from src.modules.config.configurations import MODEL_CONFIG
@@ -26,6 +26,12 @@ def download(
     """
         download weather forecasts
     """
+    if weather_model == WeatherModels.HARMONIE_KNMI:
+        __download_tar_file(weather_model,
+                            model_file_lists[KEY_REMOTE_FILE_PATHS][0],
+                            model_file_lists[KEY_LOCAL_FILE_PATHS])
+        return None
+
     if parallel_download:
         download_specifications = \
             [(weather_model, local_file_path, remote_file)
@@ -54,13 +60,14 @@ def __download(
     Returns:
         Stores a file in temporary directory
     """
+    weather_model = download_specification[0].value
     downloaded_file = urlopen(
-        f"{MODEL_CONFIG[download_specification[0].value][KEY_REMOTE_SERVER_TYPE]}:"
+        f"{MODEL_CONFIG[weather_model.value][KEY_REMOTE_SERVER_TYPE]}:"
         f"//{download_specification[2]}")
 
     if not download_specification[1].parent.is_dir(): download_specification[1].parent.mkdir()
 
-    if MODEL_CONFIG[download_specification[0].value][KEY_COMPRESSION] == 'bz2':
+    if MODEL_CONFIG[weather_model][KEY_COMPRESSION] == 'bz2':
         bunzip_store(BytesIO(downloaded_file.read()), download_specification[1])
     else:
         store(downloaded_file, download_specification[1])
@@ -82,3 +89,24 @@ def __download_parallel(
     """
     pool = Pool(processes=n_processes)
     pool.map(__download, download_specifications)
+
+
+def __download_tar_file(
+        weather_model: WeatherModels,
+        remote_file: Path,
+        local_file_list: List[Path]
+) -> None:
+    """
+
+    Args:
+        weather_model:
+        remote_file:
+        local_file_list:
+
+    Returns:
+
+    """
+    downloaded_file = urlopen(
+        f"{MODEL_CONFIG[weather_model.value][KEY_REMOTE_SERVER_TYPE]}:"
+        f"//{remote_file}")
+    tarfile_store(downloaded_file, local_file_list)

@@ -8,7 +8,8 @@ from pathlib import Path
 from src.enumerations.weather_models import WeatherModels
 from src.modules.config.configurations import MODEL_CONFIG
 from src.modules.config.constants import KEY_VARIABLES, LOCAL_FILE_POSTFIX,\
-    KEY_FORECAST_STEPS, KEY_GRIB_PACKAGE_TYPES, KEY_FILE_POSTFIX
+    KEY_FORECAST_STEPS, KEY_GRIB_PACKAGE_TYPES, KEY_FILE_POSTFIX, \
+    KEY_FILE_TEMPLATE
 from src.exceptions.grib_package_exception import GribPackageException
 
 
@@ -65,23 +66,85 @@ def build_local_file_list(
     
     if grib_packages and weather_model not in [WeatherModels.AROME_METEO_FRANCE,
                                                WeatherModels.GEOS5,
-                                               WeatherModels.GFS_025]:
+                                               WeatherModels.GFS_025,
+                                               WeatherModels.HARMONIE_KNMI]:
         raise GribPackageException(f"You have set grib_packages flag True, but "
                                    f"{weather_model.value} does not provide grib data in packages")
+    elif weather_model == WeatherModels.HARMONIE_KNMI:
+        return _local_file_paths_for_harmonie(
+            run_date,
+            initialization_time,
+            model_config
+        )
     elif grib_packages:
-        iterator_values = model_config[KEY_GRIB_PACKAGE_TYPES]
+        variables_iterator = model_config[KEY_GRIB_PACKAGE_TYPES]
     else:
-        iterator_values = model_config[KEY_VARIABLES]
-        
+        variables_iterator = model_config[KEY_VARIABLES]
+
+    return _build_local_file_list_with_variables_iterator(
+        weather_model,
+        run_date,
+        initialization_time,
+        variables_iterator,
+        model_config)
+
+
+def _build_local_file_list_with_variables_iterator(
+        weather_model: WeatherModels,
+        run_date: datetime,
+        initialization_time: int,
+        variables_iterator: List[str],
+        model_config
+) -> List[Path]:
     base_path = Path(os.environ['BASE_STORE_DIR'])
     local_file_list = []
-    for var in iterator_values:
-        for forecast_step in model_config[KEY_FORECAST_STEPS][initialization_time]:
+    for var in variables_iterator:
+        if KEY_FORECAST_STEPS in model_config[KEY_FILE_TEMPLATE]:
+            for forecast_step in model_config[KEY_FORECAST_STEPS][initialization_time]:
+                local_file_list.append(
+                    Path(
+                        base_path,
+                        'tmp',
+                        f"{weather_model.value}_{run_date.strftime('%Y%m%d')}_"
+                        f"{str(initialization_time).zfill(2)}_{var}_"
+                        f"{forecast_step}.{model_config[KEY_FILE_POSTFIX]}"
+                    ))
+        else:
             local_file_list.append(
                 Path(
                     base_path,
                     'tmp',
-                    f"{weather_model.value}_{run_date.strftime('%Y%m%d')}_{str(initialization_time).zfill(2)}_{var}_{forecast_step}.{model_config[KEY_FILE_POSTFIX]}"
-                    ))
+                    f"{weather_model.value}_{run_date.strftime('%Y%m%d')}_"
+                    f"{str(initialization_time).zfill(2)}_{var}."
+                    f"{model_config[KEY_FILE_POSTFIX]}"
+                ))
     return local_file_list
 
+
+def _local_file_paths_for_harmonie(
+        run_date: datetime,
+        initialization_time: int,
+        model_config: Dict[str, any]
+) -> List[Path]:
+    """
+    special local file path generator for HARMONIE model
+    Args:
+        run_date:
+        initialization_time:
+        model_config:
+
+    Returns:
+
+    """
+    base_path = Path(os.environ['BASE_STORE_DIR'])
+    local_file_list = []
+    for forecast_step in model_config[KEY_FORECAST_STEPS][initialization_time]:
+        local_file_list.append(
+            Path(
+                base_path,
+                'tmp',
+                f"{WeatherModels.HARMONIE_KNMI.value}_{run_date.strftime('%Y%m%d')}_"
+                f"{str(initialization_time).zfill(2)}_{forecast_step}."
+                f"{model_config[KEY_FILE_POSTFIX]}"
+                ))
+    return local_file_list

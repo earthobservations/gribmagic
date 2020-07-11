@@ -106,26 +106,44 @@ def build_remote_file_lists_for_package_files(
     """
     if weather_model not in [WeatherModels.AROME_METEO_FRANCE,
                              WeatherModels.GEOS5,
-                             WeatherModels.GFS_025]:
-        raise WrongWeatherModelException('Please choose one of [arome_meteo_france, geos5, gfs]')
+                             WeatherModels.GFS_025,
+                             WeatherModels.HARMONIE_KNMI]:
+        raise WrongWeatherModelException('Please choose one of [arome_meteo_france, geos5, gfs, harmonie_knmi]')
 
     model_config = MODEL_CONFIG[weather_model.value]
     base_path = Path(model_config[KEY_REMOTE_SERVER])
     remote_file_list = []
     for grib_package in model_config[KEY_GRIB_PACKAGE_TYPES]:
-        for forecast_step in model_config[KEY_FORECAST_STEPS][initialization_time]:
+        if KEY_FORECAST_STEPS in model_config[KEY_FILE_TEMPLATE]:
+            for forecast_step in model_config[KEY_FORECAST_STEPS][initialization_time]:
+                remote_file_list.append(
+                    Path(
+                        base_path,
+                        model_config[KEY_DIRECTORY_TEMPLATE].format(
+                            initialization_date=run_date.strftime(model_config[KEY_INITIALIZATION_DATE_FORMAT]),
+                            initialization_time=str(initialization_time).zfill(2),
+                        ),
+                        model_config[KEY_FILE_TEMPLATE].format(
+                            grib_package_type=grib_package,
+                            initialization_date=run_date.strftime(model_config[KEY_INITIALIZATION_DATE_FORMAT]),
+                            initialization_time=str(initialization_time).zfill(2),
+                            forecast_step=str(forecast_step).zfill(model_config[KEY_FORECAST_STEPS_STR_LEN]),
+                        ))
+                )
+        else:
             remote_file_list.append(
                 Path(
                     base_path,
                     model_config[KEY_DIRECTORY_TEMPLATE].format(
-                        initialization_date=run_date.strftime(model_config[KEY_INITIALIZATION_DATE_FORMAT]),
+                        initialization_date=run_date.strftime(
+                            model_config[KEY_INITIALIZATION_DATE_FORMAT]),
                         initialization_time=str(initialization_time).zfill(2),
                     ),
                     model_config[KEY_FILE_TEMPLATE].format(
                         grib_package_type=grib_package,
-                        initialization_date=run_date.strftime(model_config[KEY_INITIALIZATION_DATE_FORMAT]),
+                        initialization_date=run_date.strftime(
+                            model_config[KEY_INITIALIZATION_DATE_FORMAT]),
                         initialization_time=str(initialization_time).zfill(2),
-                        forecast_step=str(forecast_step).zfill(model_config[KEY_FORECAST_STEPS_STR_LEN]),
                     ))
             )
     return remote_file_list
