@@ -85,7 +85,8 @@ def build_remote_file_lists_for_variable_files(
                         initialization_date=run_date.strftime(model_config[KEY_INITIALIZATION_DATE_FORMAT]),
                         initialization_time=str(initialization_time).zfill(2),
                         forecast_step=str(forecast_step).zfill(3),
-                        variable_name_upper=MODEL_VARIABLES_MAPPING[weather_model.value][variable].upper()
+                        variable_name_upper=MODEL_VARIABLES_MAPPING[weather_model.value][variable].upper(),
+                        variable_name_lower=MODEL_VARIABLES_MAPPING[weather_model.value][variable],
                     ))
             )
     return remote_file_list

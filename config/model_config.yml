@@ -76,7 +76,7 @@ icon_eu_eps:
                 total_precipitation, convective_snow, grid_scale_snow, convective_rain,grid_scale_rain,
                 surface_specific_humidity,direct_normal_irradiance,diffuse_horizontal_irradiance]
     directory_template: icon-eu-eps/grib/{initialization_time}/{variable_name_lower}
-    file_template: icon-eu-eps_europe_icosahedral_{level_type}_{initialization_date}{initialization_time}_{forecast_step}_{variable_name_upper}.grib2.bz2
+    file_template: icon-eu-eps_europe_icosahedral_{level_type}_{initialization_date}{initialization_time}_{forecast_step}_{variable_name_lower}.grib2.bz2
 
 
 cosmo_d2:
@@ -100,18 +100,21 @@ cosmo_d2:
     directory_template: cosmo-d2/grib/{initialization_time}/{variable_name_lower}
     file_template: cosmo-d2_germany_regular-lat-lon_{level_type}_{initialization_date}{initialization_time}_{forecast_step}_{variable_name_upper}.grib2.bz2
 
-
 cosmo_d2_eps:
     <<: *dwd_config
     initialization_times: [0,6,12,18]
     forecast_steps:
-      0: [[0, 49, 1], [48, 123, 3]]
-      6: [[0, 49, 1], [48, 123, 3]]
-      12: [[0, 49, 1], [48, 123, 3]]
-      18: [[0, 49, 1], [48, 123, 3]]
+      0: [[0, 28,1]]
+      3:  [[0, 46,1]]
+      6: [[0, 28,1]]
+      9:  [[0, 28,1]]
+      12: [[0, 28,1]]
+      15:  [[0, 28,1]]
+      18: [[0, 28,1]]
+      21:  [[0, 28,1]]
     variables: [air_temperature_2m]
     directory_template: cosmo-d2-eps/grib/{initialization_time}/{variable_name_lower}
-    file_template: cosmo-d2-eps_germany_rotated-lat-lon_{level_type}_{initialization_date}{initialization_time}_{forecast_step}_{variable_name_upper}.grib2.bz2
+    file_template: cosmo-d2-eps_germany_rotated-lat-lon_{level_type}_{initialization_date}{initialization_time}_{forecast_step}_{variable_name_lower}.grib2.bz2
 
 
 arome_meteo_france:
