@@ -5,7 +5,7 @@ from pathlib import Path
 from urllib.request import urlopen
 from io import BytesIO
 from typing import Dict, List, Tuple
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import ProcessPoolExecutor
 
 
 from src.enumerations.weather_models import WeatherModels
@@ -87,7 +87,7 @@ def __download_parallel(
     Returns:
         None
     """
-    with ThreadPoolExecutor(max_workers=n_processes) as executor:
+    with ProcessPoolExecutor(max_workers=n_processes) as executor:
         executor.map(__download, download_specifications)
 
 
