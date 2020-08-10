@@ -13,7 +13,7 @@ aiofiles==0.4.0
 ipython==7.10.1
 ipython-genutils==0.2.0
 plotly==4.8.1
-Pillow==7.0.0
+Pillow==7.1.0
 pykml==0.2.0
 h5netcdf==0.8.0
 requests==2.23.0
