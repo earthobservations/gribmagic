@@ -5,7 +5,7 @@ from src.modules.config.parse_configurations import parse_model_config, \
 
 def test_parse_model_config():
     to_test = parse_model_config()[WeatherModels.AROME_METEO_FRANCE.value]
-    assert to_test == {'remote_server': 'dcpc-nwp.meteo.fr/services',
+    assert to_test == {'remote_server': 'dcpc-nwp.meteo.fr',
                        'remote_server_type': 'http',
                        'initialization_times': [0, 3, 6, 12, 18],
                        'forecast_steps': {
@@ -34,11 +34,11 @@ def test_parse_model_config():
                                 26, 27,
                                 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39,
                                 40, 41, 42]},
-                       'grib_package_types': ['HP', 'SP1', 'SP2', 'SP3'],
+                       'grib_package_types': ['HP1', 'SP1', 'SP2', 'SP3'],
                        'variables': ['air_temperature_2m', 'temperature'],
-                       'file_template': 'package={grib_package_type}&time={forecast_step}H&referencetime={initialization_date}T{initialization_time}:00:00Z&format=grib2',
+                       'file_template': 'PS_GetCache_DCPCPreviNum?model=AROME&grid=0.01&&package={grib_package_type}&time={forecast_step}H&referencetime={initialization_date}T{initialization_time}:00:00Z&format=grib2',
                        'initialization_date_format': '%Y-%m-%d',
-                       'directory_template': 'PS_GetCache_DCPCPreviNum?model=AROME&grid=0.01&',
+                       'directory_template': 'services',
                        'file_postfix': 'grib2',
                        'compression': '',
                        'forecast_steps_string_length': 2}
