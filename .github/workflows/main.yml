@@ -1,30 +1,36 @@
-# This is a basic workflow to help you get started with Actions
+# Test gribmagic
 
-name: CI
+name: Tests
 
-# Controls when the action will run. Triggers the workflow on push or pull request
-# events but only for the master branch
 on:
   push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build-and-test:
-    # The type of runner that the job will run on
+  tests:
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-    - uses: actions/checkout@v2
-    
-    # Runs a single command using the runners shell
-    - name: build docker image
-      run: docker build -t "grib_magic_image" .
-    - name: run tests 
-      run: docker run -v $(pwd):/app grib_magic_image:latest pytest tests/
-    
+
+    - name: Setup Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+
+    - name: Acquire sources
+      uses: actions/checkout@v2
+
+    - name: Install dependencies
+      run: pip install --requirement requirements.txt
+
+    - name: Acquire test data
+      run: wget https://github.com/earthobservations/testdata/raw/main/opendata.dwd.de/weather/nwp/icon-eu/grib/00/t_2m/icon-eu_europe_regular-lat-lon_single-level_2020062300_000_T_2M.grib2.bz2 --directory-prefix tests/modules/download/fixtures/
+
+    - name: Run tests
+      run: |
+        export BASE_STORE_DIR=.gribmagic-data
+        export MODEL_CONFIG=config/model_config.yml
+        export MODEL_VARIABLES_MAPPING=config/model_variables_mapping.yml
+        export MODEL_VARIABLES_LEVELS_MAPPING=config/model_variables_levels_mapping.yml
+        pytest tests
