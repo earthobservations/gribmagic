@@ -6,9 +6,40 @@ This is a Work in Progress. We are happy if you are willing to contribute.
 
 ![CI](https://github.com/earthobservations/GribMagic/workflows/CI/badge.svg?branch=main)
 [![codecov](https://codecov.io/gh/earthobservations/GribMagic/branch/main/graph/badge.svg)](https://codecov.io/gh/earthobservations/GribMagic)
-![python](https://img.shields.io/badge/Python-3.7-green.svg)
+![python](https://img.shields.io/badge/Python-3.7,%203.8-green.svg)
 
-# Setting up and installation
+# Development
+
+## Setup
+
+Install [ecCodes package by ECMWF](https://confluence.ecmwf.int/display/ECC).
+```
+brew install eccodes
+```
+
+Install Python packages.
+```
+virtualenv .venv --python=python3.8
+source .venv/bin/activate
+pip install --requirement requirements.txt
+```
+
+## Run tests
+
+### Acquire test data
+```
+wget https://github.com/earthobservations/testdata/raw/main/opendata.dwd.de/weather/nwp/icon-eu/grib/00/t_2m/icon-eu_europe_regular-lat-lon_single-level_2020062300_000_T_2M.grib2.bz2 --directory-prefix tests/modules/download/fixtures/
+```
+
+```
+export BASE_STORE_DIR=.gribmagic-data
+export MODEL_CONFIG=config/model_config.yml
+export MODEL_VARIABLES_MAPPING=config/model_variables_mapping.yml
+export MODEL_VARIABLES_LEVELS_MAPPING=config/model_variables_levels_mapping.yml
+pytest tests
+```
+
+# Configuration
 
 ### Environement Variables
 To use this project you have to define the following environment variables:
@@ -23,11 +54,8 @@ ECCODES_DEFINITION_PATH={PATH_TO_PROJECT}/eccodes_defintions/defintions:/usr/sha
 ```
 The **BASE_STORE_DIR** points to the project intern **data** directory per default. 
 
-### Required Installations
-t.b.c
 
-
-### Using Docker
+# Using Docker
 
 To use the weather_forecast_downloader in a Docker container, you just have to build the image from this project
 
