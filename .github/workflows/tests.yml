@@ -23,7 +23,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        apt-get install libeccodes0
+        sudo apt-get install libeccodes0
         pip install --requirement requirements.txt
 
     - name: Acquire test data
