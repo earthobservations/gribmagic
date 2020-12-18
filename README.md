@@ -4,8 +4,8 @@ The target of the GribMagic project is to unify the download process of grib1/gr
 
 This is a Work in Progress. We are happy if you are willing to contribute.
 
-![CI](https://github.com/earthobservations/GribMagic/workflows/CI/badge.svg?branch=main)
-[![codecov](https://codecov.io/gh/earthobservations/GribMagic/branch/main/graph/badge.svg)](https://codecov.io/gh/earthobservations/GribMagic)
+![CI](https://github.com/earthobservations/gribmagic/workflows/Tests/badge.svg?branch=main)
+[![codecov](https://codecov.io/gh/earthobservations/gribmagic/branch/main/graph/badge.svg)](https://codecov.io/gh/earthobservations/gribmagic)
 ![python](https://img.shields.io/badge/Python-3.7,%203.8-green.svg)
 
 # Development
