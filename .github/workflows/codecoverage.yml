@@ -2,6 +2,7 @@ name: Codecoverage
 on: [push]
 jobs:
   run:
+    if: false
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
