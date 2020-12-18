@@ -5,7 +5,7 @@ from pathlib import Path
 from urllib.request import urlopen
 from io import BytesIO
 from typing import Dict, List, Tuple
-from concurrent.futures import ProcessPoolExecutor
+from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
 
 
 from src.enumerations.weather_models import WeatherModels
@@ -39,10 +39,10 @@ def download(
              zip(model_file_lists[KEY_REMOTE_FILE_PATHS],
                  model_file_lists[KEY_LOCAL_FILE_PATHS])]
         __download_parallel(download_specifications, n_processes)
-    for remote_file, local_file_path in zip(model_file_lists[KEY_REMOTE_FILE_PATHS],
-                                            model_file_lists[KEY_LOCAL_FILE_PATHS]):
-
-        __download((weather_model, local_file_path, remote_file))
+    else:
+        for remote_file, local_file_path in zip(model_file_lists[KEY_REMOTE_FILE_PATHS],
+                                                model_file_lists[KEY_LOCAL_FILE_PATHS]):
+            __download((weather_model, local_file_path, remote_file))
 
 
 def __download(
@@ -87,8 +87,10 @@ def __download_parallel(
     Returns:
         None
     """
-    with ProcessPoolExecutor(max_workers=n_processes) as executor:
+    with ThreadPoolExecutor(max_workers=n_processes) as executor:
         executor.map(__download, download_specifications)
+
+    executor.shutdown(wait=True)
 
 
 def __download_tar_file(
