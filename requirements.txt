@@ -20,7 +20,7 @@ requests==2.23.0
 pytest==5.4.1
 pytest-cov==2.10.0
 mock==0.7.2
-pyproj==2.4.0
+pyproj==2.6.1
 cfgrib==0.9.8.5
 eccodes==1.0.0
 fire==0.3.1
