@@ -31,26 +31,27 @@ def build_remote_file_list(
     """
     model = WeatherModelConfiguration(weather_model)
     if model.has_grib_packages:
-        return build_remote_file_lists_for_package_files(
+        return remote_files_grib_packages(
             weather_model,
             initialization_time,
             run_date
         )
     else:
-        return build_remote_file_lists_for_variable_files(
+        return remote_files_grib_directories(
             weather_model,
             initialization_time,
             run_date
         )
 
 
-def build_remote_file_lists_for_variable_files(
+def remote_files_grib_directories(
         weather_model: WeatherModels,
         initialization_time: int,
         run_date: datetime.date
 ) -> List[Path]:
     """
-    This functions is a generic file path generator for remote grib files divided in variable directories
+    This functions is a generic file path generator for
+    remote grib files within different directories.
 
     Args:
         weather_model: defines the weather model 
@@ -61,15 +62,13 @@ def build_remote_file_lists_for_variable_files(
         List of remote file paths
 
     """
-    if weather_model not in [WeatherModels.ICON_GLOBAL,
-                             WeatherModels.COSMO_D2,
-                             WeatherModels.ICON_EU,
-                             WeatherModels.COSMO_D2_EPS,
-                             WeatherModels.ICON_EU_EPS]:
-        raise WrongWeatherModelException('Please choose one of [icon_global, icon_eu, '
-                                         'cosmo_d2, cosmo_d2_eps, icon_eu_eps]')
 
     model = WeatherModelConfiguration(weather_model)
+
+    # Sanity checks
+    if model.has_grib_packages:
+        raise WrongWeatherModelException("Weather model does not offer grib data directories")
+
     base_path = Path(model.info[KEY_REMOTE_SERVER])
     remote_file_list = []
     for variable in model.variables:
@@ -93,14 +92,14 @@ def build_remote_file_lists_for_variable_files(
     return remote_file_list
 
 
-def build_remote_file_lists_for_package_files(
+def remote_files_grib_packages(
         weather_model: WeatherModels,
         initialization_time: int,
         run_date: datetime.date
 ) -> List[Path]:
     """
-    This functions is a generic file path generator for remote grib files
-    divided in one or more grib data packages
+    This functions is a generic file path generator for
+    remote grib files within one or more grib data packages.
 
     Args:
         weather_model: defines the weather model 
@@ -111,13 +110,13 @@ def build_remote_file_lists_for_package_files(
         List of remote file paths
 
     """
-    if weather_model not in [WeatherModels.AROME_METEO_FRANCE,
-                             WeatherModels.GEOS5,
-                             WeatherModels.GFS_025,
-                             WeatherModels.HARMONIE_KNMI]:
-        raise WrongWeatherModelException('Please choose one of [arome_meteo_france, geos5, gfs, harmonie_knmi]')
 
     model = WeatherModelConfiguration(weather_model)
+
+    # Sanity checks
+    if not model.has_grib_packages:
+        raise WrongWeatherModelException("Weather model does not offer grib data packages")
+
     model_config = model.info
 
     base_path = Path(model.info[KEY_REMOTE_SERVER])

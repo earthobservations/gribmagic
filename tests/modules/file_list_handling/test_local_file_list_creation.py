@@ -52,27 +52,6 @@ def test_build_local_store_file_list_for_variables():
 @patch(
     'gribmagic.models.MODEL_CONFIG',
     {
-        WeatherModels.ICON_EU.value: {
-            KEY_VARIABLES: ['air_temperature_2m'],
-            KEY_FORECAST_STEPS: {0: [1, 2]},
-            KEY_GRIB_PACKAGE_TYPES: ['Package1'],
-            KEY_FILE_POSTFIX: 'grib',
-            KEY_FILE_TEMPLATE: "icon-eu_europe_regular-lat-lon_{level_type}_{initialization_date}"
-                               "{initialization_time}_{forecast_step}_{variable_name_upper}.grib2.bz2"
-        }}
-)
-def test_build_local_file_list_for_variables_not_grib_package():
-    with pytest.raises(GribPackageException) as exc:
-        _ = build_local_file_list(WeatherModels.ICON_EU,
-                                  0,
-                                  datetime(2020, 6, 10).date())
-    assert str(exc.value) == f"You have set grib_packages flag True, but " \
-                             f"{WeatherModels.ICON_EU.value} does not provide grib data in packages"
-
-
-@patch(
-    'gribmagic.models.MODEL_CONFIG',
-    {
         WeatherModels.AROME_METEO_FRANCE.value: {
             KEY_VARIABLES: ['air_temperature_2m'],
             KEY_FORECAST_STEPS: {0: [0, 1]},

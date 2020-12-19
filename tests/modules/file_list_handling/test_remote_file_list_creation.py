@@ -12,8 +12,8 @@ from gribmagic.modules.config.constants import KEY_VARIABLES, KEY_GRIB_PACKAGE_T
     KEY_DIRECTORY_TEMPLATE, KEY_REMOTE_SERVER, KEY_FILE_TEMPLATE, \
     KEY_INITIALIZATION_DATE_FORMAT, KEY_FORECAST_STEPS_STR_LEN
 from gribmagic.modules.file_list_handling.remote_file_list_creation import \
-    build_remote_file_lists_for_variable_files, \
-    build_remote_file_lists_for_package_files, \
+    remote_files_grib_directories, \
+    remote_files_grib_packages, \
     build_remote_file_list
 
 
@@ -32,9 +32,9 @@ from gribmagic.modules.file_list_handling.remote_file_list_creation import \
             }}
 )
 def test_build_remote_model_file_lists():
-    to_test = build_remote_file_lists_for_variable_files(WeatherModels.ICON_EU,
-                                                         0,
-                                                         datetime(2020, 6,
+    to_test = remote_files_grib_directories(WeatherModels.ICON_EU,
+                                            0,
+                                            datetime(2020, 6,
                                                                   10).date())
     assert to_test == [Path(
         'test1/test_remote_dir/00/t_2m/test_remote_file_single-level_2020061000_000_T_2M.grib2.bz2'),
@@ -44,12 +44,11 @@ def test_build_remote_model_file_lists():
 
 def test_build_remote_model_file_lists_wrong_weather_model():
     with pytest.raises(WrongWeatherModelException) as exc:
-        _ = build_remote_file_lists_for_variable_files(
+        _ = remote_files_grib_directories(
             WeatherModels.AROME_METEO_FRANCE,
             0,
             datetime(2020, 6, 10).date())
-    assert str(
-        exc.value) == 'Please choose one of [icon_global, icon_eu, cosmo_d2, cosmo_d2_eps, icon_eu_eps]'
+    assert str(exc.value) == 'Weather model does not offer grib data directories'
 
 
 @patch(
@@ -69,7 +68,7 @@ def test_build_remote_model_file_lists_wrong_weather_model():
             }}
 )
 def test_build_remote_model_file_lists_for_package():
-    to_test = build_remote_file_lists_for_package_files(
+    to_test = remote_files_grib_packages(
         WeatherModels.AROME_METEO_FRANCE,
         0,
         datetime(2020, 6, 10).date())
@@ -106,8 +105,6 @@ def test_build_remote_file_list():
 
 def test_build_remote_model_file_lists_for_package_wrong_model():
     with pytest.raises(WrongWeatherModelException) as excinfo:
-        _ = build_remote_file_lists_for_package_files(WeatherModels.ICON_EU,
-                                                      0,
-                                                      datetime(2020, 6,
-                                                               10).date())
-    assert str(excinfo.value) == 'Please choose one of [arome_meteo_france, geos5, gfs, harmonie_knmi]'
+        _ = remote_files_grib_packages(
+            WeatherModels.ICON_EU, 0, datetime(2020, 6, 10).date())
+    assert str(excinfo.value) == 'Weather model does not offer grib data packages'

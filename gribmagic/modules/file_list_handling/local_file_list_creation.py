@@ -63,13 +63,7 @@ def build_local_file_list(
     """
     model = WeatherModelConfiguration(weather_model)
 
-    if model.has_grib_packages and weather_model not in [WeatherModels.AROME_METEO_FRANCE,
-                                               WeatherModels.GEOS5,
-                                               WeatherModels.GFS_025,
-                                               WeatherModels.HARMONIE_KNMI]:
-        raise GribPackageException(f"You have set grib_packages flag True, but "
-                                   f"{weather_model.value} does not provide grib data in packages")
-    elif weather_model == WeatherModels.HARMONIE_KNMI:
+    if weather_model == WeatherModels.HARMONIE_KNMI:
         return _local_file_paths_for_harmonie(
             run_date,
             initialization_time,
