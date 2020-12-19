@@ -34,7 +34,7 @@ def concatenate_all_variable_files(
     variable_file_list = \
         [file for file in model_file_list[KEY_LOCAL_FILE_PATHS] if
          variable.value in str(file)]
-    return xarray.open_mfdataset(variable_file_list, engine='cfgrib')
+    return xarray.open_mfdataset(variable_file_list, engine='cfgrib', combine='by_coords')
 
 
 def open_grib_file(

@@ -1,4 +1,4 @@
-FROM python:3.7.7-slim
+FROM python:3.8.6-slim
 MAINTAINER Daniel Lassahn <daniel.lassahn@meteointelligence.de>
 
 ENV DEBIAN_FRONTEND noninteractive
@@ -31,7 +31,6 @@ RUN set -ex \
     && apt-get remove -y $buildDeps \
     && apt-get autoremove -y
 
-
 ENV PYTHONPATH "/app:/app"
 ENV BASE_STORE_DIR "/app/data/"
 
@@ -39,6 +38,6 @@ ENV MODEL_CONFIG "/app/config/model_config.yml"
 ENV MODEL_VARIABLES_MAPPING "/app/config/model_variables_mapping.yml"
 ENV MODEL_VARIABLES_LEVELS_MAPPING "/app/config/model_variables_levels_mapping.yml"
 
-ENV ECCODES_DEFINITION_PATH=/app/eccodes_defintions/defintions:/usr/share/eccodes/definitions
+ENV ECCODES_DEFINITION_PATH=/app/eccodes/definitions:/usr/share/eccodes/definitions
 
 WORKDIR /app
