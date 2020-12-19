@@ -1,13 +1,13 @@
-""" functions to create remote lists of rmote files that should be downloaded """
+""" functions to create remote lists of remote files that should be downloaded """
 from datetime import datetime
 from typing import List
 
 from pathlib import Path
 
 from gribmagic.enumerations.weather_models import WeatherModels
-from gribmagic.modules.config.configurations import MODEL_CONFIG, MODEL_VARIABLES_MAPPING, MODEL_VARIABLES_LEVELS_MAPPING
+from gribmagic.models import WeatherModelConfiguration
 from gribmagic.modules.config.constants import KEY_FORECAST_STEPS, KEY_DIRECTORY_TEMPLATE, \
-    KEY_FILE_TEMPLATE, KEY_REMOTE_SERVER, KEY_GRIB_PACKAGE_TYPES, KEY_VARIABLES, \
+    KEY_FILE_TEMPLATE, KEY_REMOTE_SERVER, \
     KEY_INITIALIZATION_DATE_FORMAT, KEY_FORECAST_STEPS_STR_LEN
 from gribmagic.exceptions.wrong_weather_model_exception import WrongWeatherModelException
 
@@ -29,7 +29,8 @@ def build_remote_file_list(
         List of remote file paths
 
     """
-    if KEY_GRIB_PACKAGE_TYPES in list(MODEL_CONFIG[weather_model.value]):
+    model = WeatherModelConfiguration(weather_model)
+    if model.has_grib_packages:
         return build_remote_file_lists_for_package_files(
             weather_model,
             initialization_time,
@@ -68,25 +69,25 @@ def build_remote_file_lists_for_variable_files(
         raise WrongWeatherModelException('Please choose one of [icon_global, icon_eu, '
                                          'cosmo_d2, cosmo_d2_eps, icon_eu_eps]')
 
-    model_config = MODEL_CONFIG[weather_model.value]
-    base_path = Path(model_config[KEY_REMOTE_SERVER])
+    model = WeatherModelConfiguration(weather_model)
+    base_path = Path(model.info[KEY_REMOTE_SERVER])
     remote_file_list = []
-    for variable in model_config[KEY_VARIABLES]:
-        for forecast_step in model_config[KEY_FORECAST_STEPS][initialization_time]:
+    for variable in model.variables:
+        for forecast_step in model.info[KEY_FORECAST_STEPS][initialization_time]:
             remote_file_list.append(
                 Path(
                     base_path,
-                    model_config[KEY_DIRECTORY_TEMPLATE].format(
+                    model.info[KEY_DIRECTORY_TEMPLATE].format(
                         initialization_time=str(initialization_time).zfill(2),
-                        variable_name_lower=MODEL_VARIABLES_MAPPING[weather_model.value][variable],
+                        variable_name_lower=model.variable(variable),
                     ),
-                    model_config[KEY_FILE_TEMPLATE].format(
-                        level_type=MODEL_VARIABLES_LEVELS_MAPPING[weather_model.value][variable],
-                        initialization_date=run_date.strftime(model_config[KEY_INITIALIZATION_DATE_FORMAT]),
+                    model.info[KEY_FILE_TEMPLATE].format(
+                        level_type=model.level(variable),
+                        initialization_date=run_date.strftime(model.info[KEY_INITIALIZATION_DATE_FORMAT]),
                         initialization_time=str(initialization_time).zfill(2),
                         forecast_step=str(forecast_step).zfill(3),
-                        variable_name_upper=MODEL_VARIABLES_MAPPING[weather_model.value][variable].upper(),
-                        variable_name_lower=MODEL_VARIABLES_MAPPING[weather_model.value][variable],
+                        variable_name_upper=model.variable(variable).upper(),
+                        variable_name_lower=model.variable(variable),
                     ))
             )
     return remote_file_list
@@ -116,10 +117,12 @@ def build_remote_file_lists_for_package_files(
                              WeatherModels.HARMONIE_KNMI]:
         raise WrongWeatherModelException('Please choose one of [arome_meteo_france, geos5, gfs, harmonie_knmi]')
 
-    model_config = MODEL_CONFIG[weather_model.value]
-    base_path = Path(model_config[KEY_REMOTE_SERVER])
+    model = WeatherModelConfiguration(weather_model)
+    model_config = model.info
+
+    base_path = Path(model.info[KEY_REMOTE_SERVER])
     remote_file_list = []
-    for grib_package in model_config[KEY_GRIB_PACKAGE_TYPES]:
+    for grib_package in model.grib_packages:
         if KEY_FORECAST_STEPS[:-1] in model_config[KEY_FILE_TEMPLATE]:
             for forecast_step in model_config[KEY_FORECAST_STEPS][initialization_time]:
                 remote_file_list.append(

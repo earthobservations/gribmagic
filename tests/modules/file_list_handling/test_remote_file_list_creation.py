@@ -18,7 +18,7 @@ from gribmagic.modules.file_list_handling.remote_file_list_creation import \
 
 
 @patch(
-    'gribmagic.modules.file_list_handling.remote_file_list_creation.MODEL_CONFIG',
+    'gribmagic.models.MODEL_CONFIG',
     {
         WeatherModels.ICON_EU.value:
             {
@@ -53,7 +53,7 @@ def test_build_remote_model_file_lists_wrong_weather_model():
 
 
 @patch(
-    'gribmagic.modules.file_list_handling.remote_file_list_creation.MODEL_CONFIG',
+    'gribmagic.models.MODEL_CONFIG',
     {
         WeatherModels.AROME_METEO_FRANCE.value:
             {
@@ -79,7 +79,7 @@ def test_build_remote_model_file_lists_for_package():
 
 
 @patch(
-    'gribmagic.modules.file_list_handling.remote_file_list_creation.MODEL_CONFIG',
+    'gribmagic.models.MODEL_CONFIG',
     {
         WeatherModels.AROME_METEO_FRANCE.value:
             {

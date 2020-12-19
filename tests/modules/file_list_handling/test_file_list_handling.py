@@ -8,7 +8,7 @@ from gribmagic.modules.config.constants import KEY_VARIABLES, KEY_FORECAST_STEPS
 
 
 @patch(
-    'gribmagic.modules.file_list_handling.local_file_list_creation.MODEL_CONFIG',
+    'gribmagic.models.MODEL_CONFIG',
     {
         WeatherModels.ICON_EU.value:
             {
@@ -23,7 +23,7 @@ from gribmagic.modules.config.constants import KEY_VARIABLES, KEY_FORECAST_STEPS
             }}
 )
 @patch(
-    'gribmagic.modules.file_list_handling.remote_file_list_creation.MODEL_CONFIG',
+    'gribmagic.models.MODEL_CONFIG',
     {
         WeatherModels.ICON_EU.value:
             {

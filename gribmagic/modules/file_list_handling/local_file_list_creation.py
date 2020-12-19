@@ -1,4 +1,4 @@
-""" functions to create remote lists of rmote files that should be downloaded """
+""" functions to create remote lists of remote files that should be downloaded """
 from datetime import datetime
 from typing import Dict, List
 import os
@@ -6,8 +6,8 @@ import os
 from pathlib import Path
 
 from gribmagic.enumerations.weather_models import WeatherModels
-from gribmagic.modules.config.configurations import MODEL_CONFIG
-from gribmagic.modules.config.constants import KEY_VARIABLES, LOCAL_FILE_POSTFIX,\
+from gribmagic.models import WeatherModelConfiguration
+from gribmagic.modules.config.constants import LOCAL_FILE_POSTFIX,\
     KEY_FORECAST_STEPS, KEY_GRIB_PACKAGE_TYPES, KEY_FILE_POSTFIX, \
     KEY_FILE_TEMPLATE
 from gribmagic.exceptions.grib_package_exception import GribPackageException
@@ -30,10 +30,10 @@ def build_local_store_file_list_for_variables(
         List of local store file paths
 
     """
-    model_config = MODEL_CONFIG[weather_model.value]
+    model = WeatherModelConfiguration(weather_model)
     base_path = Path(os.environ['BASE_STORE_DIR'])
     local_file_list = []
-    for variable in model_config[KEY_VARIABLES]:
+    for variable in model.variables:
         local_file_list.append(
             Path(
                 base_path,
@@ -61,10 +61,9 @@ def build_local_file_list(
         List of temporary locally stored files 
 
     """
-    model_config = MODEL_CONFIG[weather_model.value]
-    grib_packages = KEY_GRIB_PACKAGE_TYPES in list(model_config.keys())
-    
-    if grib_packages and weather_model not in [WeatherModels.AROME_METEO_FRANCE,
+    model = WeatherModelConfiguration(weather_model)
+
+    if model.has_grib_packages and weather_model not in [WeatherModels.AROME_METEO_FRANCE,
                                                WeatherModels.GEOS5,
                                                WeatherModels.GFS_025,
                                                WeatherModels.HARMONIE_KNMI]:
@@ -74,19 +73,19 @@ def build_local_file_list(
         return _local_file_paths_for_harmonie(
             run_date,
             initialization_time,
-            model_config
+            model.info
         )
-    elif grib_packages:
-        variables_iterator = model_config[KEY_GRIB_PACKAGE_TYPES]
+    elif model.has_grib_packages:
+        variables_iterator = model.info[KEY_GRIB_PACKAGE_TYPES]
     else:
-        variables_iterator = model_config[KEY_VARIABLES]
+        variables_iterator = model.variables
 
     return _build_local_file_list_with_variables_iterator(
         weather_model,
         run_date,
         initialization_time,
         variables_iterator,
-        model_config)
+        model.info)
 
 
 def _build_local_file_list_with_variables_iterator(
