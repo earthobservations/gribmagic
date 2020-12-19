@@ -44,7 +44,7 @@ export MODEL_VARIABLES_MAPPING=config/model_variables_mapping.yml
 export MODEL_VARIABLES_LEVELS_MAPPING=config/model_variables_levels_mapping.yml
 
 PYTHONPATH=$(pwd)
-python src/pipelines/run.py run_model_download icon_eu 2020-12-19T00:00:00Z
+python gribmagic/pipelines/run.py run_model_download icon_eu 2020-12-19T00:00:00Z
 ```
 
 ## Configuration

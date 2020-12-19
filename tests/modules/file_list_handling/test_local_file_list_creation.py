@@ -1,18 +1,18 @@
-from src.modules.file_list_handling.local_file_list_creation import \
+from gribmagic.modules.file_list_handling.local_file_list_creation import \
     build_local_file_list, build_local_store_file_list_for_variables, \
     _local_file_paths_for_harmonie
 from unittest.mock import patch
-from src.enumerations.weather_models import WeatherModels
+from gribmagic.enumerations.weather_models import WeatherModels
 from datetime import datetime
 from pathlib import Path
 import pytest
-from src.exceptions.grib_package_exception import GribPackageException
-from src.modules.config.constants import KEY_VARIABLES, KEY_GRIB_PACKAGE_TYPES, KEY_FORECAST_STEPS, \
+from gribmagic.exceptions.grib_package_exception import GribPackageException
+from gribmagic.modules.config.constants import KEY_VARIABLES, KEY_GRIB_PACKAGE_TYPES, KEY_FORECAST_STEPS, \
     KEY_FILE_POSTFIX, KEY_FILE_TEMPLATE
 
 
 @patch(
-    'src.modules.file_list_handling.local_file_list_creation.MODEL_CONFIG',
+    'gribmagic.modules.file_list_handling.local_file_list_creation.MODEL_CONFIG',
     {
         WeatherModels.ICON_EU.value:
             {
@@ -32,7 +32,7 @@ def test_build_local_file_list_for_variables():
 
 
 @patch(
-    'src.modules.file_list_handling.local_file_list_creation.MODEL_CONFIG',
+    'gribmagic.modules.file_list_handling.local_file_list_creation.MODEL_CONFIG',
     {
         WeatherModels.ICON_EU.value: {
             KEY_VARIABLES: ['air_temperature_2m'],
@@ -50,7 +50,7 @@ def test_build_local_store_file_list_for_variables():
 
 
 @patch(
-    'src.modules.file_list_handling.local_file_list_creation.MODEL_CONFIG',
+    'gribmagic.modules.file_list_handling.local_file_list_creation.MODEL_CONFIG',
     {
         WeatherModels.ICON_EU.value: {
             KEY_VARIABLES: ['air_temperature_2m'],
@@ -71,7 +71,7 @@ def test_build_local_file_list_for_variables_not_grib_package():
 
 
 @patch(
-    'src.modules.file_list_handling.local_file_list_creation.MODEL_CONFIG',
+    'gribmagic.modules.file_list_handling.local_file_list_creation.MODEL_CONFIG',
     {
         WeatherModels.AROME_METEO_FRANCE.value: {
             KEY_VARIABLES: ['air_temperature_2m'],
@@ -91,7 +91,7 @@ def test_build_local_file_list_for_variables_grib_package():
 
 
 @patch(
-    'src.modules.file_list_handling.local_file_list_creation.MODEL_CONFIG',
+    'gribmagic.modules.file_list_handling.local_file_list_creation.MODEL_CONFIG',
     {
         WeatherModels.HARMONIE_KNMI.value:
             {

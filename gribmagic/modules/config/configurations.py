@@ -1,6 +1,6 @@
 """ provides parsed configurations"""
 
-from src.modules.config.parse_configurations import parse_model_config, \
+from gribmagic.modules.config.parse_configurations import parse_model_config, \
     parse_model_variables_mapping, parse_model_variables_levels_mapping
 
 

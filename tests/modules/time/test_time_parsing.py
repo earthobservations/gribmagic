@@ -3,7 +3,7 @@ import pytz
 
 import pytest
 
-from src.modules.time.time_parsing import convert_iso_timestamp_to_date_time
+from gribmagic.modules.time.time_parsing import convert_iso_timestamp_to_date_time
 
 
 def test_convert_iso_to_date_time_valid():

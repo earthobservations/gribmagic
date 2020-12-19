@@ -5,12 +5,12 @@ import os
 
 from pathlib import Path
 
-from src.enumerations.weather_models import WeatherModels
-from src.modules.config.configurations import MODEL_CONFIG
-from src.modules.config.constants import KEY_VARIABLES, LOCAL_FILE_POSTFIX,\
+from gribmagic.enumerations.weather_models import WeatherModels
+from gribmagic.modules.config.configurations import MODEL_CONFIG
+from gribmagic.modules.config.constants import KEY_VARIABLES, LOCAL_FILE_POSTFIX,\
     KEY_FORECAST_STEPS, KEY_GRIB_PACKAGE_TYPES, KEY_FILE_POSTFIX, \
     KEY_FILE_TEMPLATE
-from src.exceptions.grib_package_exception import GribPackageException
+from gribmagic.exceptions.grib_package_exception import GribPackageException
 
 
 def build_local_store_file_list_for_variables(

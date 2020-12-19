@@ -1,5 +1,5 @@
 import pytest
-from src.modules.download.local_store import bunzip_store, store, tarfile_store
+from gribmagic.modules.download.local_store import bunzip_store, store, tarfile_store
 from io import BytesIO
 import os
 from pathlib import Path

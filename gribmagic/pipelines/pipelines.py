@@ -1,12 +1,12 @@
 """ pre defined pipelines for download """
-from src.modules.file_list_handling.file_list_handling import \
+from gribmagic.modules.file_list_handling.file_list_handling import \
     build_model_file_lists
-from src.enumerations.weather_models import WeatherModels
+from gribmagic.enumerations.weather_models import WeatherModels
 from datetime import datetime
-from src.modules.time.time_parsing import \
+from gribmagic.modules.time.time_parsing import \
     convert_iso_timestamp_to_date_time
 from typing import Union
-from src.modules.download.download import download
+from gribmagic.modules.download.download import download
 
 
 def run_model_download(
@@ -19,7 +19,7 @@ def run_model_download(
 
     example:
 
-    python3 src/pipelines/run.py run_model_download icon_eu 2020-06-24T00:00:00Z
+    python3 gribmagic/pipelines/run.py run_model_download icon_eu 2020-06-24T00:00:00Z
 
     Args:
         weather_model: is one of 

@@ -9,11 +9,11 @@ from io import BytesIO
 from typing import Dict, List, Tuple
 from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
 
-from src.enumerations.weather_models import WeatherModels
-from src.modules.download.local_store import bunzip_store, store, tarfile_store
-from src.modules.config.constants import KEY_LOCAL_FILE_PATHS, \
+from gribmagic.enumerations.weather_models import WeatherModels
+from gribmagic.modules.download.local_store import bunzip_store, store, tarfile_store
+from gribmagic.modules.config.constants import KEY_LOCAL_FILE_PATHS, \
     KEY_REMOTE_FILE_PATHS, KEY_COMPRESSION, KEY_REMOTE_SERVER_TYPE
-from src.modules.config.configurations import MODEL_CONFIG
+from gribmagic.modules.config.configurations import MODEL_CONFIG
 
 session = requests.Session()
 logger = logging.getLogger(__name__)

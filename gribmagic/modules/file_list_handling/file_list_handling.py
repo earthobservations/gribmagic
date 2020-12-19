@@ -3,13 +3,13 @@ from datetime import datetime
 from pathlib import Path
 from typing import Dict, List
 
-from src.enumerations.weather_models import WeatherModels
-from src.modules.config.constants import KEY_LOCAL_FILE_PATHS, \
+from gribmagic.enumerations.weather_models import WeatherModels
+from gribmagic.modules.config.constants import KEY_LOCAL_FILE_PATHS, \
     KEY_REMOTE_FILE_PATHS, KEY_LOCAL_STORE_FILE_PATHS
-from src.modules.file_list_handling.local_file_list_creation import \
+from gribmagic.modules.file_list_handling.local_file_list_creation import \
     build_local_file_list, \
     build_local_store_file_list_for_variables
-from src.modules.file_list_handling.remote_file_list_creation import \
+from gribmagic.modules.file_list_handling.remote_file_list_creation import \
     build_remote_file_list
 
 

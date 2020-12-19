@@ -3,11 +3,11 @@ import os
 from io import BytesIO
 from pathlib import Path
 
-from src.modules.download.local_store import bunzip_store
-from src.modules.parsing.parse_grib_data import concatenate_all_variable_files, \
+from gribmagic.modules.download.local_store import bunzip_store
+from gribmagic.modules.parsing.parse_grib_data import concatenate_all_variable_files, \
     open_grib_file, extract_variables_per_dataset_in_list
-from src.enumerations.unified_forecast_variables import ForecastVariables
-from src.modules.config.constants import KEY_LOCAL_FILE_PATHS, \
+from gribmagic.enumerations.unified_forecast_variables import ForecastVariables
+from gribmagic.modules.config.constants import KEY_LOCAL_FILE_PATHS, \
     KEY_LIST_INDEX, KEY_LEVEL_TYPE
 
 output_file = Path(os.getcwd(), 'tests', 'modules', 'download', 'fixtures',

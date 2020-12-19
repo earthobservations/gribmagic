@@ -4,12 +4,12 @@ from typing import List
 
 from pathlib import Path
 
-from src.enumerations.weather_models import WeatherModels
-from src.modules.config.configurations import MODEL_CONFIG, MODEL_VARIABLES_MAPPING, MODEL_VARIABLES_LEVELS_MAPPING
-from src.modules.config.constants import KEY_FORECAST_STEPS, KEY_DIRECTORY_TEMPLATE, \
+from gribmagic.enumerations.weather_models import WeatherModels
+from gribmagic.modules.config.configurations import MODEL_CONFIG, MODEL_VARIABLES_MAPPING, MODEL_VARIABLES_LEVELS_MAPPING
+from gribmagic.modules.config.constants import KEY_FORECAST_STEPS, KEY_DIRECTORY_TEMPLATE, \
     KEY_FILE_TEMPLATE, KEY_REMOTE_SERVER, KEY_GRIB_PACKAGE_TYPES, KEY_VARIABLES, \
     KEY_INITIALIZATION_DATE_FORMAT, KEY_FORECAST_STEPS_STR_LEN
-from src.exceptions.wrong_weather_model_exception import WrongWeatherModelException
+from gribmagic.exceptions.wrong_weather_model_exception import WrongWeatherModelException
 
 
 def build_remote_file_list(

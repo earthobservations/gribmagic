@@ -4,21 +4,21 @@ from unittest.mock import patch
 
 import pytest
 
-from src.enumerations.weather_models import WeatherModels
-from src.exceptions.wrong_weather_model_exception import \
+from gribmagic.enumerations.weather_models import WeatherModels
+from gribmagic.exceptions.wrong_weather_model_exception import \
     WrongWeatherModelException
-from src.modules.config.constants import KEY_VARIABLES, KEY_GRIB_PACKAGE_TYPES, \
+from gribmagic.modules.config.constants import KEY_VARIABLES, KEY_GRIB_PACKAGE_TYPES, \
     KEY_FORECAST_STEPS, \
     KEY_DIRECTORY_TEMPLATE, KEY_REMOTE_SERVER, KEY_FILE_TEMPLATE, \
     KEY_INITIALIZATION_DATE_FORMAT, KEY_FORECAST_STEPS_STR_LEN
-from src.modules.file_list_handling.remote_file_list_creation import \
+from gribmagic.modules.file_list_handling.remote_file_list_creation import \
     build_remote_file_lists_for_variable_files, \
     build_remote_file_lists_for_package_files, \
     build_remote_file_list
 
 
 @patch(
-    'src.modules.file_list_handling.remote_file_list_creation.MODEL_CONFIG',
+    'gribmagic.modules.file_list_handling.remote_file_list_creation.MODEL_CONFIG',
     {
         WeatherModels.ICON_EU.value:
             {
@@ -53,7 +53,7 @@ def test_build_remote_model_file_lists_wrong_weather_model():
 
 
 @patch(
-    'src.modules.file_list_handling.remote_file_list_creation.MODEL_CONFIG',
+    'gribmagic.modules.file_list_handling.remote_file_list_creation.MODEL_CONFIG',
     {
         WeatherModels.AROME_METEO_FRANCE.value:
             {
@@ -79,7 +79,7 @@ def test_build_remote_model_file_lists_for_package():
 
 
 @patch(
-    'src.modules.file_list_handling.remote_file_list_creation.MODEL_CONFIG',
+    'gribmagic.modules.file_list_handling.remote_file_list_creation.MODEL_CONFIG',
     {
         WeatherModels.AROME_METEO_FRANCE.value:
             {

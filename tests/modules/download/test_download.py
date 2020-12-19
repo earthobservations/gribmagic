@@ -3,12 +3,12 @@ import os
 from pathlib import Path
 import responses
 
-from src.enumerations.weather_models import WeatherModels
-from src.modules.config.constants import KEY_LOCAL_FILE_PATHS,\
+from gribmagic.enumerations.weather_models import WeatherModels
+from gribmagic.modules.config.constants import KEY_LOCAL_FILE_PATHS,\
     KEY_REMOTE_FILE_PATHS, KEY_LOCAL_STORE_FILE_PATHS, KEY_COMPRESSION
-from src.modules.download.download import __download_parallel, __download, \
+from gribmagic.modules.download.download import __download_parallel, __download, \
     download, __download_tar_file
-from src.modules.config.configurations import MODEL_CONFIG as test_config
+from gribmagic.modules.config.configurations import MODEL_CONFIG as test_config
 
 test_config[WeatherModels.ICON_EU.value][KEY_COMPRESSION] = ''
 
@@ -97,7 +97,7 @@ def test_download_store_parallel():
 
 """
 @patch(
-    'src.modules.download.download.urlopen',
+    'gribmagic.modules.download.download.urlopen',
     MagicMock(
         return_value=open(f"{os.getcwd()}/tests/modules/download/fixtures/"
               f"fixture.tar",
@@ -105,7 +105,7 @@ def test_download_store_parallel():
     )
 )
 @patch(
-    'src.modules.download.download.MODEL_CONFIG',
+    'gribmagic.modules.download.download.MODEL_CONFIG',
     MagicMock(
         return_value=test_config
     )
@@ -123,7 +123,7 @@ def test_download_store_tarfile():
 
 
 @patch(
-    'src.modules.download.download.urlopen',
+    'gribmagic.modules.download.download.urlopen',
     MagicMock(
         return_value=open(f"{os.getcwd()}/tests/modules/download/fixtures/"
               f"fixture.tar",

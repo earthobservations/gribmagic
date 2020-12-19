@@ -1,14 +1,14 @@
-from src.modules.file_list_handling.file_list_handling import build_model_file_lists
+from gribmagic.modules.file_list_handling.file_list_handling import build_model_file_lists
 from unittest.mock import patch
-from src.enumerations.weather_models import WeatherModels
+from gribmagic.enumerations.weather_models import WeatherModels
 from datetime import datetime
 from pathlib import Path
-from src.modules.config.constants import KEY_VARIABLES, KEY_FORECAST_STEPS, \
+from gribmagic.modules.config.constants import KEY_VARIABLES, KEY_FORECAST_STEPS, \
     KEY_DIRECTORY_TEMPLATE, KEY_REMOTE_SERVER, KEY_FILE_TEMPLATE, KEY_INITIALIZATION_DATE_FORMAT, KEY_FILE_POSTFIX
 
 
 @patch(
-    'src.modules.file_list_handling.local_file_list_creation.MODEL_CONFIG',
+    'gribmagic.modules.file_list_handling.local_file_list_creation.MODEL_CONFIG',
     {
         WeatherModels.ICON_EU.value:
             {
@@ -23,7 +23,7 @@ from src.modules.config.constants import KEY_VARIABLES, KEY_FORECAST_STEPS, \
             }}
 )
 @patch(
-    'src.modules.file_list_handling.remote_file_list_creation.MODEL_CONFIG',
+    'gribmagic.modules.file_list_handling.remote_file_list_creation.MODEL_CONFIG',
     {
         WeatherModels.ICON_EU.value:
             {

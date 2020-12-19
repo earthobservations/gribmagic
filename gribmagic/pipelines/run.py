@@ -2,7 +2,7 @@
 import sys
 import fire
 import logging
-from src.pipelines.pipelines import run_model_download
+from gribmagic.pipelines.pipelines import run_model_download
 
 logger = logging.getLogger(__name__)
 

@@ -3,7 +3,7 @@ from typing import Dict
 import os
 import yaml
 
-from src.modules.config.constants import KEY_FORECAST_STEPS
+from gribmagic.modules.config.constants import KEY_FORECAST_STEPS
 
 
 def parse_model_config() -> Dict[str, any]:

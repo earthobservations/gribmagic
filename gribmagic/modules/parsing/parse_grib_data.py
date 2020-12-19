@@ -5,8 +5,8 @@ from typing import Dict, List, Union, Hashable
 import cfgrib
 import xarray
 
-from src.enumerations.unified_forecast_variables import ForecastVariables
-from src.modules.config.constants import KEY_LOCAL_FILE_PATHS, \
+from gribmagic.enumerations.unified_forecast_variables import ForecastVariables
+from gribmagic.modules.config.constants import KEY_LOCAL_FILE_PATHS, \
     KEY_LEVEL_TYPE, KEY_LIST_INDEX
 
 NOT_RELEVANT_ATTRIBUTES = ['time', 'latitude', 'longitude', 'valid_time',
