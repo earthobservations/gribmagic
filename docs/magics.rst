@@ -50,5 +50,5 @@ Demo
     python -m Magics selfcheck
 
     wget http://download.ecmwf.int/test-data/magics/2m_temperature.grib
-    python demo/magics.py
+    python demo/magics.py 2m_temperature.grib
     open magics.png

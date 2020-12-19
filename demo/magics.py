@@ -1,16 +1,18 @@
 # https://pypi.org/project/Magics/
+import sys
+
 from Magics import macro as magics
 
 
-def magics_demo():
+def magics_demo(filepath):
 
     # Setting of the output file name
     output = magics.output(output_name="magics",
                            output_formats=['png'],
                            output_name_first_page_number="off")
 
-    # Import the  data
-    data = magics.mgrib(grib_input_file_name="2m_temperature.grib")
+    # Import the data
+    data = magics.mgrib(grib_input_file_name=filepath)
 
     # Apply an automatic styling
     contour = magics.mcont(contour_automatic_setting="ecmwf")
@@ -19,4 +21,6 @@ def magics_demo():
 
 
 if __name__ == "__main__":
-    magics_demo()
+    #filepath = "2m_temperature.grib"
+    filepath = sys.argv[1]
+    magics_demo(filepath)
