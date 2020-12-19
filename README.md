@@ -33,9 +33,21 @@ pip install --requirement requirements.txt --requirement requirements-dev.txt
 make test
 ```
 
-# Configuration
 
-### Environment variables
+# Run program
+
+## Ad hoc usage
+```
+export BASE_STORE_DIR=.gribmagic-data
+export MODEL_CONFIG=config/model_config.yml
+export MODEL_VARIABLES_MAPPING=config/model_variables_mapping.yml
+export MODEL_VARIABLES_LEVELS_MAPPING=config/model_variables_levels_mapping.yml
+
+PYTHONPATH=$(pwd)
+python src/pipelines/run.py run_model_download icon_eu 2020-12-19T00:00:00Z
+```
+
+## Configuration
 To use this project you have to define the following environment variables:
 ```
 BASE_STORE_DIR={PATH_TO_PROJECT}/data
@@ -49,7 +61,7 @@ ECCODES_DEFINITION_PATH=/usr/share/eccodes/definitions:/usr/local/opt/eccodes/sh
 The **BASE_STORE_DIR** points to the project intern **data** directory per default. 
 
 
-# Using Docker
+# Run program in Docker
 
 To use gribmagic in a Docker container, you have to build the Docker image like
 ```
