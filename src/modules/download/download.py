@@ -1,12 +1,13 @@
 """
 handle download of nwp from remote servers
 """
+import logging
+import requests
 from pathlib import Path
 from urllib.request import urlopen
 from io import BytesIO
 from typing import Dict, List, Tuple
 from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
-
 
 from src.enumerations.weather_models import WeatherModels
 from src.modules.download.local_store import bunzip_store, store, tarfile_store
@@ -14,7 +15,10 @@ from src.modules.config.constants import KEY_LOCAL_FILE_PATHS, \
     KEY_REMOTE_FILE_PATHS, KEY_COMPRESSION, KEY_REMOTE_SERVER_TYPE
 from src.modules.config.configurations import MODEL_CONFIG
 
-DEFAULT_NUMBER_OF_PARALLEL_PROCESSES = 2
+session = requests.Session()
+logger = logging.getLogger(__name__)
+
+DEFAULT_NUMBER_OF_PARALLEL_PROCESSES = 4
 
 
 def download(
@@ -30,7 +34,7 @@ def download(
         __download_tar_file(weather_model,
                             model_file_lists[KEY_REMOTE_FILE_PATHS][0],
                             model_file_lists[KEY_LOCAL_FILE_PATHS])
-        return None
+        return
 
     if parallel_download:
         download_specifications = \
@@ -60,17 +64,32 @@ def __download(
     Returns:
         Stores a file in temporary directory
     """
-    weather_model = download_specification[0].value
-    downloaded_file = urlopen(
-        f"{MODEL_CONFIG[weather_model][KEY_REMOTE_SERVER_TYPE]}:"
-        f"//{download_specification[2]}")
 
-    if not download_specification[1].parent.is_dir(): download_specification[1].parent.mkdir()
+    # Compute source URL and target file.
+    weather_model = download_specification[0].value
+    url = f"{MODEL_CONFIG[weather_model][KEY_REMOTE_SERVER_TYPE]}:" \
+          f"//{download_specification[2]}"
+    target_file = download_specification[1]
+
+    if target_file.exists():
+        return
+
+    logger.info(f"Downloading {url} to {target_file}")
+
+    try:
+        response = session.get(url, stream=True)
+        response.raise_for_status()
+    except Exception as ex:
+        logger.warning(f"Access failed: {ex}")
+        return
+
+    if not target_file.parent.is_dir():
+        target_file.parent.mkdir()
 
     if MODEL_CONFIG[weather_model][KEY_COMPRESSION] == 'bz2':
-        bunzip_store(BytesIO(downloaded_file.read()), download_specification[1])
+        bunzip_store(BytesIO(response.raw.read()), target_file)
     else:
-        store(downloaded_file, download_specification[1])
+        store(response.raw, target_file)
 
 
 def __download_parallel(

@@ -1,6 +1,7 @@
-from unittest.mock import patch, MagicMock
+import re
 import os
 from pathlib import Path
+import responses
 
 from src.enumerations.weather_models import WeatherModels
 from src.modules.config.constants import KEY_LOCAL_FILE_PATHS,\
@@ -11,19 +12,22 @@ from src.modules.config.configurations import MODEL_CONFIG as test_config
 
 test_config[WeatherModels.ICON_EU.value][KEY_COMPRESSION] = ''
 
+input_file = f"{os.getcwd()}/tests/modules/download/fixtures/" \
+             f"icon-eu_europe_regular-lat-lon_single-level_2020062300_000_T_2M.grib2.bz2"
 output_file = Path(os.getcwd(), 'tests', 'modules', 'download', 'fixtures',
                    'air_temperature_2m.grib2')
 
 
-@patch(
-    'src.modules.download.download.urlopen',
-    MagicMock(
-        return_value=open(f"{os.getcwd()}/tests/modules/download/fixtures/"
-              f"icon-eu_europe_regular-lat-lon_single-level_2020062300_000_T_2M.grib2.bz2",
-              'rb')
-    )
-)
+@responses.activate
 def test___download():
+
+    responses.add(
+        method=responses.GET,
+        url=re.compile(".*"),
+        body=open(input_file, "rb"),
+        stream=True,
+    )
+
     __download((WeatherModels.ICON_EU,
                 output_file,
                 Path('test', 'mock')))
@@ -33,15 +37,16 @@ def test___download():
     os.remove(output_file)
 
 
-@patch(
-    'src.modules.download.download.urlopen',
-    MagicMock(
-        return_value=open(f"{os.getcwd()}/tests/modules/download/fixtures/"
-              f"icon-eu_europe_regular-lat-lon_single-level_2020062300_000_T_2M.grib2.bz2",
-              'rb')
-    )
-)
+@responses.activate
 def test___download_parallel():
+
+    responses.add(
+        method=responses.GET,
+        url=re.compile(".*"),
+        body=open(input_file, "rb"),
+        stream=True,
+    )
+
     __download_parallel([(WeatherModels.ICON_EU,
                 output_file,
                 Path('test', 'mock'))])
@@ -51,39 +56,16 @@ def test___download_parallel():
     os.remove(output_file)
 
 
-@patch(
-    'src.modules.download.download.urlopen',
-    MagicMock(
-        return_value=open(f"{os.getcwd()}/tests/modules/download/fixtures/"
-              f"icon-eu_europe_regular-lat-lon_single-level_2020062300_000_T_2M.grib2.bz2",
-              'rb')
-    )
-)
-def test_download_bunzip():
-    download(WeatherModels.ICON_EU,
-             {KEY_LOCAL_FILE_PATHS: [output_file],
-              KEY_REMOTE_FILE_PATHS: [Path('test', 'mock')],
-              KEY_LOCAL_STORE_FILE_PATHS: [Path('not', 'used', 'in', 'download')]})
-
-    assert output_file.is_file() is True
-    os.remove(output_file)
-
-
-@patch(
-    'src.modules.download.download.urlopen',
-    MagicMock(
-        return_value=open(f"{os.getcwd()}/tests/modules/download/fixtures/"
-              f"icon-eu_europe_regular-lat-lon_single-level_2020062300_000_T_2M.grib2.bz2",
-              'rb')
-    )
-)
-@patch(
-    'src.modules.download.download.MODEL_CONFIG',
-    MagicMock(
-        return_value=test_config
-    )
-)
+@responses.activate
 def test_download_store():
+
+    responses.add(
+        method=responses.GET,
+        url=re.compile(".*"),
+        body=open(input_file, "rb"),
+        stream=True,
+    )
+
     download(WeatherModels.ICON_EU,
              {KEY_LOCAL_FILE_PATHS: [output_file],
               KEY_REMOTE_FILE_PATHS: [Path('test', 'mock')],
@@ -93,15 +75,16 @@ def test_download_store():
     os.remove(output_file)
 
 
-@patch(
-    'src.modules.download.download.urlopen',
-    MagicMock(
-        return_value=open(f"{os.getcwd()}/tests/modules/download/fixtures/"
-              f"icon-eu_europe_regular-lat-lon_single-level_2020062300_000_T_2M.grib2.bz2",
-              'rb')
+@responses.activate
+def test_download_store_parallel():
+
+    responses.add(
+        method=responses.GET,
+        url=re.compile(".*"),
+        body=open(input_file, "rb"),
+        stream=True,
     )
-)
-def test_download_parallel():
+
     download(WeatherModels.ICON_EU,
              {KEY_LOCAL_FILE_PATHS: [output_file],
               KEY_REMOTE_FILE_PATHS: [Path('test', 'mock')],
