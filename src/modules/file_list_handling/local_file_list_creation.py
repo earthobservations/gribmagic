@@ -107,7 +107,7 @@ def _build_local_file_list_with_variables_iterator(
                         'tmp',
                         f"{weather_model.value}_{run_date.strftime('%Y%m%d')}_"
                         f"{str(initialization_time).zfill(2)}_{var}_"
-                        f"{forecast_step}.{model_config[KEY_FILE_POSTFIX]}"
+                        f"{str(forecast_step).zfill(3)}.{model_config[KEY_FILE_POSTFIX]}"
                     ))
         else:
             local_file_list.append(

@@ -42,8 +42,8 @@ def test_build_model_file_lists():
                            0,
                            datetime(2020, 6, 10).date())
     assert to_test == \
-           {'local_file_paths': [Path('/app/data/tmp/icon_eu_20200610_00_air_temperature_2m_0.grib'),
-                                 Path('/app/data/tmp/icon_eu_20200610_00_air_temperature_2m_1.grib')],
+           {'local_file_paths': [Path('/app/data/tmp/icon_eu_20200610_00_air_temperature_2m_000.grib'),
+                                 Path('/app/data/tmp/icon_eu_20200610_00_air_temperature_2m_001.grib')],
             'remote_file_paths': [Path('test1/test_remote_dir/00/t_2m/test_remote_file_single-level_2020061000_000_T_2M.grib2.bz2'),
                                   Path('test1/test_remote_dir/00/t_2m/test_remote_file_single-level_2020061000_001_T_2M.grib2.bz2')],
             'local_store_file_paths': [Path('/app/data/icon_eu/20200610_00/air_temperature_2m.nc')]
