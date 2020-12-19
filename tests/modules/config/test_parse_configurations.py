@@ -92,7 +92,7 @@ def test_parse_model_variables_mapping():
                        'grid_scale_rain': 'rain_gsp',
                        'global_horizontal_irradiance': 'asob_s',
                        'direct_normal_irradiance': 'aswdir_s',
-                       'diffuse_horizontal_irradiance': 'aswdiff_s',
+                       'diffuse_horizontal_irradiance': 'aswdifd_s',
                        'mixed_layer_cape': 'cape_ml',
                        'pressure_mean_sea_level': 'pmsl',
                        'max_air_temperature_2m': 'tmax_2m',
