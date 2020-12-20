@@ -150,4 +150,5 @@ harmonie_knmi:
     directory_template: 0000/00/00
     file_template: harm40_{grib_package_type}_{initialization_time}.tar
     file_postfix: grib
+    compression: tar
     initialization_date_format: ''

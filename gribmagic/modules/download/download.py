@@ -29,7 +29,9 @@ def download(
         download weather forecasts
     """
 
-    if weather_model == WeatherModels.HARMONIE_KNMI:
+    model = WeatherModelSettings(weather_model)
+
+    if model.info[KEY_COMPRESSION] == "tar":
         __download_tar_file(weather_model,
                             model_file_lists[KEY_REMOTE_FILE_PATHS][0],
                             model_file_lists[KEY_LOCAL_FILE_PATHS])

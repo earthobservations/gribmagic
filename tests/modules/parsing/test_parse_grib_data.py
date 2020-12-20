@@ -10,12 +10,12 @@ from gribmagic.enumerations.unified_forecast_variables import ForecastVariables
 from gribmagic.modules.config.constants import KEY_LOCAL_FILE_PATHS, \
     KEY_LIST_INDEX, KEY_LEVEL_TYPE
 
+input_file = f"{os.getcwd()}/.gribmagic-testdata/" \
+             f"icon-eu_europe_regular-lat-lon_single-level_2020062300_000_T_2M.grib2.bz2"
 output_file = Path(os.getcwd(), 'tests', 'modules', 'download', 'fixtures',
                    'air_temperature_2m.grib2')
 
-with open(f"{os.getcwd()}/tests/modules/download/fixtures/"
-          f"icon-eu_europe_regular-lat-lon_single-level_2020062300_000_T_2M.grib2.bz2",
-          'rb') as file:
+with open(input_file, 'rb') as file:
     test_data = file.read()
 
 

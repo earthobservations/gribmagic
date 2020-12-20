@@ -7,9 +7,9 @@ from gribmagic.enumerations.weather_models import WeatherModels
 from gribmagic.modules.config.constants import KEY_LOCAL_FILE_PATHS,\
     KEY_REMOTE_FILE_PATHS, KEY_LOCAL_STORE_FILE_PATHS
 from gribmagic.modules.download.download import __download_parallel, __download, \
-    download, __download_tar_file
+    download
 
-input_file = f"{os.getcwd()}/tests/modules/download/fixtures/" \
+input_file = f"{os.getcwd()}/.gribmagic-testdata/" \
              f"icon-eu_europe_regular-lat-lon_single-level_2020062300_000_T_2M.grib2.bz2"
 output_file = Path(os.getcwd(), 'tests', 'modules', 'download', 'fixtures',
                    'air_temperature_2m.grib2')
@@ -96,8 +96,7 @@ def test_download_store_bz2_parallel():
 @responses.activate
 def test_download_store_tar():
 
-    input_file = f"{os.getcwd()}/tests/modules/download/fixtures/" \
-                 f"harm40_v1_p1_2019061100-single.tar"
+    input_file = f"{os.getcwd()}/.gribmagic-testdata/harm40_v1_p1_2019061100-single.tar"
 
     output_file = Path(os.getcwd(), 'tests', 'modules', 'download', 'fixtures',
                        'harmonie_knmi_20190611_00_0.grib')
