@@ -128,9 +128,18 @@ def __download_tar_file(
         local_file_list:
 
     Returns:
-
     """
-    downloaded_file = urlopen(
-        f"{MODEL_CONFIG[weather_model.value][KEY_REMOTE_SERVER_TYPE]}:"
-        f"//{remote_file}")
-    tarfile_store(downloaded_file, local_file_list)
+
+    model = WeatherModelSettings(weather_model)
+
+    url = f"{model.info[KEY_REMOTE_SERVER_TYPE]}:" \
+          f"//{remote_file}"
+
+    try:
+        response = session.get(url, stream=True)
+        response.raise_for_status()
+    except Exception as ex:
+        logger.warning(f"Access failed: {ex}")
+        return
+
+    tarfile_store(BytesIO(response.raw.read()), local_file_list)

@@ -54,7 +54,7 @@ def test___download_parallel():
 
 
 @responses.activate
-def test_download_store():
+def test_download_store_bz2_sequential():
 
     responses.add(
         method=responses.GET,
@@ -73,7 +73,7 @@ def test_download_store():
 
 
 @responses.activate
-def test_download_store_parallel():
+def test_download_store_bz2_parallel():
 
     responses.add(
         method=responses.GET,
@@ -92,46 +92,27 @@ def test_download_store_parallel():
 
     os.remove(output_file)
 
-"""
-@patch(
-    'gribmagic.modules.download.download.urlopen',
-    MagicMock(
-        return_value=open(f"{os.getcwd()}/tests/modules/download/fixtures/"
-              f"fixture.tar",
-              'rb')
+
+@responses.activate
+def test_download_store_tar():
+
+    input_file = f"{os.getcwd()}/tests/modules/download/fixtures/" \
+                 f"harm40_v1_p1_2019061100-single.tar"
+
+    output_file = Path(os.getcwd(), 'tests', 'modules', 'download', 'fixtures',
+                       'harmonie_knmi_20190611_00_0.grib')
+
+    responses.add(
+        method=responses.GET,
+        url=re.compile(".*"),
+        body=open(input_file, "rb"),
+        stream=True,
     )
-)
-@patch(
-    'gribmagic.modules.download.download.MODEL_CONFIG',
-    MagicMock(
-        return_value=test_config
-    )
-)
-def test_download_store_tarfile():
-    tarfile_output = Path(os.getcwd(), 'tests', 'modules', 'download', 'fixtures',
-                   'harmonie_knmi_20200711_00_0.grib')
+
     download(WeatherModels.HARMONIE_KNMI,
-             {KEY_LOCAL_FILE_PATHS: [tarfile_output],
+             {KEY_LOCAL_FILE_PATHS: [output_file],
               KEY_REMOTE_FILE_PATHS: [Path('test', 'mock')],
               KEY_LOCAL_STORE_FILE_PATHS: [Path('not', 'used', 'in', 'download')]})
 
-    assert tarfile_output.is_file() is True
-    os.remove(tarfile_output)
-
-
-@patch(
-    'gribmagic.modules.download.download.urlopen',
-    MagicMock(
-        return_value=open(f"{os.getcwd()}/tests/modules/download/fixtures/"
-              f"fixture.tar",
-              'rb')
-    )
-)
-def test___download_tar_file():
-    tarfile_output = Path(os.getcwd(), 'tests', 'modules', 'download', 'fixtures',
-                   'harmonie_knmi_20200711_00_0.grib')
-    __download_tar_file(WeatherModels.HARMONIE_KNMI, Path('test', 'mock'), [tarfile_output])
-
-    assert tarfile_output.is_file() is True
-    os.remove(tarfile_output)
-"""
+    assert output_file.is_file() is True
+    os.remove(output_file)
