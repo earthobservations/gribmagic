@@ -72,9 +72,9 @@ icon_eu_eps:
       6: [[0, 49, 1], [48, 123, 3]]
       12: [[0, 49, 1], [48, 123, 3]]
       18: [[0, 49, 1], [48, 123, 3]]
-    variables: [air_temperature_2m, wind_u, wind_v, max_wind_gust, temperature, wind_u_10m, wind_v_10m,
+    variables: [air_temperature_2m, wind_u, wind_v, max_wind_gust_10m, temperature, wind_u_10m, wind_v_10m,
                 total_precipitation, convective_snow, grid_scale_snow, convective_rain, grid_scale_rain,
-                surface_specific_humidity, direct_normal_irradiance, diffuse_horizontal_irradiance]
+                direct_normal_irradiance, diffuse_horizontal_irradiance]
     directory_template: icon-eu-eps/grib/{initialization_time}/{variable_name_lower}
     file_template: icon-eu-eps_europe_icosahedral_{level_type}_{initialization_date}{initialization_time}_{forecast_step}_{variable_name_lower}.grib2.bz2
 
