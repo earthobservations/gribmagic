@@ -10,10 +10,10 @@ from typing import Dict, List, Tuple
 from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
 
 from gribmagic.enumerations.weather_models import WeatherModels
+from gribmagic.models import WeatherModelSettings
 from gribmagic.modules.download.local_store import bunzip_store, store, tarfile_store
 from gribmagic.modules.config.constants import KEY_LOCAL_FILE_PATHS, \
     KEY_REMOTE_FILE_PATHS, KEY_COMPRESSION, KEY_REMOTE_SERVER_TYPE
-from gribmagic.modules.config.configurations import MODEL_CONFIG
 
 session = requests.Session()
 logger = logging.getLogger(__name__)
@@ -30,6 +30,7 @@ def download(
     """
         download weather forecasts
     """
+
     if weather_model == WeatherModels.HARMONIE_KNMI:
         __download_tar_file(weather_model,
                             model_file_lists[KEY_REMOTE_FILE_PATHS][0],
@@ -65,9 +66,11 @@ def __download(
         Stores a file in temporary directory
     """
 
+    weather_model = download_specification[0]
+    model = WeatherModelSettings(weather_model)
+
     # Compute source URL and target file.
-    weather_model = download_specification[0].value
-    url = f"{MODEL_CONFIG[weather_model][KEY_REMOTE_SERVER_TYPE]}:" \
+    url = f"{model.info[KEY_REMOTE_SERVER_TYPE]}:" \
           f"//{download_specification[2]}"
     target_file = download_specification[1]
 
@@ -86,7 +89,7 @@ def __download(
     if not target_file.parent.is_dir():
         target_file.parent.mkdir()
 
-    if MODEL_CONFIG[weather_model][KEY_COMPRESSION] == 'bz2':
+    if model.info[KEY_COMPRESSION] == 'bz2':
         bunzip_store(BytesIO(response.raw.read()), target_file)
     else:
         store(response.raw, target_file)

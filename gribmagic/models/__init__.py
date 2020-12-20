@@ -7,7 +7,7 @@ from gribmagic.modules.config.constants import KEY_VARIABLES, KEY_GRIB_PACKAGE_T
 logger = logging.getLogger(__name__)
 
 
-class WeatherModelConfiguration:
+class WeatherModelSettings:
 
     cache = {}
 

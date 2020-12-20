@@ -5,12 +5,9 @@ import responses
 
 from gribmagic.enumerations.weather_models import WeatherModels
 from gribmagic.modules.config.constants import KEY_LOCAL_FILE_PATHS,\
-    KEY_REMOTE_FILE_PATHS, KEY_LOCAL_STORE_FILE_PATHS, KEY_COMPRESSION
+    KEY_REMOTE_FILE_PATHS, KEY_LOCAL_STORE_FILE_PATHS
 from gribmagic.modules.download.download import __download_parallel, __download, \
     download, __download_tar_file
-from gribmagic.modules.config.configurations import MODEL_CONFIG as test_config
-
-test_config[WeatherModels.ICON_EU.value][KEY_COMPRESSION] = ''
 
 input_file = f"{os.getcwd()}/tests/modules/download/fixtures/" \
              f"icon-eu_europe_regular-lat-lon_single-level_2020062300_000_T_2M.grib2.bz2"

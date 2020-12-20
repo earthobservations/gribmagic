@@ -5,7 +5,7 @@ from typing import List
 from pathlib import Path
 
 from gribmagic.enumerations.weather_models import WeatherModels
-from gribmagic.models import WeatherModelConfiguration
+from gribmagic.models import WeatherModelSettings
 from gribmagic.modules.config.constants import KEY_FORECAST_STEPS, KEY_DIRECTORY_TEMPLATE, \
     KEY_FILE_TEMPLATE, KEY_REMOTE_SERVER, \
     KEY_INITIALIZATION_DATE_FORMAT, KEY_FORECAST_STEPS_STR_LEN
@@ -29,7 +29,7 @@ def build_remote_file_list(
         List of remote file paths
 
     """
-    model = WeatherModelConfiguration(weather_model)
+    model = WeatherModelSettings(weather_model)
     if model.has_grib_packages:
         return remote_files_grib_packages(
             weather_model,
@@ -63,7 +63,7 @@ def remote_files_grib_directories(
 
     """
 
-    model = WeatherModelConfiguration(weather_model)
+    model = WeatherModelSettings(weather_model)
 
     # Sanity checks
     if model.has_grib_packages:
@@ -111,7 +111,7 @@ def remote_files_grib_packages(
 
     """
 
-    model = WeatherModelConfiguration(weather_model)
+    model = WeatherModelSettings(weather_model)
 
     # Sanity checks
     if not model.has_grib_packages:

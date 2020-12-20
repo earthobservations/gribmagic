@@ -6,7 +6,7 @@ import os
 from pathlib import Path
 
 from gribmagic.enumerations.weather_models import WeatherModels
-from gribmagic.models import WeatherModelConfiguration
+from gribmagic.models import WeatherModelSettings
 from gribmagic.modules.config.constants import LOCAL_FILE_POSTFIX,\
     KEY_FORECAST_STEPS, KEY_GRIB_PACKAGE_TYPES, KEY_FILE_POSTFIX, \
     KEY_FILE_TEMPLATE
@@ -30,7 +30,7 @@ def build_local_store_file_list_for_variables(
         List of local store file paths
 
     """
-    model = WeatherModelConfiguration(weather_model)
+    model = WeatherModelSettings(weather_model)
     base_path = Path(os.environ['BASE_STORE_DIR'])
     local_file_list = []
     for variable in model.variables:
@@ -61,7 +61,7 @@ def build_local_file_list(
         List of temporary locally stored files 
 
     """
-    model = WeatherModelConfiguration(weather_model)
+    model = WeatherModelSettings(weather_model)
 
     if weather_model == WeatherModels.HARMONIE_KNMI:
         return _local_file_paths_for_harmonie(
