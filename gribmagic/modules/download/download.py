@@ -4,8 +4,6 @@ handle download of nwp from remote servers
 import logging
 import requests
 from pathlib import Path
-from urllib.request import urlopen
-from io import BytesIO
 from typing import Dict, List, Tuple
 from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
 
@@ -90,7 +88,7 @@ def __download(
         target_file.parent.mkdir()
 
     if model.info[KEY_COMPRESSION] == 'bz2':
-        bunzip_store(BytesIO(response.raw.read()), target_file)
+        bunzip_store(response.raw, target_file)
     else:
         store(response.raw, target_file)
 
@@ -142,4 +140,4 @@ def __download_tar_file(
         logger.warning(f"Access failed: {ex}")
         return
 
-    tarfile_store(BytesIO(response.raw.read()), local_file_list)
+    tarfile_store(response.raw, local_file_list)
