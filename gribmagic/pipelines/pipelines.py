@@ -23,7 +23,9 @@ def run_model_download(
 
     Args:
         weather_model: is one of 
-            - ICON_EU or COSMO_D2, or ncep_gfs_025
+            - icon_global, icon_eu, icon_eu_eps
+            - cosmo_d2, cosmo_d2_eps
+            - ncep_gfs_025, arome_meteo_france, harmonie_knmi
         initialization_timestamp: 
             - nwp run initialization time
 
