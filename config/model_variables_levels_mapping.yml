@@ -33,6 +33,9 @@ icon_eu: &icon_eu
      snowfall_height: single-level
      turbulent_kinetic_energy: model-level
 
+icon_eu_eps: &icon_eu_eps
+     <<: *icon_eu
+
 cosmo_d2: &cosmo_d2
      <<: *icon_eu
      max_radar_reflectivity: single-level
