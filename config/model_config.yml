@@ -92,7 +92,7 @@ cosmo_d2:
       18: [[0, 28,1]]
       21:  [[0, 28,1]]
     variables: [air_temperature_2m, snow_height, max_wind_gust_10m, wind_u_10m, wind_v_10m, dewpoint_2m,
-                total_precipitation, convective_snow, grid_scale_snow, convective_rain, grid_scale_rain,
+                total_precipitation, grid_scale_snow, grid_scale_rain,
                 global_horizontal_irradiance, direct_normal_irradiance, diffuse_horizontal_irradiance,
                 mixed_layer_cape, pressure_mean_sea_level, max_air_temperature_2m, min_air_temperature_2m,
                 weather_synop_code, soil_temperature, total_cloud_cover, relative_humidity_2m, temperature,
