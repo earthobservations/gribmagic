@@ -10,3 +10,11 @@ download-testdata:
 test: download-testdata
 	rm tests/modules/download/fixtures/* || true
 	pytest tests
+
+install-skinnywms-macos-10-13:
+	wget https://files.pythonhosted.org/packages/e9/2f/28cdbfbf7165d89c4c574babe7ac12e994266e03fe3cae201d63cc0f471a/ecmwflibs-0.0.94-cp38-cp38-macosx_10_14_x86_64.whl
+	mv ecmwflibs-0.0.94-cp38-cp38-macosx_10_14_x86_64.whl ecmwflibs-0.0.94-cp38-cp38-macosx_10_13_x86_64.whl
+	pip install ecmwflibs-0.0.94-cp38-cp38-macosx_10_13_x86_64.whl
+	pip install skinnywms
+	pip uninstall ecmwflibs
+	rm ecmwflibs-0.0.94-cp38-cp38-macosx_10_13_x86_64.whl

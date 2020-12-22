@@ -39,3 +39,19 @@ cachetools==4.2.0
 # Environment
 #ipython==7.19.0
 #ipython-genutils==0.2.0
+
+
+# Publishing
+
+# Publishing (WMS)
+#skinnywms==0.7.0
+#OWSLib==0.21.0
+
+# Publishing (Xarray/Zarr)
+#xpublish==0.1.0
+#fsspec==0.8.5
+#aiohttp==3.7.3
+#zarr==2.6.1
+
+# Publishing (DAP)
+#pydap==git+https://github.com/pydap/pydap
