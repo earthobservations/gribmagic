@@ -26,7 +26,6 @@ from typing import List
 
 import click
 from click_option_group import optgroup, RequiredMutuallyExclusiveOptionGroup
-from country_bounding_boxes import country_subunits_by_iso_code
 
 logger = logging.getLogger(__name__)
 
@@ -58,6 +57,7 @@ class BBox:
         :param country_iso: 2-letter country code
         :return: BBox instance
         """
+        from country_bounding_boxes import country_subunits_by_iso_code
 
         # Lookup using "country_bounding_boxes"
         # responds with (lon1, lat1, lon2, lat2) tuple.
@@ -451,7 +451,7 @@ def main(input: List[str], output: str, country: str, bbox: tuple, method: str, 
     subgrid = GRIBSubset(input=map(Path, input), output=output, bbox=bbox, method=method, use_netcdf=use_netcdf, plot=plot)
     results = subgrid.process()
 
-    print(json.dumps(results, default=json_serializer))
+    print(json.dumps(results, default=json_serializer, indent=4))
 
 
 if __name__ == "__main__":

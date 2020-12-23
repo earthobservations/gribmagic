@@ -43,7 +43,11 @@ Synopsis
 ========
 Obtain subset area using bounding box, with plotting::
 
+    # Install cdo.
     brew install cdo
+
+    # For plotting, install Magics.
+    # See ``magics.rst``.
 
     export MAGPLUS_HOME=/usr/local/opt/magics
     export INFILE=.gribmagic-data/tmp/icon_eu_20201220_00_air_temperature_2m_000.grib2
