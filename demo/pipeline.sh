@@ -19,7 +19,6 @@ python demo/pipeline/pipeline.py \
 python demo/grib_bbox.py \
   "${PATH_RAW}/**/*.grib2" --output=${PATH_SUBGRID} \
   --bbox=46.0 47.5 14.5 16.8 \
-  --use-netcdf --method=xarray \
   --plot
 
 # Display plot.
