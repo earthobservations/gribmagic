@@ -341,9 +341,10 @@ class GRIBSubset:
 
         # Import the data
         if self.use_netcdf:
-            # https://github.com/ecmwf/magics-python/issues/25
             # TODO: How to derive the parameter "t2m" automatically?
-            data = magics.mnetcdf(netcdf_filename=str(infile), netcdf_value_variable="t2m")
+            # https://github.com/ecmwf/magics-python/issues/25
+            netcdf_variable = netcdf_variable_by_filename(infile)
+            data = magics.mnetcdf(netcdf_filename=str(infile), netcdf_value_variable=netcdf_variable)
         else:
             data = magics.mgrib(grib_input_file_name=str(infile))
 
@@ -373,6 +374,28 @@ class GRIBSubset:
         magics.plot(output, projection, data, contour, coast)
 
         return Path(outfile_real)
+
+
+def netcdf_variable_by_filename(filename):
+    # Map file name to variable. When reading netCDF files,
+    # one has to know this upfront.
+    # FIXME: This has to generalized.
+    file_to_variable_map = {
+        "t_2m.nc": "t2m",
+        "u.nc": "u",
+        "v.nc": "v",
+        "vmax_10m.nc": "gust",
+    }
+    netcdf_variable = None
+    for suffix, variable in file_to_variable_map.items():
+        if suffix.lower() in str(filename):
+            netcdf_variable = variable
+            break
+
+    if not netcdf_variable:
+        raise ValueError(f"Unknown variable mapping when plotting {filename}")
+
+    return netcdf_variable
 
 
 def setup_logging(level=logging.INFO) -> None:
