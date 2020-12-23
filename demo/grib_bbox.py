@@ -15,6 +15,7 @@ GNU Affero General Public License for more details.
 You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
+import glob
 import json
 import logging
 import os
@@ -167,6 +168,8 @@ class GRIBSubset:
         results: List[ProcessingResult] = []
         for infile in self.input:
 
+            logger.info(f"Processing file {infile}")
+
             item = ProcessingResult(inputfile=infile)
 
             # Render GRIB.
@@ -175,8 +178,12 @@ class GRIBSubset:
 
             # Render PNG.
             if self.do_plot:
-                pngfile = self.plot(gribfile_subgrid)
-                item.plotfile = pngfile
+                try:
+                    pngfile = self.plot(gribfile_subgrid)
+                    item.plotfile = pngfile
+                except Exception as ex:
+                    logger.warning(f"Unable to plot: {ex}")
+                    pass
 
             results.append(item)
 
@@ -405,7 +412,7 @@ def setup_logging(level=logging.INFO) -> None:
     :param level:
     :return:
     """
-    log_format = "%(asctime)-15s [%(name)-30s] %(levelname)-7s: %(message)s"
+    log_format = "%(asctime)-15s [%(name)-15s] %(levelname)-7s: %(message)s"
     logging.basicConfig(format=log_format, stream=sys.stderr, level=level)
 
 
@@ -429,7 +436,7 @@ def json_serializer(obj):
     
     """)
 @click.argument("input",
-              type=click.Path(readable=True, writable=False, exists=True, file_okay=True, dir_okay=False),
+              type=click.Path(file_okay=True, dir_okay=True),
               required=True,
               nargs=-1)
 @click.option("--output",
@@ -471,9 +478,17 @@ def main(input: List[str], output: str, country: str, bbox: tuple, method: str, 
         bbox = BBox.from_coordinates(bbox)
     logger.info(f"Using bounding box {bbox}")
 
-    subgrid = GRIBSubset(input=map(Path, input), output=output, bbox=bbox, method=method, use_netcdf=use_netcdf, plot=plot)
+    # Resolve wildcards from input parameter.
+    input_paths = []
+    for input_element in input:
+        path = glob.glob(input_element, recursive=True)
+        input_paths += path
+
+    # Invoke the machinery.
+    subgrid = GRIBSubset(input=map(Path, input_paths), output=output, bbox=bbox, method=method, use_netcdf=use_netcdf, plot=plot)
     results = subgrid.process()
 
+    # Report about the outcome.
     print(json.dumps(results, default=json_serializer, indent=4))
 
 
