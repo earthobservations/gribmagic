@@ -50,3 +50,5 @@ Intake-esm Release 2020.3.16
 
 Tech Talks: Intake - Taking the pain out of data access (2020-09-29)
 - https://mpimet.mpg.de/en/science/seminars/seminar-detail?tx_seminars_pi1%5BshowUid%5D=2005
+- https://www.dkrz.de/up/de-news-and-events/de-tech-talks/de-dkrz-tech-talk-intake-taking-the-pain-out-of-data-access
+- https://gitlab.dkrz.de/m300524/intake_taking_the_pain_out_of_data_access
