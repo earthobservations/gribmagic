@@ -18,3 +18,7 @@ install-skinnywms-macos-10-13:
 	pip install skinnywms
 	pip uninstall ecmwflibs
 	rm ecmwflibs-0.0.94-cp38-cp38-macosx_10_13_x86_64.whl
+
+install-dwd-grib-downloader:
+	git clone --branch=rewrite https://github.com/mhaberler/docker-dwd-open-data-downloader tools/dwd-grib-downloader || \
+	    (cd tools/dwd-grib-downloader && git pull)

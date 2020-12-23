@@ -6,3 +6,5 @@ __pycache__
 .gribmagic-data
 .gribmagic-testdata
 tests/modules/download/fixtures
+
+tools/dwd-grib-downloader
