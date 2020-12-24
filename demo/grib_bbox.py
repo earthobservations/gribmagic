@@ -348,9 +348,8 @@ class GRIBSubset:
 
         # Import the data
         if self.use_netcdf:
-            # TODO: How to derive the parameter "t2m" automatically?
-            # https://github.com/ecmwf/magics-python/issues/25
-            netcdf_variable = netcdf_variable_by_filename(infile)
+            # When plotting netCDF, the variable name has to be given.
+            netcdf_variable = get_netcdf_main_variable(infile)
             data = magics.mnetcdf(netcdf_filename=str(infile), netcdf_value_variable=netcdf_variable)
         else:
             data = magics.mgrib(grib_input_file_name=str(infile))
@@ -383,26 +382,27 @@ class GRIBSubset:
         return Path(outfile_real)
 
 
-def netcdf_variable_by_filename(filename):
-    # Map file name to variable. When reading netCDF files,
-    # one has to know this upfront.
-    # FIXME: This has to generalized.
-    file_to_variable_map = {
-        "t_2m.nc": "t2m",
-        "u.nc": "u",
-        "v.nc": "v",
-        "vmax_10m.nc": "gust",
-    }
-    netcdf_variable = None
-    for suffix, variable in file_to_variable_map.items():
-        if suffix.lower() in str(filename):
-            netcdf_variable = variable
-            break
+def get_netcdf_main_variable(filename: str) -> str:
+    """
+    Return first variable from netCDF file.
+    This is usually what you want.
 
-    if not netcdf_variable:
-        raise ValueError(f"Unknown variable mapping when plotting {filename}")
+    Examples:
 
-    return netcdf_variable
+    >>> f.variables.keys()
+    dict_keys(['t2m', 'time', 'step', 'heightAboveGround', 'latitude', 'longitude', 'valid_time'])
+
+    >>> f.variables.keys()
+    dict_keys(['u', 'time', 'step', 'isobaricInhPa', 'latitude', 'longitude', 'valid_time'])
+
+    :param filename:
+    :return:
+    """
+    import netCDF4
+    nc = netCDF4.Dataset(filename)
+    first_variable = list(nc.variables.keys())[0]
+    nc.close()
+    return first_variable
 
 
 def setup_logging(level=logging.INFO) -> None:
