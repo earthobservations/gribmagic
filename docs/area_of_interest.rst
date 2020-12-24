@@ -22,6 +22,12 @@ Those two example programs might be helpful::
     python demo/grib_iterator.py .gribmagic-data/tmp/icon_eu_20201219_00_air_temperature_2m_000.grib2
     python demo/grib_nearest.py .gribmagic-data/tmp/icon_eu_20201219_00_air_temperature_2m_000.grib2
 
+.. info::
+
+    See also `Extract data from GRIB/NetCDF for a specific location and time`_.
+
+.. _Extract data from GRIB/NetCDF for a specific location and time: https://confluence.ecmwf.int/pages/viewpage.action?pageId=81014955
+
 
 ************
 Bounding box

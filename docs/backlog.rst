@@ -31,8 +31,13 @@ Prio 2
 - [o] Scheduling
 - [o] Unlock ERA5 and TIGGE
 - [o] Convert to JSON or CSV
+    - https://github.com/DeutscherWetterdienst/python-eccodes#example-4-extract-data-from-grib-file-as-json
+    - https://github.com/DeutscherWetterdienst/python-eccodes#example-3-extract-data-from-grib-file-as-csv
+    - https://confluence.ecmwf.int/display/CKB/How+to+convert+GRIB+to+CSV
 - [o] Convert to netCDF
 - [o] Integrate regridding
+    - https://github.com/DeutscherWetterdienst/regrid
+    - https://confluence.ecmwf.int/display/CKB/How+to+plot+GRIB+files+with+Python+and+matplotlib
 - [o] Include Magics, CDO and more into Docker image
     - https://code.mpimet.mpg.de/projects/cdo
     - https://github.com/DeutscherWetterdienst/python-eccodes
