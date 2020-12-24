@@ -1,3 +1,4 @@
+MAGICS_PREFIX = /usr/local/opt/magics
 TESTDATA_PATH = $(PWD)/.gribmagic-testdata
 
 download-testdata:
@@ -10,6 +11,15 @@ download-testdata:
 test: download-testdata
 	rm tests/modules/download/fixtures/* || true
 	pytest tests
+
+install-magics:
+	mkdir -p tmp/download tmp/build/magics
+	wget https://confluence.ecmwf.int/download/attachments/3473464/Magics-4.5.2-Source.tar.gz \
+	    --directory-prefix=tmp/download --no-clobber
+	cd tmp/download; tar -xzf Magics-4.5.2-Source.tar.gz
+	cd tmp/build/magics; \
+	    cmake -DCMAKE_INSTALL_PREFIX=$(MAGICS_PREFIX) ../../download/Magics-4.5.2-Source; \
+	    make -j8 && make install
 
 install-skinnywms-macos-10-13:
 	wget https://files.pythonhosted.org/packages/e9/2f/28cdbfbf7165d89c4c574babe7ac12e994266e03fe3cae201d63cc0f471a/ecmwflibs-0.0.94-cp38-cp38-macosx_10_14_x86_64.whl

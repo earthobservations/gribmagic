@@ -8,3 +8,4 @@ __pycache__
 tests/modules/download/fixtures
 
 tools/dwd-grib-downloader
+tmp

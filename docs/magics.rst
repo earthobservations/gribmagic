@@ -30,7 +30,7 @@ Setup
 ::
 
     brew install eccodes
-    wget https://confluence.ecmwf.int/download/attachments/3473464/Magics-4.5.2-Source.tar.gz?api=v2
+    wget https://confluence.ecmwf.int/download/attachments/3473464/Magics-4.5.2-Source.tar.gz
     tar -xzf Magics-4.5.2-Source.tar.gz
 
     cd /tmp/build
