@@ -24,7 +24,7 @@ jobs:
     - name: Install dependencies
       run: |
         sudo apt-get install libeccodes0
-        pip install --requirement requirements.txt --requirement requirements-dev.txt
+        pip install --requirement=requirements.txt --requirement=requirements-dev.txt
 
     - name: Run tests
       run: make test

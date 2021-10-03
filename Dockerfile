@@ -9,6 +9,7 @@ RUN set -ex \
     && apt install -y apt-transport-https curl
 
 COPY ./requirements.txt /opt/requirements.txt
+COPY ./requirements-dev.txt /opt/requirements-dev.txt
 
 WORKDIR /tmp
 RUN set -ex \
@@ -26,17 +27,13 @@ RUN set -ex \
         libeccodes0 \
         wget \
         bzip2 \
-
-    && pip install -r /opt/requirements.txt \
+    \
+    && pip install --requirement=/opt/requirements.txt --requirement=/opt/requirements-dev.txt \
     && apt-get remove -y $buildDeps \
     && apt-get autoremove -y
 
 ENV PYTHONPATH "/app:/app"
-ENV BASE_STORE_DIR "/app/data/"
-
-ENV MODEL_CONFIG "/app/config/model_config.yml"
-ENV MODEL_VARIABLES_MAPPING "/app/config/model_variables_mapping.yml"
-ENV MODEL_VARIABLES_LEVELS_MAPPING "/app/config/model_variables_levels_mapping.yml"
+ENV GM_DATA_PATH "/app/data/"
 
 ENV ECCODES_DEFINITION_PATH=/app/eccodes/definitions:/usr/share/eccodes/definitions
 
