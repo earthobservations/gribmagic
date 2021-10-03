@@ -42,3 +42,16 @@ COSMO-CLM version 5.0 with spectral nudging from 2002-2017.
 MERRA2 reanalysis data are used as forcing.
 
 -- https://cera-www.dkrz.de/WDCC/ui/cerasearch/entry?acronym=coastDat3_COSMO-CLM_MERRA2
+
+
+************
+CMIP / CMIP6
+************
+The objective of the Coupled Model Intercomparison Project (CMIP) is to better
+understand past, present and future climate changes arising from natural,
+unforced variability or in response to changes in radiative forcing in a
+multi-model context.
+
+- https://www.wcrp-climate.org/wgcm-cmip
+- https://www.wcrp-climate.org/wgcm-cmip/wgcm-cmip6
+- https://www.carbonbrief.org/cmip6-the-next-generation-of-climate-models-explained

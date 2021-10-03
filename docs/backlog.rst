@@ -22,6 +22,9 @@ Prio 1
 - [o] Implement "regular-lat-lon" vs. "rotated-lat-lon" downloads (#4)
 - [o] Notify upstream about troubles with SkinnyWMS and Xpublish
 
+- [o] Regridding
+  - https://github.com/jbusecke/cmip6_preprocessing/issues/38
+
 - [o] Release on PyPI
 
 
@@ -41,6 +44,11 @@ Prio 2
 - [o] Include Magics, CDO and more into Docker image
     - https://code.mpimet.mpg.de/projects/cdo
     - https://github.com/DeutscherWetterdienst/python-eccodes
+- [o] Add plotting with cf-plot.
+    - https://ajheaps.github.io/cf-plot/
+    - https://github.com/ajheaps/cf-plot
+- [o] Movies
+  - https://github.com/jbusecke/xmovie
 
 
 *****

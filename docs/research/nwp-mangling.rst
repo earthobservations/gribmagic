@@ -25,14 +25,18 @@ Processing
 Extraction and manipulation
 ===========================
 Utils on top of pygrib for extracting metadata and manipulating grib files.
+https://github.com/innovationgarage/gributils
 
--- https://github.com/innovationgarage/gributils
+Customizable tool that efficiently downloads subsets of grib2 files from NOAA.
+https://github.com/cacraig/grib-inventory
 
 
 Regridding
 ==========
 - https://www.dwd.de/DE/leistungen/opendata/help/modelle/Opendata_cdo_EN.pdf?__blob=publicationFile
 - https://github.com/DeutscherWetterdienst/regrid
+- https://github.com/xgcm/xgcm/blob/master/xgcm/regridding.py
+- https://github.com/jbusecke/cmip6_preprocessing/issues/38
 - https://code.mpimet.mpg.de/projects/cdo
 - https://www.cpc.ncep.noaa.gov/products/wesley/wgrib2/
 - https://www.cpc.ncep.noaa.gov/products/wesley/wgrib2/wgrib2m.html

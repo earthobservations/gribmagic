@@ -21,6 +21,7 @@ formats, such as PostScript, EPS, PDF, GIF, PNG and SVG.
 Magics uses the Terralib library in cooperation with Brazil's INPE.
 
 - https://confluence.ecmwf.int/display/MAGP
+- https://confluence.ecmwf.int/display/MAGP/Releases
 - https://pypi.org/project/Magics/
 
 
@@ -30,11 +31,16 @@ Setup
 ::
 
     brew install eccodes
-    wget https://confluence.ecmwf.int/download/attachments/3473464/Magics-4.5.2-Source.tar.gz
-    tar -xzf Magics-4.5.2-Source.tar.gz
 
-    cd /tmp/build
-    cmake -DCMAKE_INSTALL_PREFIX=/usr/local/opt/magics ~/Downloads/Magics-4.5.2-Source
+    MAGICS_VERSION=4.5.3
+    MAGICS_VERSION=4.8.2
+
+    cd ~/Downloads
+    wget https://confluence.ecmwf.int/download/attachments/3473464/Magics-${MAGICS_VERSION}-Source.tar.gz
+    tar -xzf Magics-${MAGICS_VERSION}-Source.tar.gz
+
+    rm -rf /tmp/build; mkdir -p /tmp/build; cd /tmp/build
+    cmake -DCMAKE_INSTALL_PREFIX=/usr/local/opt/magics ~/Downloads/Magics-${MAGICS_VERSION}-Source
     make -j8
     make install
 
