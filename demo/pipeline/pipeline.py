@@ -17,6 +17,7 @@ Beforehand, install ``opendata-downloader.py`` by typing
 It
 """
 import logging
+from copy import deepcopy
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import List
@@ -24,6 +25,9 @@ from typing import List
 import click
 
 from demo.pipeline.util import setup_logging, load_module
+
+HERE = Path(__file__)
+GRIBMAGIC_PATH = HERE.parent.parent.parent
 
 
 @dataclass
@@ -43,7 +47,7 @@ class Recipe:
     model: str
     grid: str
     parameters: List[Parameter]
-    parameter_options: dict
+    parameter_options: dict = None
 
 
 class DwdDownloader:
@@ -58,7 +62,7 @@ class DwdDownloader:
         # Load ``opendata-downloader.py`` as module.
         self.dwdgrib = load_module(
             name="dwd.grib.downloader",
-            path="./tools/dwd-grib-downloader/opendata-downloader.py")
+            path=GRIBMAGIC_PATH / "tools/dwd-grib-downloader/opendata-downloader.py")
 
         # Configure downloader.
         self.dwdgrib.maxWorkers = 4
@@ -83,7 +87,7 @@ class DwdDownloader:
 
         return latestTimestamp
 
-    def download(self, model: str, grid: str, parameter: str, level: str, time_steps: List[int], levels: List[int] = None):
+    def download(self, model: str, grid: str, parameter: str, level: str, timesteps: List[int], levels: List[int] = None):
         """
         Invoke ``opendata-downloader.py`` program.
 
@@ -91,7 +95,7 @@ class DwdDownloader:
         :param grid:
         :param parameter:
         :param level:
-        :param time_steps:
+        :param timesteps:
         :param levels:
         :return:
         """
@@ -100,18 +104,24 @@ class DwdDownloader:
         timestamp = self.get_most_recent_timestamp(model=model, modelrun=self.timestamp)
 
         # Default for "single-level" parameters.
-        levels = levels or [0]
+        if level == "single-level":
+            levels = levels or [0]
+        else:
+            if not levels:
+                raise ValueError(f"""Addressing "{level}"-type data needs "levels" parameter""")
 
-        self.dwdgrib.downloadGribDataSequence(
+        results = self.dwdgrib.downloadGribDataSequence(
             model=model,
             flat=False,
             grid=grid,
             param=parameter,
-            timeSteps=time_steps,
+            timeSteps=timesteps,
             timestamp=timestamp,
             levelRange=levels,
             levtype=level,
             destFilePath=str(self.output))
+
+        return results
 
 
 def process(recipe: Recipe, timestamp: str, output: Path):
@@ -125,14 +135,28 @@ def process(recipe: Recipe, timestamp: str, output: Path):
     """
     downloader = DwdDownloader(output=output, timestamp=timestamp)
     for parameter in recipe.parameters:
-        downloader.download(
+
+        # Merge parameter options, item-level takes precedence.
+        options_default = deepcopy(recipe.parameter_options)
+        options_item = deepcopy(parameter.options)
+        options_effective = options_default
+        options_effective.update(options_item)
+
+        # Invoke downloader.
+        results = downloader.download(
             model=recipe.model,
             grid=recipe.grid,
             parameter=parameter.name,
             level=parameter.level,
-            time_steps=recipe.parameter_options["timesteps"],
-            levels=parameter.options.get("levels")
+            timesteps=options_effective.get("timesteps"),
+            levels=options_effective.get("levels")
         )
+
+        yield results
+
+
+def regrid(filepath):
+    pass
 
 
 @click.command(help="Download GRIB data from DWD.")
@@ -155,8 +179,19 @@ def main(recipe: Path, timestamp: str, output: Path):
 
     recipe_module = load_module("gribmagic.recipe", recipe)
     recipe_instance = recipe_module.recipe
+    print("Recipe:", recipe_instance)
 
-    process(recipe=recipe_instance, timestamp=timestamp, output=output)
+    results = process(recipe=recipe_instance, timestamp=timestamp, output=output)
+    list(results)
+
+    """
+    for chunk in process(recipe=recipe_instance, timestamp=timestamp, output=output):
+        for item in chunk:
+            url = item["url"]
+            file = item["file"]
+            if file and "icosahedral" in file:
+                print(f"FIXME: Run regridding on {file}")
+    """
 
 
 if __name__ == "__main__":

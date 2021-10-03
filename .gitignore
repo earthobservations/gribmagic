@@ -9,3 +9,5 @@ tests/modules/download/fixtures
 
 tools/dwd-grib-downloader
 tmp
+var
+*.old

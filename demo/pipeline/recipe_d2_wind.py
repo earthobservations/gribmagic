@@ -9,6 +9,8 @@ from demo.pipeline.pipeline import Recipe, Parameter
 recipe = Recipe(
     model="icon-d2",
     grid="regular-lat-lon",
+
+    # Acquire wind data
     parameters=[
         Parameter(name="vmax_10m", level="single-level"),
         Parameter(name="u", level="model-level", options={"levels": range(60, 62 + 1)}),

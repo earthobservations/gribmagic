@@ -24,7 +24,7 @@ def load_module(name: str, path: str):
     # Extend module search path.
     modulepath = Path(modulefile).parent.absolute()
 
-    # Satisy importing of ``extendedformatter.py``.
+    # Satisfy importing of ``extendedformatter.py``.
     # No module named 'extendedformatter'
     sys.path.append(str(modulepath))
 
