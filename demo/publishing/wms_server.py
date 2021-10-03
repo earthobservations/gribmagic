@@ -6,7 +6,7 @@ import sys
 # of ``skinnywms.wmssvr`` on the global module scope.
 # Will have to send a pull request to get things straight.
 #
-# So, maybe better use ``skinny-wms --path=$BASE_STORE_DIR/tmp``.
+# So, maybe better use ``skinny-wms --path=$GM_DATA_PATH/tmp``.
 
 
 def wms_server(filepath=None):

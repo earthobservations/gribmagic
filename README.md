@@ -43,9 +43,9 @@ brew install eccodes
 
 Install Python packages.
 ```
-virtualenv .venv --python=python3.8
+python3 -m venv .venv
 source .venv/bin/activate
-pip install --requirement requirements.txt --requirement requirements-dev.txt
+pip install --requirement=requirements.txt --requirement=requirements-dev.txt
 ```
 
 ### Run tests
@@ -58,27 +58,23 @@ make test
 
 ### Ad hoc usage
 ```
-export BASE_STORE_DIR=.gribmagic-data
-export MODEL_CONFIG=config/model_config.yml
-export MODEL_VARIABLES_MAPPING=config/model_variables_mapping.yml
-export MODEL_VARIABLES_LEVELS_MAPPING=config/model_variables_levels_mapping.yml
-
+export GM_DATA_PATH=.gribmagic-data
 export PYTHONPATH=$(pwd)
-python gribmagic/pipelines/run.py run_model_download icon_eu 2020-12-19T00:00:00Z
+python gribmagic/unity/pipelines/run.py run_model_download icon_eu 2021-10-03T00:00:00Z
 ```
 
 ### Configuration
-To use this project you have to define the following environment variables:
+To optionally adjust configuration settings, you can define the following environment variables:
 ```
-BASE_STORE_DIR={PATH_TO_PROJECT}/data
+GM_DATA_PATH={PATH_TO_PROJECT}/data
 
-MODEL_CONFIG={PATH_TO_PROJECT}/config/model_config.yml"
-MODEL_VARIABLES_MAPPING={PATH_TO_PROJECT}/config/model_variables_mapping.yml"
-MODEL_VARIABLES_LEVELS_MAPPING={PATH_TO_PROJECT}/config/model_variables_levels_mapping.yml"
+GM_MODEL_CONFIG={PATH_TO_PROJECT}/config/model_config.yml"
+GM_MODEL_VARIABLES_MAPPING={PATH_TO_PROJECT}/config/model_variables_mapping.yml"
+GM_MODEL_VARIABLES_LEVELS_MAPPING={PATH_TO_PROJECT}/config/model_variables_levels_mapping.yml"
 
 ECCODES_DEFINITION_PATH=/usr/share/eccodes/definitions:/usr/local/opt/eccodes/share/eccodes/definitions
 ```
-The **BASE_STORE_DIR** points to the project intern **data** directory per default. 
+The **GM_DATA_PATH** points to the project intern **data** directory per default. 
 
 
 ## Run program in Docker
