@@ -1,10 +1,7 @@
-.git
-.cache
-**/*.p
-**/*.csv
-**/*.html
-**/*.bz2
-**/*.grib2
-**/*.grib
-**/*.table
-**/*.def
+*
+!gribmagic
+!doc
+!setup.py
+!README.md
+!CONTRIBUTORS.rst
+!LICENSE

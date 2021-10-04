@@ -4,7 +4,11 @@
 
 ![CI](https://github.com/earthobservations/gribmagic/workflows/Tests/badge.svg?branch=main)
 [![codecov](https://codecov.io/gh/earthobservations/gribmagic/branch/main/graph/badge.svg)](https://codecov.io/gh/earthobservations/gribmagic)
-![python](https://img.shields.io/badge/Python-3.7,%203.8-green.svg)
+![python](https://img.shields.io/pypi/pyversions/gribmagic.svg)
+![version](https://img.shields.io/pypi/v/gribmagic.svg)
+![license](https://img.shields.io/pypi/l/gribmagic.svg)
+![status](https://img.shields.io/pypi/status/gribmagic.svg)
+![downloads](https://img.shields.io/pypi/dm/gribmagic.svg)
 
 ![image](https://user-images.githubusercontent.com/453543/102729922-fb641c80-4332-11eb-835d-b022fc5290d9.png)
 
@@ -43,9 +47,11 @@ brew install eccodes
 
 Install Python packages.
 ```
+git clone https://github.com/earthobservations/gribmagic
+cd gribmagic
 python3 -m venv .venv
 source .venv/bin/activate
-pip install --requirement=requirements.txt --requirement=requirements-dev.txt
+pip install --editable=.[test]
 ```
 
 ### Run tests
@@ -59,8 +65,7 @@ make test
 ### Ad hoc usage
 ```
 export GM_DATA_PATH=.gribmagic-data
-export PYTHONPATH=$(pwd)
-python gribmagic/unity/pipelines/run.py run_model_download icon_eu 2021-10-03T00:00:00Z
+gribmagic unity --model=icon_eu --timestamp=2021-10-03T00:00:00Z
 ```
 
 ### Configuration
@@ -81,14 +86,13 @@ The **GM_DATA_PATH** points to the project intern **data** directory per default
 
 To use gribmagic in a Docker container, you have to build the Docker image like
 ```
-docker build -t gribmagic .
+docker build --tag gribmagic .
 ```
 
-To run the tests in the given environment, just call
+and then invoke it like
 ```
-docker run -ti -v $(pwd):/app gribmagic:latest pytest tests/
+docker run -it --volume=$PWD/.gribmagic-data:/var/spool/gribmagic gribmagic:latest gribmagic unity --model=icon_eu --timestamp=2021-10-03T00:00:00Z
 ```
-from the main directory. To work in an iPython shell, you have to change the command `pytest tests/` to `ipython`.
 
 ---
 

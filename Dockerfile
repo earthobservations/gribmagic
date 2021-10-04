@@ -1,4 +1,4 @@
-FROM python:3.8.6-slim
+FROM python:3.9-slim
 MAINTAINER Daniel Lassahn <daniel.lassahn@meteointelligence.de>
 
 ENV DEBIAN_FRONTEND noninteractive
@@ -8,10 +8,6 @@ RUN set -ex \
     && apt update \
     && apt install -y apt-transport-https curl
 
-COPY ./requirements.txt /opt/requirements.txt
-COPY ./requirements-dev.txt /opt/requirements-dev.txt
-
-WORKDIR /tmp
 RUN set -ex \
     && buildDeps=' \
         libnetcdf-dev \
@@ -28,13 +24,16 @@ RUN set -ex \
         wget \
         bzip2 \
     \
-    && pip install --requirement=/opt/requirements.txt --requirement=/opt/requirements-dev.txt \
     && apt-get remove -y $buildDeps \
     && apt-get autoremove -y
 
-ENV PYTHONPATH "/app:/app"
-ENV GM_DATA_PATH "/app/data/"
+# Copy working dir, modulo .dockerignore'ed files.
+COPY . /tmp
+RUN pip install /tmp
 
+# Purge /tmp directory.
+RUN rm -r /tmp/*
+
+RUN mkdir /var/spool/gribmagic
+ENV GM_DATA_PATH "/var/spool/gribmagic"
 ENV ECCODES_DEFINITION_PATH=/app/eccodes/definitions:/usr/share/eccodes/definitions
-
-WORKDIR /app
