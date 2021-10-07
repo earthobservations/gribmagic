@@ -3,11 +3,10 @@ import tempfile
 from gribmagic.unity.modules.download.local_store import bunzip_store, store, tarfile_store
 from io import BytesIO
 import os
-from pathlib import Path
 
-from tests.unity.fixtures import icon_eu_input_file, harmonie_input_file, harmonie_output_file
+from tests.unity.fixtures import testdata_path, icon_eu_input_file, harmonie_input_file, harmonie_output_file
 
-output_file = Path(f"{os.getcwd()}/.gribmagic-testdata/output/test.grib2")
+output_file = testdata_path / "output/test.grib2"
 
 
 def test_bunzip_store():
