@@ -3,7 +3,7 @@
 # GribMagic - generic weather forecast downloader
 
 ![CI](https://github.com/earthobservations/gribmagic/workflows/Tests/badge.svg?branch=main)
-![codecov](https://codecov.io/gh/earthobservations/gribmagic/branch/main/graph/badge.svg)](https://codecov.io/gh/earthobservations/gribmagic)
+[![codecov](https://codecov.io/gh/earthobservations/gribmagic/branch/main/graph/badge.svg)](https://codecov.io/gh/earthobservations/gribmagic)
 ![python](https://img.shields.io/pypi/pyversions/gribmagic.svg)
 ![version](https://img.shields.io/pypi/v/gribmagic.svg)
 ![license](https://img.shields.io/pypi/l/gribmagic.svg)
