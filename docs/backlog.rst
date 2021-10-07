@@ -9,11 +9,26 @@ Prio 1
 - [x] Fix mismatching mappings
 - [x] Add some demo programs for data (re-)publishing
 - [x] Add demo program for selecting area of interest based on bounding box
-- [o] Integrate dwd-data-downloader
+- [x] Inline default mapping YAML files into package
+- [x] Improve test coverage and reactivate Codecov uploads
 - [o] Code refactoring
-- [o] Inline default mapping YAML files into package
-- [o] Add CLI module based on Typer
+- [o] Get rid of ``tmp`` subdirectory
+- [o] Get rid of ``remote_server_type``
+- [o] Optionally obtain target directory (``GM_DATA_PATH``) from command line parameter
+- [o] Improve README
+- [o] Improve sandbox (just type ``make test``)
+- [o] CI: Add test matrix for Python 3.7, 3.8 and 3.9
+- [o] Run ``isort`` and ``black``
+- [o] Release on PyPI
 
+
+******
+Prio 2
+******
+- [o] Ask Daniel for missing commits aac0f51, 6eac45e, 95c0662 re. "Fix KNMI download via API"
+- [o] ``--dry-run`` parameter, just printing the URLs
+- [o] Integrate dwd-data-downloader
+- [o] Add CLI module based on Typer
 - [o] Unlock ICON-D2
 - [o] Download only specific parameters
 
@@ -25,11 +40,12 @@ Prio 1
 - [o] Regridding
   - https://github.com/jbusecke/cmip6_preprocessing/issues/38
 
-- [o] Release on PyPI
+- [o] Improve documentation
+    - https://www.nco.ncep.noaa.gov/pmb/products/gfs/
 
 
 ******
-Prio 2
+Prio 3
 ******
 - [o] Scheduling
 - [o] Unlock ERA5 and TIGGE
