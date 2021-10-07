@@ -43,6 +43,10 @@ highly appreciated.
 
 Install the [ecCodes package by ECMWF](https://confluence.ecmwf.int/display/ECC).
 ```
+# Debian Linux
+apt-get install libeccodes0
+
+# macOS/Homebrew
 brew install eccodes
 ```
 
