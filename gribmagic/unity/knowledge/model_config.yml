@@ -1,7 +1,7 @@
 ncep_gfs_025:
     remote_server: nomads.ncep.noaa.gov/pub/data/nccf/com/gfs/prod
     remote_server_type: https
-    directory_template: gfs.{initialization_date}/{initialization_time}
+    directory_template: gfs.{initialization_date}/{initialization_time}/atmos
     initialization_date_format: '%Y%m%d'
     file_template: gfs.t{initialization_time}z.pgrb2.0p25.f{forecast_step}
     initialization_times: [0,6,12,18]
