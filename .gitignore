@@ -11,3 +11,6 @@ tools/dwd-grib-downloader
 tmp
 var
 *.old
+
+.coverage
+coverage.xml
