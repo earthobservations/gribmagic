@@ -10,6 +10,8 @@ class WeatherModels(Enum):
     COSMO_D2 = 'cosmo_d2'
     COSMO_D2_EPS = 'cosmo_d2_eps'
     GFS_025 = 'ncep_gfs_025'
+    GFS_050 = 'ncep_gfs_050'
+    GFS_100 = 'ncep_gfs_100'
     AROME_METEO_FRANCE = 'arome_meteo_france'
     HARMONIE_KNMI = 'harmonie_knmi'
     ARPEGE = 'arpege'

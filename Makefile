@@ -2,17 +2,21 @@ MAGICS_PREFIX = /usr/local/opt/magics
 PATH_TESTDATA_INPUT = $(PWD)/.gribmagic-testdata/input
 PATH_TESTDATA_OUTPUT = $(PWD)/.gribmagic-testdata/output
 
-download-testdata:
+testdata-download:
 	mkdir -p $(PATH_TESTDATA_INPUT)
 	mkdir -p $(PATH_TESTDATA_OUTPUT)
 	wget https://github.com/earthobservations/testdata/raw/main/opendata.dwd.de/weather/nwp/icon-eu/grib/00/t_2m/icon-eu_europe_regular-lat-lon_single-level_2020062300_000_T_2M.grib2.bz2 \
 	    --directory-prefix $(PATH_TESTDATA_INPUT) --no-clobber
 	wget https://github.com/earthobservations/testdata/raw/main/data.knmi.nl/download/harmonie_arome_cy40_p1/0.2/harm40_v1_p1_2019061100-single.tar \
 	    --directory-prefix $(PATH_TESTDATA_INPUT) --no-clobber
+	wget https://github.com/earthobservations/testdata/raw/main/nomads.ncep.noaa.gov/pub/data/nccf/com/gfs/prod/gfs.20211004/00/atmos/gfs.t00z.pgrb2.1p00.f000 \
+	    --directory-prefix $(PATH_TESTDATA_INPUT) --no-clobber
 
-test: download-testdata
+testoutput-clean:
 	rm $(PATH_TESTDATA_OUTPUT)/* || true
-	pytest tests
+
+test: testdata-download testoutput-clean
+	@pytest -vvv tests
 
 install-magics:
 	mkdir -p tmp/download tmp/build/magics
