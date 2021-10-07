@@ -25,8 +25,8 @@ def test_build_local_file_list_for_variables():
     to_test = build_local_file_list(WeatherModels.ICON_EU,
                                     0,
                                     datetime(2020, 6, 10).date())
-    assert to_test == [Path('/app/data/tmp/icon_eu_20200610_00_air_temperature_2m_000.grib'),
-                       Path('/app/data/tmp/icon_eu_20200610_00_air_temperature_2m_001.grib')]
+    assert to_test == [Path('/app/data/icon_eu_20200610_00_air_temperature_2m_000.grib'),
+                       Path('/app/data/icon_eu_20200610_00_air_temperature_2m_001.grib')]
 
 
 @patch(
@@ -63,8 +63,8 @@ def test_build_local_file_list_for_variables_grib_package():
     to_test = build_local_file_list(WeatherModels.AROME_METEO_FRANCE,
                                     0,
                                     datetime(2020, 6, 10).date())
-    assert to_test == [Path('/app/data/tmp/arome_meteo_france_20200610_00_Package1_000.grib'),
-                       Path('/app/data/tmp/arome_meteo_france_20200610_00_Package1_001.grib')]
+    assert to_test == [Path('/app/data/arome_meteo_france_20200610_00_Package1_000.grib'),
+                       Path('/app/data/arome_meteo_france_20200610_00_Package1_001.grib')]
 
 
 @patch(
@@ -84,8 +84,8 @@ def test_build_local_file_list_for_harmonie():
     to_test = build_local_file_list(WeatherModels.HARMONIE_KNMI,
                                     0,
                                     datetime(2020, 6, 10).date())
-    assert to_test == [Path('/app/data/tmp/harmonie_knmi_20200610_00_0.grib'),
-                       Path('/app/data/tmp/harmonie_knmi_20200610_00_1.grib')]
+    assert to_test == [Path('/app/data/harmonie_knmi_20200610_00_0.grib'),
+                       Path('/app/data/harmonie_knmi_20200610_00_1.grib')]
 
 
 def test_local_file_paths_for_harmonie():
@@ -101,5 +101,5 @@ def test_local_file_paths_for_harmonie():
                     KEY_GRIB_PACKAGE_TYPES: ['v1_p3']}
     )
 
-    assert to_test == [Path('/app/data/tmp/harmonie_knmi_20200610_00_0.grib'),
-                       Path('/app/data/tmp/harmonie_knmi_20200610_00_1.grib')]
+    assert to_test == [Path('/app/data/harmonie_knmi_20200610_00_0.grib'),
+                       Path('/app/data/harmonie_knmi_20200610_00_1.grib')]

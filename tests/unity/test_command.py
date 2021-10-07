@@ -48,8 +48,8 @@ def test_command_gribmagic_unity(caplog):
     assert "Starting GribMagic" in caplog.text
     assert "WeatherModels.ICON_EU: Accessing parameter 'air_temperature_2m'" in caplog.messages
     assert "WeatherModels.ICON_EU: Accessing parameter 'relative_humidity_2m'" in caplog.messages
-    assert f"Downloading https://opendata.dwd.de/weather/nwp/icon-eu/grib/00/t_2m/icon-eu_europe_regular-lat-lon_single-level_2021100300_000_T_2M.grib2.bz2 to {tempdir}/tmp/icon_eu_20211003_00_air_temperature_2m_000.grib2" in caplog.messages
-    assert f"Downloading https://opendata.dwd.de/weather/nwp/icon-eu/grib/00/relhum_2m/icon-eu_europe_regular-lat-lon_single-level_2021100300_120_RELHUM_2M.grib2.bz2 to {tempdir}/tmp/icon_eu_20211003_00_relative_humidity_2m_120.grib2" in caplog.messages
+    assert f"Downloading https://opendata.dwd.de/weather/nwp/icon-eu/grib/00/t_2m/icon-eu_europe_regular-lat-lon_single-level_2021100300_000_T_2M.grib2.bz2 to {tempdir}/icon_eu_20211003_00_air_temperature_2m_000.grib2" in caplog.messages
+    assert f"Downloading https://opendata.dwd.de/weather/nwp/icon-eu/grib/00/relhum_2m/icon-eu_europe_regular-lat-lon_single-level_2021100300_120_RELHUM_2M.grib2.bz2 to {tempdir}/icon_eu_20211003_00_relative_humidity_2m_120.grib2" in caplog.messages
 
     t2m_messages = [message for message in caplog.messages if "Downloading" in message and "t_2m" in message]
     rh2m_messages = [message for message in caplog.messages if "Downloading" in message and "relhum_2m" in message]
