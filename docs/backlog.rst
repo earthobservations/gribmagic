@@ -12,13 +12,15 @@ Prio 1
 - [x] Inline default mapping YAML files into package
 - [x] Improve test coverage and reactivate Codecov uploads
 - [o] Code refactoring
-- [o] Get rid of ``tmp`` subdirectory
-- [o] Get rid of ``remote_server_type``
+- [x] Get rid of ``tmp`` subdirectory
+- [x] Get rid of ``remote_server_type``
+- [x] Flip "Product » Provider" to "Provider » Product"
+- [x] Run ``isort`` and ``black``
 - [o] Optionally obtain target directory (``GM_DATA_PATH``) from command line parameter
 - [o] Improve README
 - [o] Improve sandbox (just type ``make test``)
 - [o] CI: Add test matrix for Python 3.7, 3.8 and 3.9
-- [o] Run ``isort`` and ``black``
+- [o] Add type hints for return values from "download-xyz" functions
 - [o] Release on PyPI
 
 
@@ -42,6 +44,11 @@ Prio 2
 
 - [o] Improve documentation
     - https://www.nco.ncep.noaa.gov/pmb/products/gfs/
+    - http://dcpc-nwp.meteo.fr/
+    - https://en.wikipedia.org/wiki/National_Centers_for_Environmental_Prediction
+
+- [o] Complete products
+    - AROME has more grid resolutions
 
 
 ******
