@@ -28,16 +28,16 @@ testoutput-clean:
 	rm $(PATH_TESTDATA_OUTPUT)/* || true
 
 test: testdata-download testoutput-clean
-	@$(pytest) -vvv tests
+	pytest -vvv tests
 
 test-coverage: testdata-download testoutput-clean
-	@$(pytest) -vvv tests \
+	pytest -vvv tests \
 		--cov=gribmagic \
 		--cov-report=term-missing \
 		--cov-report=xml
 
 format:
-	@$(pip) install --requirement=requirements-dev.txt --quiet
+	$(pip) install --requirement=requirements-dev.txt --quiet
 	$(isort) --profile=black gribmagic tests
 	$(black) gribmagic tests
 
