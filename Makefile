@@ -18,6 +18,12 @@ testoutput-clean:
 test: testdata-download testoutput-clean
 	@pytest -vvv tests
 
+test-coverage: testdata-download testoutput-clean
+	@pytest -vvv tests \
+		--cov=gribmagic \
+		--cov-report=term-missing \
+		--cov-report=xml
+
 install-magics:
 	mkdir -p tmp/download tmp/build/magics
 	wget https://confluence.ecmwf.int/download/attachments/3473464/Magics-4.5.2-Source.tar.gz \
