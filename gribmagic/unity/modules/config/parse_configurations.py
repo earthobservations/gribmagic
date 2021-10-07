@@ -22,7 +22,7 @@ def parse_model_config() -> Dict[str, any]:
         model_config = yaml.load(yaml_file, Loader=yaml.FullLoader)
     
     for model in list(model_config.keys()):
-        if model.endswith("_base"):
+        if model.endswith("-base"):
             continue
         for init_time in list(model_config[model][KEY_FORECAST_STEPS].keys()):
             ranges_config = model_config[model][KEY_FORECAST_STEPS][init_time]

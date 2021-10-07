@@ -1,4 +1,4 @@
-icon_global: &icon_global
+dwd-icon-global: &dwd-icon-global
      albedo: alb_rad
      air_temperature_2m: t_2m
      snow_height: h_snow
@@ -30,24 +30,24 @@ icon_global: &icon_global
      specific_humidity: qv
      pressure_surface: ps
 
-icon_eu: &icon_eu
-     <<: *icon_global
+dwd-icon-eu: &dwd-icon-eu
+     <<: *dwd-icon-global
      snowfall_height: snowlmt
      surface_specific_humidity: qv_s
      turbulent_kinetic_energy: tke
 
-icon_eu_eps:
-     <<: *icon_eu
+dwd-icon-eu-eps:
+     <<: *dwd-icon-eu
 
-
-cosmo_d2: &cosmo_d2
-     <<: *icon_eu
+dwd-cosmo-d2: &dwd-cosmo-d2
+     <<: *dwd-icon-eu
      max_radar_reflectivity: dbz_cmax
 
-cosmo_d2_eps:
-     <<: *cosmo_d2
+dwd-cosmo-d2-eps:
+     <<: *dwd-cosmo-d2
 
-ncep_gfs_025:
+
+ncep-gfs-025:
      albedo: al
      air_temperature_2m: t2m
      snow_height: sde
@@ -133,7 +133,8 @@ ncep_gfs_025:
      ozone_totale: tozne
      ventilation_rate: VRATE
 
-harmonie_knmi:
+
+knmi-harmonie:
      graupel: grpl
      max_wind_gust_u: ugst
      max_wind_gust_v: vgst

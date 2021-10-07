@@ -24,7 +24,7 @@ def test___download():
         stream=True,
     )
 
-    __download((WeatherModels.ICON_EU, icon_eu_output_file, 'http://test/mock'))
+    __download((WeatherModels.DWD_ICON_EU, icon_eu_output_file, 'http://test/mock'))
 
     assert icon_eu_output_file.is_file() == True
 
@@ -41,7 +41,7 @@ def test___download_parallel():
         stream=True,
     )
 
-    __download_parallel([(WeatherModels.ICON_EU, icon_eu_output_file, 'http://test/mock')])
+    __download_parallel([(WeatherModels.DWD_ICON_EU, icon_eu_output_file, 'http://test/mock')])
 
     assert icon_eu_output_file.is_file() == True
 
@@ -58,7 +58,7 @@ def test_download_store_bz2_sequential():
         stream=True,
     )
 
-    download(WeatherModels.ICON_EU,
+    download(WeatherModels.DWD_ICON_EU,
              {KEY_LOCAL_FILE_PATHS: [icon_eu_output_file],
               KEY_REMOTE_FILE_PATHS: ['http://test/mock'],
               KEY_LOCAL_STORE_FILE_PATHS: [Path('not', 'used', 'in', 'download')]})
@@ -77,7 +77,7 @@ def test_download_store_bz2_parallel():
         stream=True,
     )
 
-    download(WeatherModels.ICON_EU,
+    download(WeatherModels.DWD_ICON_EU,
              {KEY_LOCAL_FILE_PATHS: [icon_eu_output_file],
               KEY_REMOTE_FILE_PATHS: ['http://test/mock'],
               KEY_LOCAL_STORE_FILE_PATHS: [Path('not', 'used', 'in', 'download')]},
@@ -98,7 +98,7 @@ def test_download_store_tar():
         stream=True,
     )
 
-    download(WeatherModels.HARMONIE_KNMI,
+    download(WeatherModels.KNMI_HARMONIE,
              {KEY_LOCAL_FILE_PATHS: [harmonie_output_file],
               KEY_REMOTE_FILE_PATHS: ['http://test/mock'],
               KEY_LOCAL_STORE_FILE_PATHS: [Path('not', 'used', 'in', 'download')]})
@@ -117,7 +117,7 @@ def test_download_store_uncompressed():
         stream=True,
     )
 
-    download(WeatherModels.GFS_100,
+    download(WeatherModels.NCEP_GFS_100,
              {KEY_LOCAL_FILE_PATHS: [gfs_output_file],
               KEY_REMOTE_FILE_PATHS: ['http://test/mock'],
               KEY_LOCAL_STORE_FILE_PATHS: [Path('not', 'used', 'in', 'download')]})

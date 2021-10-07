@@ -51,8 +51,8 @@ class WeatherModelSettings:
     def generate_variables(self):
 
         dwd_models = [
-            WeatherModels.ICON_GLOBAL, WeatherModels.ICON_EU, WeatherModels.ICON_EU_EPS,
-            WeatherModels.COSMO_D2, WeatherModels.COSMO_D2_EPS,
+            WeatherModels.DWD_ICON_GLOBAL, WeatherModels.DWD_ICON_EU, WeatherModels.DWD_ICON_EU_EPS,
+            WeatherModels.DWD_COSMO_D2, WeatherModels.DWD_COSMO_D2_EPS,
         ]
         dwd_blocklist = ["temperature", "wind_u", "wind_v", "relative_humidity"]
 

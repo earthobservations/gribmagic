@@ -1,4 +1,4 @@
-ncep_gfs_base: &ncep_gfs_base
+ncep-gfs-base: &ncep-gfs-base
     url_base: https://nomads.ncep.noaa.gov/pub/data/nccf/com/gfs/prod
     url_path: gfs.{initialization_date}/{initialization_time}/atmos
     initialization_date_format: '%Y%m%d'
@@ -9,8 +9,8 @@ ncep_gfs_base: &ncep_gfs_base
     file_postfix: 'grib2'
     compression: ''
 
-ncep_gfs_025:
-    <<: *ncep_gfs_base
+ncep-gfs-025:
+    <<: *ncep-gfs-base
     url_file: gfs.t{initialization_time}z.pgrb2.0p25.f{forecast_step}
     forecast_steps:
       0: [[0, 121, 1], [120, 384, 3]]
@@ -18,8 +18,8 @@ ncep_gfs_025:
       12: [[0, 121, 1], [120, 384, 3]]
       18: [[0, 121, 1], [120, 384, 3]]
 
-ncep_gfs_050:
-    <<: *ncep_gfs_base
+ncep-gfs-050:
+    <<: *ncep-gfs-base
     url_file: gfs.t{initialization_time}z.pgrb2.0p50.f{forecast_step}
     forecast_steps:
       0: [[0, 384, 3]]
@@ -27,8 +27,8 @@ ncep_gfs_050:
       12: [[0, 384, 3]]
       18: [[0, 384, 3]]
 
-ncep_gfs_100:
-    <<: *ncep_gfs_base
+ncep-gfs-100:
+    <<: *ncep-gfs-base
     url_file: gfs.t{initialization_time}z.pgrb2.1p00.f{forecast_step}
     forecast_steps:
       0: [[0, 384, 3]]
@@ -37,14 +37,14 @@ ncep_gfs_100:
       18: [[0, 384, 3]]
 
 
-dwd_base: &dwd_base
+dwd-base: &dwd-base
     url_base: https://opendata.dwd.de/weather/nwp
     initialization_date_format: '%Y%m%d'
     file_postfix: grib2
     compression: bz2
 
-icon_global:
-    <<: *dwd_base
+dwd-icon-global:
+    <<: *dwd-base
     url_path: icon/grib/{initialization_time}/{variable_name_lower}
     url_file: icon_global_icosahedral_{level_type}_{initialization_date}{initialization_time}_{forecast_step}_{variable_name_upper}.grib2.bz2
     initialization_times: [0,6,12,18]
@@ -60,9 +60,8 @@ icon_global:
                 weather_synop_code, soil_temperature, total_cloud_cover, relative_humidity_2m, temperature,
                 wind_u, wind_v]
 
-
-icon_eu:
-    <<: *dwd_base
+dwd-icon-eu:
+    <<: *dwd-base
     url_path: icon-eu/grib/{initialization_time}/{variable_name_lower}
     url_file: icon-eu_europe_regular-lat-lon_{level_type}_{initialization_date}{initialization_time}_{forecast_step}_{variable_name_upper}.grib2.bz2
     initialization_times: [0,3,6,9,12,15,18,21]
@@ -82,9 +81,8 @@ icon_eu:
                 weather_synop_code, soil_temperature, total_cloud_cover, relative_humidity_2m, temperature,
                 wind_u, wind_v, relative_humidity]
 
-
-icon_eu_eps:
-    <<: *dwd_base
+dwd-icon-eu-eps:
+    <<: *dwd-base
     url_path: icon-eu-eps/grib/{initialization_time}/{variable_name_lower}
     url_file: icon-eu-eps_europe_icosahedral_{level_type}_{initialization_date}{initialization_time}_{forecast_step}_{variable_name_lower}.grib2.bz2
     initialization_times: [0,6,12,18]
@@ -97,9 +95,8 @@ icon_eu_eps:
                 total_precipitation, convective_snow, grid_scale_snow,
                 direct_normal_irradiance, diffuse_horizontal_irradiance]
 
-
-cosmo_d2:
-    <<: *dwd_base
+dwd-cosmo-d2:
+    <<: *dwd-base
     url_path: cosmo-d2/grib/{initialization_time}/{variable_name_lower}
     url_file: cosmo-d2_germany_regular-lat-lon_{level_type}_{initialization_date}{initialization_time}_{forecast_step}_{variable_name_upper}.grib2.bz2
     initialization_times: [0,3,6,9,12,15,18,21]
@@ -119,8 +116,8 @@ cosmo_d2:
                 weather_synop_code, soil_temperature, total_cloud_cover, relative_humidity_2m, temperature,
                 wind_u, wind_v, max_radar_reflectivity]
 
-cosmo_d2_eps:
-    <<: *dwd_base
+dwd-cosmo-d2-eps:
+    <<: *dwd-base
     url_path: cosmo-d2-eps/grib/{initialization_time}/{variable_name_lower}
     url_file: cosmo-d2-eps_germany_rotated-lat-lon_{level_type}_{initialization_date}{initialization_time}_{forecast_step}_{variable_name_lower}.grib2.bz2
     initialization_times: [0,6,12,18]
@@ -136,7 +133,7 @@ cosmo_d2_eps:
     variables: [air_temperature_2m]
 
 
-arome_meteo_france:
+meteo-france-arome:
     url_base: http://dcpc-nwp.meteo.fr
     url_path: services
     url_file: PS_GetCache_DCPCPreviNum?model=AROME&grid=0.01&package={grib_package_type}&time={forecast_step}H&referencetime={initialization_date}T{initialization_time}:00:00Z&format=grib2
@@ -155,7 +152,8 @@ arome_meteo_france:
     compression: ''
     forecast_steps_string_length: 2
 
-harmonie_knmi:
+
+knmi-harmonie:
     url_base: https://data.knmi.nl/download/harmonie_arome_cy40_p3/0.2/noversion
     url_path: 0000/00/00
     url_file: harm40_{grib_package_type}_{initialization_time}.tar
