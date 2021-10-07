@@ -1,5 +1,5 @@
 """
-handle download of nwp from remote servers
+Handle download of NWP data from remote servers.
 """
 import logging
 import requests
@@ -32,10 +32,9 @@ def download(
     model = WeatherModelSettings(weather_model)
 
     if model.info[KEY_COMPRESSION] == "tar":
-        __download_tar_file(weather_model,
-                            model_file_lists[KEY_REMOTE_FILE_PATHS][0],
-                            model_file_lists[KEY_LOCAL_FILE_PATHS])
-        return
+        return __download_tar_file(weather_model,
+                                   model_file_lists[KEY_REMOTE_FILE_PATHS][0],
+                                   model_file_lists[KEY_LOCAL_FILE_PATHS])
 
     if parallel_download:
         download_specifications = \
@@ -43,11 +42,13 @@ def download(
              for remote_file, local_file_path in
              zip(model_file_lists[KEY_REMOTE_FILE_PATHS],
                  model_file_lists[KEY_LOCAL_FILE_PATHS])]
-        __download_parallel(download_specifications, n_processes)
+        return __download_parallel(download_specifications, n_processes)
     else:
+        results = []
         for remote_file, local_file_path in zip(model_file_lists[KEY_REMOTE_FILE_PATHS],
                                                 model_file_lists[KEY_LOCAL_FILE_PATHS]):
-            __download((weather_model, local_file_path, remote_file))
+            results.append(__download((weather_model, local_file_path, remote_file)))
+            return results
 
 
 def __download(
@@ -75,7 +76,8 @@ def __download(
     target_file = download_specification[1]
 
     if target_file.exists():
-        return
+        logger.info(f"Skipping existing file {target_file}")
+        return target_file
 
     logger.info(f"Downloading {url} to {target_file}")
 
@@ -83,16 +85,18 @@ def __download(
         response = session.get(url, stream=True)
         response.raise_for_status()
     except Exception as ex:
-        logger.warning(f"Access failed: {ex}")
+        logger.warning(f"Accessing resource {url} failed: {ex}")
         return
 
     if not target_file.parent.is_dir():
-        target_file.parent.mkdir()
+        target_file.parent.mkdir(exist_ok=True)
 
     if model.info[KEY_COMPRESSION] == 'bz2':
         bunzip_store(response.raw, target_file)
     else:
         store(response.raw, target_file)
+
+    return target_file
 
 
 def __download_parallel(
@@ -110,9 +114,10 @@ def __download_parallel(
         None
     """
     with ThreadPoolExecutor(max_workers=n_processes) as executor:
-        executor.map(__download, download_specifications)
+        results = executor.map(__download, download_specifications)
 
     executor.shutdown(wait=True)
+    return results
 
 
 def __download_tar_file(
@@ -139,7 +144,7 @@ def __download_tar_file(
         response = session.get(url, stream=True)
         response.raise_for_status()
     except Exception as ex:
-        logger.warning(f"Access failed: {ex}")
+        logger.warning(f"Accessing resource {url} failed: {ex}")
         return
 
-    tarfile_store(response.raw, local_file_list)
+    return tarfile_store(response.raw, local_file_list)

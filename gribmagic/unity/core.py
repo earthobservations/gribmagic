@@ -14,12 +14,7 @@ def run_model_download(
         initialization_timestamp: Union[str, datetime]
 ) -> None:
     """
-    Pipeline to call all process to run a full stack model download as defined
-        in the model_config.yaml
-
-    example:
-
-    python3 gribmagic/pipelines/run.py run_model_download icon_eu 2020-06-24T00:00:00Z
+    Run a full stack model download as defined in `model_config.yml`.
 
     Args:
         weather_model: is one of 
@@ -31,7 +26,6 @@ def run_model_download(
 
     Returns:
         Stores data on file system defined by environment variable "GM_DATA_PATH"
-
     """
 
     weather_model = WeatherModels(weather_model)
@@ -43,4 +37,4 @@ def run_model_download(
         weather_model,
         initialization_timestamp.hour,
         initialization_timestamp.date())
-    download(weather_model, model_file_list, parallel_download=True)
+    return download(weather_model, model_file_list, parallel_download=True)
