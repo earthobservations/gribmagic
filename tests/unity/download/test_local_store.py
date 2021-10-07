@@ -13,7 +13,7 @@ def test_bunzip_store():
     with open(icon_eu_input_file, 'rb') as file:
         test_data = file.read()
     bunzip_store(BytesIO(test_data), output_file)
-    assert output_file.is_file() is True
+    assert output_file.is_file() == True
     os.remove(output_file)
 
 
@@ -26,7 +26,7 @@ def test_store():
     with open(tmpfile.name, 'rb') as file:
         test_data = file.read()
     store(BytesIO(test_data), output_file)
-    assert output_file.is_file() is True
+    assert output_file.is_file() == True
     os.remove(output_file)
 
 
@@ -35,5 +35,5 @@ def test_tarfile_store():
         test_data = file.read()
 
     tarfile_store(BytesIO(test_data), [harmonie_output_file])
-    assert harmonie_output_file.is_file() is True
+    assert harmonie_output_file.is_file() == True
     os.remove(harmonie_output_file)

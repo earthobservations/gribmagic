@@ -1,7 +1,6 @@
 ncep_gfs_base: &ncep_gfs_base
-    remote_server: nomads.ncep.noaa.gov/pub/data/nccf/com/gfs/prod
-    remote_server_type: https
-    directory_template: gfs.{initialization_date}/{initialization_time}/atmos
+    url_base: https://nomads.ncep.noaa.gov/pub/data/nccf/com/gfs/prod
+    url_path: gfs.{initialization_date}/{initialization_time}/atmos
     initialization_date_format: '%Y%m%d'
     initialization_times: [0,6,12,18]
     grib_package_types: ['']
@@ -12,7 +11,7 @@ ncep_gfs_base: &ncep_gfs_base
 
 ncep_gfs_025:
     <<: *ncep_gfs_base
-    file_template: gfs.t{initialization_time}z.pgrb2.0p25.f{forecast_step}
+    url_file: gfs.t{initialization_time}z.pgrb2.0p25.f{forecast_step}
     forecast_steps:
       0: [[0, 121, 1], [120, 384, 3]]
       6: [[0, 121, 1], [120, 384, 3]]
@@ -21,7 +20,7 @@ ncep_gfs_025:
 
 ncep_gfs_050:
     <<: *ncep_gfs_base
-    file_template: gfs.t{initialization_time}z.pgrb2.0p50.f{forecast_step}
+    url_file: gfs.t{initialization_time}z.pgrb2.0p50.f{forecast_step}
     forecast_steps:
       0: [[0, 384, 3]]
       6: [[0, 384, 3]]
@@ -30,7 +29,7 @@ ncep_gfs_050:
 
 ncep_gfs_100:
     <<: *ncep_gfs_base
-    file_template: gfs.t{initialization_time}z.pgrb2.1p00.f{forecast_step}
+    url_file: gfs.t{initialization_time}z.pgrb2.1p00.f{forecast_step}
     forecast_steps:
       0: [[0, 384, 3]]
       6: [[0, 384, 3]]
@@ -39,14 +38,15 @@ ncep_gfs_100:
 
 
 dwd_base: &dwd_base
-    remote_server: opendata.dwd.de/weather/nwp
-    remote_server_type: https
+    url_base: https://opendata.dwd.de/weather/nwp
     initialization_date_format: '%Y%m%d'
     file_postfix: grib2
     compression: bz2
 
 icon_global:
     <<: *dwd_base
+    url_path: icon/grib/{initialization_time}/{variable_name_lower}
+    url_file: icon_global_icosahedral_{level_type}_{initialization_date}{initialization_time}_{forecast_step}_{variable_name_upper}.grib2.bz2
     initialization_times: [0,6,12,18]
     forecast_steps:
       0: [[0, 78, 1], [78, 180, 3]]
@@ -59,12 +59,12 @@ icon_global:
                 mixed_layer_cape, pressure_mean_sea_level, max_air_temperature_2m, min_air_temperature_2m,
                 weather_synop_code, soil_temperature, total_cloud_cover, relative_humidity_2m, temperature,
                 wind_u, wind_v]
-    directory_template: icon/grib/{initialization_time}/{variable_name_lower}
-    file_template: icon_global_icosahedral_{level_type}_{initialization_date}{initialization_time}_{forecast_step}_{variable_name_upper}.grib2.bz2
 
 
 icon_eu:
     <<: *dwd_base
+    url_path: icon-eu/grib/{initialization_time}/{variable_name_lower}
+    url_file: icon-eu_europe_regular-lat-lon_{level_type}_{initialization_date}{initialization_time}_{forecast_step}_{variable_name_upper}.grib2.bz2
     initialization_times: [0,3,6,9,12,15,18,21]
     forecast_steps:
       0: [[0, 78, 1], [78, 123, 3]]
@@ -81,12 +81,12 @@ icon_eu:
                 mixed_layer_cape, pressure_mean_sea_level, max_air_temperature_2m, min_air_temperature_2m,
                 weather_synop_code, soil_temperature, total_cloud_cover, relative_humidity_2m, temperature,
                 wind_u, wind_v, relative_humidity]
-    directory_template: icon-eu/grib/{initialization_time}/{variable_name_lower}
-    file_template: icon-eu_europe_regular-lat-lon_{level_type}_{initialization_date}{initialization_time}_{forecast_step}_{variable_name_upper}.grib2.bz2
 
 
 icon_eu_eps:
     <<: *dwd_base
+    url_path: icon-eu-eps/grib/{initialization_time}/{variable_name_lower}
+    url_file: icon-eu-eps_europe_icosahedral_{level_type}_{initialization_date}{initialization_time}_{forecast_step}_{variable_name_lower}.grib2.bz2
     initialization_times: [0,6,12,18]
     forecast_steps:
       0: [[0, 49, 1], [48, 73, 3], [72, 123, 6]]
@@ -96,12 +96,12 @@ icon_eu_eps:
     variables: [air_temperature_2m, wind_u, wind_v, max_wind_gust_10m, temperature, wind_u_10m, wind_v_10m,
                 total_precipitation, convective_snow, grid_scale_snow,
                 direct_normal_irradiance, diffuse_horizontal_irradiance]
-    directory_template: icon-eu-eps/grib/{initialization_time}/{variable_name_lower}
-    file_template: icon-eu-eps_europe_icosahedral_{level_type}_{initialization_date}{initialization_time}_{forecast_step}_{variable_name_lower}.grib2.bz2
 
 
 cosmo_d2:
     <<: *dwd_base
+    url_path: cosmo-d2/grib/{initialization_time}/{variable_name_lower}
+    url_file: cosmo-d2_germany_regular-lat-lon_{level_type}_{initialization_date}{initialization_time}_{forecast_step}_{variable_name_upper}.grib2.bz2
     initialization_times: [0,3,6,9,12,15,18,21]
     forecast_steps:
       0: [[0, 28,1]]
@@ -118,11 +118,11 @@ cosmo_d2:
                 mixed_layer_cape, pressure_mean_sea_level, max_air_temperature_2m, min_air_temperature_2m,
                 weather_synop_code, soil_temperature, total_cloud_cover, relative_humidity_2m, temperature,
                 wind_u, wind_v, max_radar_reflectivity]
-    directory_template: cosmo-d2/grib/{initialization_time}/{variable_name_lower}
-    file_template: cosmo-d2_germany_regular-lat-lon_{level_type}_{initialization_date}{initialization_time}_{forecast_step}_{variable_name_upper}.grib2.bz2
 
 cosmo_d2_eps:
     <<: *dwd_base
+    url_path: cosmo-d2-eps/grib/{initialization_time}/{variable_name_lower}
+    url_file: cosmo-d2-eps_germany_rotated-lat-lon_{level_type}_{initialization_date}{initialization_time}_{forecast_step}_{variable_name_lower}.grib2.bz2
     initialization_times: [0,6,12,18]
     forecast_steps:
       0: [[0, 28,1]]
@@ -134,13 +134,13 @@ cosmo_d2_eps:
       18: [[0, 28,1]]
       21:  [[0, 28,1]]
     variables: [air_temperature_2m]
-    directory_template: cosmo-d2-eps/grib/{initialization_time}/{variable_name_lower}
-    file_template: cosmo-d2-eps_germany_rotated-lat-lon_{level_type}_{initialization_date}{initialization_time}_{forecast_step}_{variable_name_lower}.grib2.bz2
 
 
 arome_meteo_france:
-    remote_server: dcpc-nwp.meteo.fr
-    remote_server_type: http
+    url_base: http://dcpc-nwp.meteo.fr
+    url_path: services
+    url_file: PS_GetCache_DCPCPreviNum?model=AROME&grid=0.01&package={grib_package_type}&time={forecast_step}H&referencetime={initialization_date}T{initialization_time}:00:00Z&format=grib2
+    # AROME even offers hourly initialization times?
     initialization_times: [0,3,6,12,18]
     forecast_steps:
       0: [[0, 43,1]]
@@ -150,16 +150,15 @@ arome_meteo_france:
       18: [[0, 43,1]]
     grib_package_types: [HP1, SP1, SP2, SP3]
     variables: [air_temperature_2m, temperature]
-    file_template: PS_GetCache_DCPCPreviNum?model=AROME&grid=0.01&&package={grib_package_type}&time={forecast_step}H&referencetime={initialization_date}T{initialization_time}:00:00Z&format=grib2
     initialization_date_format: '%Y-%m-%d'
-    directory_template: services
     file_postfix: grib2
     compression: ''
     forecast_steps_string_length: 2
 
 harmonie_knmi:
-    remote_server: data.knmi.nl/download/harmonie_arome_cy40_p3/0.2/noversion
-    remote_server_type: https
+    url_base: https://data.knmi.nl/download/harmonie_arome_cy40_p3/0.2/noversion
+    url_path: 0000/00/00
+    url_file: harm40_{grib_package_type}_{initialization_time}.tar
     variables: [air_temperature_2m, temperature]
     initialization_times: [0,6,12,18]
     forecast_steps:
@@ -168,8 +167,6 @@ harmonie_knmi:
       12: [[0, 49,1]]
       18: [[0, 49,1]]
     grib_package_types: [v1_p3]
-    directory_template: 0000/00/00
-    file_template: harm40_{grib_package_type}_{initialization_time}.tar
     file_postfix: grib
     compression: tar
     initialization_date_format: ''

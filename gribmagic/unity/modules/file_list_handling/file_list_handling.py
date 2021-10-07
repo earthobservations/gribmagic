@@ -1,7 +1,7 @@
 """ functions to create remote lists of remote files that should be downloaded """
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List
+from typing import Dict, List, Union
 
 from gribmagic.unity.enumerations.weather_models import WeatherModels
 from gribmagic.unity.modules.config.constants import KEY_LOCAL_FILE_PATHS, \
@@ -17,7 +17,7 @@ def build_model_file_lists(
         weather_model: WeatherModels,
         initialization_time: int,
         run_date: datetime.date
-) -> Dict[str, List[Path]]:
+) -> Dict[str, List[Union[str, Path]]]:
     """
     builds a Dictionary with local and remote file paths for the given model
 

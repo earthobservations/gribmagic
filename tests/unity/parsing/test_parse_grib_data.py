@@ -1,7 +1,6 @@
 import numpy as np
 import os
 from io import BytesIO
-from pathlib import Path
 
 from gribmagic.unity.modules.download.local_store import bunzip_store
 from gribmagic.unity.modules.parsing.parse_grib_data import concatenate_all_variable_files, \

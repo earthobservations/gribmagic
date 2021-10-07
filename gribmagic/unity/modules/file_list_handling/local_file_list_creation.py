@@ -9,7 +9,7 @@ from gribmagic.unity.enumerations.weather_models import WeatherModels
 from gribmagic.unity.models import WeatherModelSettings
 from gribmagic.unity.modules.config.constants import LOCAL_FILE_POSTFIX,\
     KEY_FORECAST_STEPS, KEY_GRIB_PACKAGE_TYPES, KEY_FILE_POSTFIX, \
-    KEY_FILE_TEMPLATE
+    KEY_URL_FILE
 
 
 def build_local_store_file_list_for_variables(
@@ -91,7 +91,7 @@ def _build_local_file_list_with_variables_iterator(
     data_path = Path(os.environ['GM_DATA_PATH'])
     local_file_list = []
     for var in variables_iterator:
-        if "{forecast_step}" in model_config[KEY_FILE_TEMPLATE]:
+        if "{forecast_step}" in model_config[KEY_URL_FILE]:
             for forecast_step in model_config[KEY_FORECAST_STEPS][initialization_time]:
                 local_file_list.append(
                     Path(
