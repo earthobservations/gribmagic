@@ -19,7 +19,7 @@ from gribmagic.unity.modules.file_list_handling.remote_file_list_creation import
 @patch(
     'gribmagic.unity.models.MODEL_CONFIG',
     {
-        WeatherModels.ICON_EU.value:
+        WeatherModels.DWD_ICON_EU.value:
             {
                 KEY_URL_BASE: 'http://foobar.example.org',
                 KEY_URL_PATH: 'test_remote_dir/{initialization_time}/{variable_name_lower}',
@@ -32,7 +32,7 @@ from gribmagic.unity.modules.file_list_handling.remote_file_list_creation import
     }
 )
 def test_build_remote_model_file_lists():
-    to_test = remote_files_grib_directories(WeatherModels.ICON_EU, 0, datetime(2020, 6, 10).date())
+    to_test = remote_files_grib_directories(WeatherModels.DWD_ICON_EU, 0, datetime(2020, 6, 10).date())
     assert to_test == [
         'http://foobar.example.org/test_remote_dir/00/t_2m/test_remote_file_single-level_2020061000_000_T_2M.grib2.bz2',
         'http://foobar.example.org/test_remote_dir/00/t_2m/test_remote_file_single-level_2020061000_001_T_2M.grib2.bz2',
@@ -42,7 +42,7 @@ def test_build_remote_model_file_lists():
 def test_build_remote_model_file_lists_wrong_weather_model():
     with pytest.raises(WrongWeatherModelException) as exc:
         _ = remote_files_grib_directories(
-            WeatherModels.AROME_METEO_FRANCE,
+            WeatherModels.METEO_FRANCE_AROME,
             0,
             datetime(2020, 6, 10).date())
     assert str(exc.value) == 'Weather model does not offer grib data directories'
@@ -51,7 +51,7 @@ def test_build_remote_model_file_lists_wrong_weather_model():
 @patch(
     'gribmagic.unity.models.MODEL_CONFIG',
     {
-        WeatherModels.AROME_METEO_FRANCE.value:
+        WeatherModels.METEO_FRANCE_AROME.value:
             {
                 KEY_URL_BASE: 'http://foobar.example.org',
                 KEY_URL_PATH: '',
@@ -66,7 +66,7 @@ def test_build_remote_model_file_lists_wrong_weather_model():
 )
 def test_build_remote_model_file_lists_for_package():
     to_test = remote_files_grib_packages(
-        WeatherModels.AROME_METEO_FRANCE,
+        WeatherModels.METEO_FRANCE_AROME,
         0,
         datetime(2020, 6, 10).date())
     assert to_test == [
@@ -77,7 +77,7 @@ def test_build_remote_model_file_lists_for_package():
 @patch(
     'gribmagic.unity.models.MODEL_CONFIG',
     {
-        WeatherModels.AROME_METEO_FRANCE.value:
+        WeatherModels.METEO_FRANCE_AROME.value:
             {
                 KEY_URL_BASE: 'http://foobar.example.org',
                 KEY_URL_PATH: '',
@@ -92,7 +92,7 @@ def test_build_remote_model_file_lists_for_package():
 )
 def test_build_remote_file_list():
     to_test = build_remote_file_list(
-        WeatherModels.AROME_METEO_FRANCE,
+        WeatherModels.METEO_FRANCE_AROME,
         0,
         datetime(2020, 6, 10).date())
     assert to_test == [
@@ -103,5 +103,5 @@ def test_build_remote_file_list():
 def test_build_remote_model_file_lists_for_package_wrong_model():
     with pytest.raises(WrongWeatherModelException) as excinfo:
         _ = remote_files_grib_packages(
-            WeatherModels.ICON_EU, 0, datetime(2020, 6, 10).date())
+            WeatherModels.DWD_ICON_EU, 0, datetime(2020, 6, 10).date())
     assert str(excinfo.value) == 'Weather model does not offer grib data packages'

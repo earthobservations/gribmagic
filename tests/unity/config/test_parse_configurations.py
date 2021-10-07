@@ -4,7 +4,7 @@ from gribmagic.unity.modules.config.parse_configurations import parse_model_conf
 
 
 def test_parse_model_config():
-    to_test = parse_model_config()[WeatherModels.AROME_METEO_FRANCE.value]
+    to_test = parse_model_config()[WeatherModels.METEO_FRANCE_AROME.value]
     assert to_test == {'url_base': 'http://dcpc-nwp.meteo.fr',
                        'url_path': 'services',
                        'url_file': 'PS_GetCache_DCPCPreviNum?model=AROME&grid=0.01&package={grib_package_type}&time={forecast_step}H&referencetime={initialization_date}T{initialization_time}:00:00Z&format=grib2',
@@ -45,7 +45,7 @@ def test_parse_model_config():
 
 def test_parse_model_variables_levels_mapping():
     to_test = parse_model_variables_levels_mapping()[
-        WeatherModels.ICON_EU.value]
+        WeatherModels.DWD_ICON_EU.value]
     assert to_test == {'air_temperature_2m': 'single-level',
                        'snow_height': 'single-level',
                        'max_wind_gust_10m': 'single-level',
@@ -78,7 +78,7 @@ def test_parse_model_variables_levels_mapping():
 
 
 def test_parse_model_variables_mapping():
-    to_test = parse_model_variables_mapping()[WeatherModels.ICON_EU.value]
+    to_test = parse_model_variables_mapping()[WeatherModels.DWD_ICON_EU.value]
     assert to_test == {'albedo': 'alb_rad', 'air_temperature_2m': 't_2m',
                        'snow_height': 'h_snow',
                        'max_wind_gust_10m': 'vmax_10m', 'wind_u_10m': 'u_10m',

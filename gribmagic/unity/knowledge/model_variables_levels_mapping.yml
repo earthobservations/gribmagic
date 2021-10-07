@@ -1,4 +1,4 @@
-icon_global: &icon_global
+dwd-icon-global: &dwd-icon-global
      air_temperature_2m: single-level
      snow_height: single-level
      max_wind_gust_10m: single-level
@@ -28,18 +28,17 @@ icon_global: &icon_global
      geopotential_height: pressure-level
      pressure_surface: single-level
 
-icon_eu: &icon_eu
-     <<: *icon_global
+dwd-icon-eu: &dwd-icon-eu
+     <<: *dwd-icon-global
      snowfall_height: single-level
      turbulent_kinetic_energy: model-level
 
-icon_eu_eps: &icon_eu_eps
-     <<: *icon_eu
+dwd-icon-eu-eps: &dwd-icon-eu-eps
+     <<: *dwd-icon-eu
 
-cosmo_d2: &cosmo_d2
-     <<: *icon_eu
+dwd-cosmo-d2: &dwd-cosmo-d2
+     <<: *dwd-icon-eu
      max_radar_reflectivity: single-level
 
-
-cosmo_d2_eps:
-     <<: *cosmo_d2
+dwd-cosmo-d2-eps:
+     <<: *dwd-cosmo-d2

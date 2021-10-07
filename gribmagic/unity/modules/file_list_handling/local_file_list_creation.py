@@ -62,7 +62,7 @@ def build_local_file_list(
     """
     model = WeatherModelSettings(weather_model)
 
-    if weather_model == WeatherModels.HARMONIE_KNMI:
+    if weather_model == WeatherModels.KNMI_HARMONIE:
         return _local_file_paths_for_harmonie(
             run_date,
             initialization_time,
@@ -134,7 +134,7 @@ def _local_file_paths_for_harmonie(
         local_file_list.append(
             Path(
                 data_path,
-                f"{WeatherModels.HARMONIE_KNMI.value}_{run_date.strftime('%Y%m%d')}_"
+                f"{WeatherModels.KNMI_HARMONIE.value}_{run_date.strftime('%Y%m%d')}_"
                 f"{str(initialization_time).zfill(2)}_{forecast_step}."
                 f"{model_config[KEY_FILE_POSTFIX]}"
                 ))
