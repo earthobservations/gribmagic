@@ -1,3 +1,15 @@
+# -------------
+# Configuration
+# -------------
+
+$(eval venvpath     := .venv)
+$(eval pip          := $(venvpath)/bin/pip)
+$(eval python       := $(venvpath)/bin/python)
+$(eval pytest       := $(venvpath)/bin/pytest)
+$(eval black        := $(venvpath)/bin/black)
+$(eval isort        := $(venvpath)/bin/isort)
+
+
 MAGICS_PREFIX = /usr/local/opt/magics
 PATH_TESTDATA_INPUT = $(PWD)/.gribmagic-testdata/input
 PATH_TESTDATA_OUTPUT = $(PWD)/.gribmagic-testdata/output
@@ -16,13 +28,18 @@ testoutput-clean:
 	rm $(PATH_TESTDATA_OUTPUT)/* || true
 
 test: testdata-download testoutput-clean
-	@pytest -vvv tests
+	@$(pytest) -vvv tests
 
 test-coverage: testdata-download testoutput-clean
-	@pytest -vvv tests \
+	@$(pytest) -vvv tests \
 		--cov=gribmagic \
 		--cov-report=term-missing \
 		--cov-report=xml
+
+format:
+	@$(pip) install --requirement=requirements-dev.txt --quiet
+	$(isort) --profile=black gribmagic tests
+	$(black) gribmagic tests
 
 install-magics:
 	mkdir -p tmp/download tmp/build/magics

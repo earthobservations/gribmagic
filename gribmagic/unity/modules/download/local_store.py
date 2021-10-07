@@ -1,5 +1,6 @@
 """ functions to decompress dowloaded files """
-import bz2, shutil
+import bz2
+import shutil
 import tarfile
 from io import BytesIO
 from pathlib import Path
@@ -12,7 +13,7 @@ def bunzip_store(file: BytesIO, local_intermediate_file: Path):
 
 
 def store(file: BytesIO, local_intermediate_file: Path):
-    with file as in_stream, local_intermediate_file.open('wb') as out_file:
+    with file as in_stream, local_intermediate_file.open("wb") as out_file:
         shutil.copyfileobj(in_stream, out_file)
 
 
@@ -27,5 +28,6 @@ def tarfile_store(file: BytesIO, local_intermediate_files: List[Path]):
     tmpfile.seek(0)
     with tarfile.open(fileobj=tmpfile, mode="r:") as in_stream:
         for idx, member in enumerate(in_stream.getmembers()):
-            shutil.copyfileobj(in_stream.extractfile(member),
-                               local_intermediate_files[idx].open('wb'))
+            shutil.copyfileobj(
+                in_stream.extractfile(member), local_intermediate_files[idx].open("wb")
+            )
