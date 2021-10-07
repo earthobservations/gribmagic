@@ -88,7 +88,7 @@ def test_build_local_file_list_for_harmonie():
                        Path('/app/data/tmp/harmonie_knmi_20200610_00_1.grib')]
 
 
-def test__local_file_paths_for_harmonie():
+def test_local_file_paths_for_harmonie():
     to_test = _local_file_paths_for_harmonie(
         datetime(2020, 6, 10).date(),
         0,

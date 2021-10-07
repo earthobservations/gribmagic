@@ -1,4 +1,4 @@
-""" constant key and column names"""
+"""Key and column names"""
 
 KEY_FORECAST_STEPS = 'forecast_steps'
 KEY_INITIALIZATION_TIMES = 'initialization_times' 

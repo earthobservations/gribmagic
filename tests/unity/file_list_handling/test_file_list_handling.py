@@ -22,25 +22,8 @@ from gribmagic.unity.modules.config.constants import KEY_VARIABLES, KEY_FORECAST
                 KEY_FILE_POSTFIX: 'grib'
             }}
 )
-@patch(
-    'gribmagic.unity.models.MODEL_CONFIG',
-    {
-        WeatherModels.ICON_EU.value:
-            {
-                KEY_VARIABLES: ['air_temperature_2m'],
-                KEY_FORECAST_STEPS: {0: [0, 1]},
-                KEY_DIRECTORY_TEMPLATE: 'test_remote_dir/{initialization_time}/{variable_name_lower}',
-                KEY_FILE_TEMPLATE: 'test_remote_file_{level_type}_{initialization_date}{initialization_time}_'
-                                   '{forecast_step}_{variable_name_upper}.grib2.bz2',
-                KEY_REMOTE_SERVER: 'test1',
-                KEY_INITIALIZATION_DATE_FORMAT: '%Y%m%d',
-                KEY_FILE_POSTFIX: 'grib'
-            }}
-)
 def test_build_model_file_lists():
-    to_test = build_model_file_lists(WeatherModels.ICON_EU,
-                           0,
-                           datetime(2020, 6, 10).date())
+    to_test = build_model_file_lists(WeatherModels.ICON_EU, 0, datetime(2020, 6, 10).date())
     assert to_test == \
            {'local_file_paths': [Path('/app/data/tmp/icon_eu_20200610_00_air_temperature_2m_000.grib'),
                                  Path('/app/data/tmp/icon_eu_20200610_00_air_temperature_2m_001.grib')],

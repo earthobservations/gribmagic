@@ -53,32 +53,26 @@ def open_grib_file(
     return cfgrib.open_datasets(file_path)
 
 
-def extract_variables_per_dataset_in_list(
-        data: List[xarray.Dataset]
+def create_inventory(
+        dataset: List[xarray.Dataset]
 ) -> Dict[Hashable, List[
     Union[Dict[str, Union[int, any]], Dict[str, Union[str, int]]]]]:
     """
-    Creates a dictionary with the mapping of grib variables to
-        level_type and place in the list
+    Create a dictionary mapping GRIB variables to level_type and index in the list.
     Args:
-        data:
+        dataset:
 
     Returns:
         Dict with Level und Index information
     """
     variables_inventory = {}
-    for idx, dat in enumerate(data):
+    for idx, dat in enumerate(dataset):
         for item in dat.variables.items():
-            if item[0] not in NOT_RELEVANT_ATTRIBUTES:
-                try:
-                    inventory_info = {
-                        KEY_LEVEL_TYPE: dat[item[0]].attrs['GRIB_typeOfLevel'],
-                        KEY_LIST_INDEX: idx}
-                except KeyError:
-                    inventory_info = {KEY_LEVEL_TYPE: '',
-                                      KEY_LIST_INDEX: idx}
-                if item[0] in variables_inventory.keys():
-                    variables_inventory[item[0]].append(inventory_info)
-                else:
-                    variables_inventory[item[0]] = [inventory_info]
+            varname, xelement = item
+            if varname not in NOT_RELEVANT_ATTRIBUTES:
+                variables_inventory.setdefault(varname, [])
+                inventory_info = {
+                    KEY_LEVEL_TYPE: dat[varname].attrs['GRIB_typeOfLevel'],
+                    KEY_LIST_INDEX: idx}
+                variables_inventory[varname].append(inventory_info)
     return variables_inventory

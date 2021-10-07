@@ -122,7 +122,7 @@ def remote_files_grib_packages(
     base_path = Path(model.info[KEY_REMOTE_SERVER])
     remote_file_list = []
     for grib_package in model.grib_packages:
-        if KEY_FORECAST_STEPS[:-1] in model_config[KEY_FILE_TEMPLATE]:
+        if "{forecast_step}" in model_config[KEY_FILE_TEMPLATE]:
             for forecast_step in model_config[KEY_FORECAST_STEPS][initialization_time]:
                 remote_file_list.append(
                     Path(
@@ -139,6 +139,8 @@ def remote_files_grib_packages(
                         ))
                 )
         else:
+            # This code path probably has been used for KNMI Harmonie.
+            # However, raw files are only available via API these days.
             remote_file_list.append(
                 Path(
                     base_path,
