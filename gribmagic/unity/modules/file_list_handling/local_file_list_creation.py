@@ -91,7 +91,7 @@ def _build_local_file_list_with_variables_iterator(
     data_path = Path(os.environ['GM_DATA_PATH'])
     local_file_list = []
     for var in variables_iterator:
-        if KEY_FORECAST_STEPS[:-1] in model_config[KEY_FILE_TEMPLATE]:
+        if "{forecast_step}" in model_config[KEY_FILE_TEMPLATE]:
             for forecast_step in model_config[KEY_FORECAST_STEPS][initialization_time]:
                 local_file_list.append(
                     Path(
@@ -102,6 +102,8 @@ def _build_local_file_list_with_variables_iterator(
                         f"{str(forecast_step).zfill(3)}.{model_config[KEY_FILE_POSTFIX]}"
                     ))
         else:
+            # This code path probably has been used for KNMI Harmonie.
+            # However, raw files are only available via API these days.
             local_file_list.append(
                 Path(
                     data_path,

@@ -13,7 +13,10 @@ class WeatherModelSettings:
 
     def __init__(self, model: WeatherModels):
         self.model = model
-        self.info = MODEL_CONFIG[self.model.value]
+        try:
+            self.info = MODEL_CONFIG[self.model.value]
+        except KeyError:
+            raise KeyError(f"Model {self.model} has no configuration")
         self.variables_map = MODEL_VARIABLES_MAPPING.get(self.model.value)
         self.levels_map = MODEL_VARIABLES_LEVELS_MAPPING.get(self.model.value)
 
@@ -27,20 +30,21 @@ class WeatherModelSettings:
 
     def variable(self, variable):
         if self.variables_map is None:
-           raise KeyError(f"{self.model} has no variable mapping")
+            raise KeyError(f"{self.model} has no variable mapping")
         if variable not in self.variables_map:
             raise KeyError(f"{self.model} lacks variable mapping for '{variable}'")
         return self.variables_map[variable]
 
     def level(self, variable):
         if self.levels_map is None:
-           raise KeyError(f"{self.model} has no variable->level mapping")
+            raise KeyError(f"{self.model} has no variable->level mapping")
         if variable not in self.levels_map:
             raise KeyError(f"{self.model} lacks variable->level mapping for '{variable}'")
         return self.levels_map[variable]
 
     @property
-    @cachedmethod(lambda self: self.cache)
+    # Caching is problematic, because it will interfere with individual mocking when testing.
+    # @cachedmethod(lambda self: self.cache)
     def variables(self):
         return list(self.generate_variables())
 
@@ -56,6 +60,6 @@ class WeatherModelSettings:
             logger.info(f"{self.model}: Accessing parameter '{variable}'")
             if self.model in dwd_models and variable in dwd_blocklist:
                 variable_level = self.level(variable)
-                logger.error(f"DWD ICON: Parameter '{variable}' ({variable_level}) not implemented yet")
+                logger.warning(f"DWD ICON: Parameter '{variable}' ({variable_level}) not implemented yet")
                 continue
             yield variable

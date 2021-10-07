@@ -16,3 +16,6 @@ class WeatherModels(Enum):
     HARMONIE_KNMI = 'harmonie_knmi'
     ARPEGE = 'arpege'
     GEOS5 = 'geos_5'
+
+    # For testing purposes.
+    UNKNOWN = 'unknown'

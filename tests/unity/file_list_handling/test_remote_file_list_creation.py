@@ -29,17 +29,15 @@ from gribmagic.unity.modules.file_list_handling.remote_file_list_creation import
                                    '{forecast_step}_{variable_name_upper}.grib2.bz2',
                 KEY_REMOTE_SERVER: 'test1',
                 KEY_INITIALIZATION_DATE_FORMAT: '%Y%m%d',
-            }}
+            }
+    }
 )
 def test_build_remote_model_file_lists():
-    to_test = remote_files_grib_directories(WeatherModels.ICON_EU,
-                                            0,
-                                            datetime(2020, 6,
-                                                                  10).date())
-    assert to_test == [Path(
-        'test1/test_remote_dir/00/t_2m/test_remote_file_single-level_2020061000_000_T_2M.grib2.bz2'),
-                       Path(
-                           'test1/test_remote_dir/00/t_2m/test_remote_file_single-level_2020061000_001_T_2M.grib2.bz2')]
+    to_test = remote_files_grib_directories(WeatherModels.ICON_EU, 0, datetime(2020, 6, 10).date())
+    assert to_test == [
+        Path('test1/test_remote_dir/00/t_2m/test_remote_file_single-level_2020061000_000_T_2M.grib2.bz2'),
+        Path('test1/test_remote_dir/00/t_2m/test_remote_file_single-level_2020061000_001_T_2M.grib2.bz2'),
+    ]
 
 
 def test_build_remote_model_file_lists_wrong_weather_model():
