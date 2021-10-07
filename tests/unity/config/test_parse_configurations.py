@@ -5,8 +5,9 @@ from gribmagic.unity.modules.config.parse_configurations import parse_model_conf
 
 def test_parse_model_config():
     to_test = parse_model_config()[WeatherModels.AROME_METEO_FRANCE.value]
-    assert to_test == {'remote_server': 'dcpc-nwp.meteo.fr',
-                       'remote_server_type': 'http',
+    assert to_test == {'url_base': 'http://dcpc-nwp.meteo.fr',
+                       'url_path': 'services',
+                       'url_file': 'PS_GetCache_DCPCPreviNum?model=AROME&grid=0.01&package={grib_package_type}&time={forecast_step}H&referencetime={initialization_date}T{initialization_time}:00:00Z&format=grib2',
                        'initialization_times': [0, 3, 6, 12, 18],
                        'forecast_steps': {
                            0: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
@@ -36,9 +37,7 @@ def test_parse_model_config():
                                 40, 41, 42]},
                        'grib_package_types': ['HP1', 'SP1', 'SP2', 'SP3'],
                        'variables': ['air_temperature_2m', 'temperature'],
-                       'file_template': 'PS_GetCache_DCPCPreviNum?model=AROME&grid=0.01&&package={grib_package_type}&time={forecast_step}H&referencetime={initialization_date}T{initialization_time}:00:00Z&format=grib2',
                        'initialization_date_format': '%Y-%m-%d',
-                       'directory_template': 'services',
                        'file_postfix': 'grib2',
                        'compression': '',
                        'forecast_steps_string_length': 2}

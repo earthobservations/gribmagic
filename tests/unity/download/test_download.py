@@ -24,11 +24,9 @@ def test___download():
         stream=True,
     )
 
-    __download((WeatherModels.ICON_EU,
-                icon_eu_output_file,
-                Path('test', 'mock')))
+    __download((WeatherModels.ICON_EU, icon_eu_output_file, 'http://test/mock'))
 
-    assert icon_eu_output_file.is_file() is True
+    assert icon_eu_output_file.is_file() == True
 
     os.remove(icon_eu_output_file)
 
@@ -43,11 +41,9 @@ def test___download_parallel():
         stream=True,
     )
 
-    __download_parallel([(WeatherModels.ICON_EU,
-                icon_eu_output_file,
-                Path('test', 'mock'))])
+    __download_parallel([(WeatherModels.ICON_EU, icon_eu_output_file, 'http://test/mock')])
 
-    assert icon_eu_output_file.is_file() is True
+    assert icon_eu_output_file.is_file() == True
 
     os.remove(icon_eu_output_file)
 
@@ -64,10 +60,10 @@ def test_download_store_bz2_sequential():
 
     download(WeatherModels.ICON_EU,
              {KEY_LOCAL_FILE_PATHS: [icon_eu_output_file],
-              KEY_REMOTE_FILE_PATHS: [Path('test', 'mock')],
+              KEY_REMOTE_FILE_PATHS: ['http://test/mock'],
               KEY_LOCAL_STORE_FILE_PATHS: [Path('not', 'used', 'in', 'download')]})
 
-    assert icon_eu_output_file.is_file() is True
+    assert icon_eu_output_file.is_file() == True
     os.remove(icon_eu_output_file)
 
 
@@ -83,11 +79,11 @@ def test_download_store_bz2_parallel():
 
     download(WeatherModels.ICON_EU,
              {KEY_LOCAL_FILE_PATHS: [icon_eu_output_file],
-              KEY_REMOTE_FILE_PATHS: [Path('test', 'mock')],
+              KEY_REMOTE_FILE_PATHS: ['http://test/mock'],
               KEY_LOCAL_STORE_FILE_PATHS: [Path('not', 'used', 'in', 'download')]},
              parallel_download=True)
 
-    assert icon_eu_output_file.is_file() is True
+    assert icon_eu_output_file.is_file() == True
 
     os.remove(icon_eu_output_file)
 
@@ -104,10 +100,10 @@ def test_download_store_tar():
 
     download(WeatherModels.HARMONIE_KNMI,
              {KEY_LOCAL_FILE_PATHS: [harmonie_output_file],
-              KEY_REMOTE_FILE_PATHS: [Path('test', 'mock')],
+              KEY_REMOTE_FILE_PATHS: ['http://test/mock'],
               KEY_LOCAL_STORE_FILE_PATHS: [Path('not', 'used', 'in', 'download')]})
 
-    assert harmonie_output_file.is_file() is True
+    assert harmonie_output_file.is_file() == True
     os.remove(harmonie_output_file)
 
 
@@ -123,8 +119,8 @@ def test_download_store_uncompressed():
 
     download(WeatherModels.GFS_100,
              {KEY_LOCAL_FILE_PATHS: [gfs_output_file],
-              KEY_REMOTE_FILE_PATHS: [Path('test', 'mock')],
+              KEY_REMOTE_FILE_PATHS: ['http://test/mock'],
               KEY_LOCAL_STORE_FILE_PATHS: [Path('not', 'used', 'in', 'download')]})
 
-    assert gfs_output_file.is_file() is True
+    assert gfs_output_file.is_file() == True
     os.remove(gfs_output_file)

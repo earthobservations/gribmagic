@@ -11,7 +11,7 @@ from gribmagic.unity.enumerations.weather_models import WeatherModels
 from gribmagic.unity.models import WeatherModelSettings
 from gribmagic.unity.modules.download.local_store import bunzip_store, store, tarfile_store
 from gribmagic.unity.modules.config.constants import KEY_LOCAL_FILE_PATHS, \
-    KEY_REMOTE_FILE_PATHS, KEY_COMPRESSION, KEY_REMOTE_SERVER_TYPE
+    KEY_REMOTE_FILE_PATHS, KEY_COMPRESSION
 
 session = requests.Session()
 logger = logging.getLogger(__name__)
@@ -21,7 +21,7 @@ DEFAULT_NUMBER_OF_PARALLEL_PROCESSES = 4
 
 def download(
         weather_model: WeatherModels,
-        model_file_lists: Dict[str, List[Path]],
+        model_file_lists: Dict[str, List[str]],
         parallel_download: bool = False,
         n_processes: int = DEFAULT_NUMBER_OF_PARALLEL_PROCESSES
 ) -> None:
@@ -52,7 +52,7 @@ def download(
 
 
 def __download(
-        download_specification: Tuple[WeatherModels, Path, Path]
+        download_specification: Tuple[WeatherModels, Path, str]
 ) -> None:
     """
     base download function to manage single file download
@@ -71,8 +71,7 @@ def __download(
     model = WeatherModelSettings(weather_model)
 
     # Compute source URL and target file.
-    url = f"{model.info[KEY_REMOTE_SERVER_TYPE]}:" \
-          f"//{download_specification[2]}"
+    url = download_specification[2]
     target_file = download_specification[1]
 
     if target_file.exists():
@@ -100,7 +99,7 @@ def __download(
 
 
 def __download_parallel(
-        download_specifications: List[Tuple[WeatherModels, Path, Path]],
+        download_specifications: List[Tuple[WeatherModels, Path, str]],
         n_processes: int = DEFAULT_NUMBER_OF_PARALLEL_PROCESSES) -> None:
     """
     Script to run download in parallel 
@@ -122,7 +121,7 @@ def __download_parallel(
 
 def __download_tar_file(
         weather_model: WeatherModels,
-        remote_file: Path,
+        url: str,
         local_file_list: List[Path]
 ) -> None:
     """
@@ -136,9 +135,6 @@ def __download_tar_file(
     """
 
     model = WeatherModelSettings(weather_model)
-
-    url = f"{model.info[KEY_REMOTE_SERVER_TYPE]}:" \
-          f"//{remote_file}"
 
     try:
         response = session.get(url, stream=True)
