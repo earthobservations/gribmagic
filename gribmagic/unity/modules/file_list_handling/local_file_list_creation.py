@@ -96,7 +96,6 @@ def _build_local_file_list_with_variables_iterator(
                 local_file_list.append(
                     Path(
                         data_path,
-                        'tmp',
                         f"{weather_model.value}_{run_date.strftime('%Y%m%d')}_"
                         f"{str(initialization_time).zfill(2)}_{var}_"
                         f"{str(forecast_step).zfill(3)}.{model_config[KEY_FILE_POSTFIX]}"
@@ -107,7 +106,6 @@ def _build_local_file_list_with_variables_iterator(
             local_file_list.append(
                 Path(
                     data_path,
-                    'tmp',
                     f"{weather_model.value}_{run_date.strftime('%Y%m%d')}_"
                     f"{str(initialization_time).zfill(2)}_{var}."
                     f"{model_config[KEY_FILE_POSTFIX]}"
@@ -136,7 +134,6 @@ def _local_file_paths_for_harmonie(
         local_file_list.append(
             Path(
                 data_path,
-                'tmp',
                 f"{WeatherModels.HARMONIE_KNMI.value}_{run_date.strftime('%Y%m%d')}_"
                 f"{str(initialization_time).zfill(2)}_{forecast_step}."
                 f"{model_config[KEY_FILE_POSTFIX]}"
