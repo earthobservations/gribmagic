@@ -61,10 +61,10 @@ ECMWF's `ecCodes software`_ ships appropriate tools,
 specifically grib_to_netcdf_. See also `How to convert GRIB to netCDF`_.
 ::
 
-    export GM_DATA_PATH=.gribmagic-data
+    export DATA_PATH=.gribmagic-data
     grib_to_netcdf -k 4 \
-        -o ${GM_DATA_PATH}/netcdf/icon_eu_20201220_00_air_temperature_2m_000.nc \
-        ${GM_DATA_PATH}/tmp/icon_eu_20201220_00_air_temperature_2m_000.grib2
+        -o ${DATA_PATH}/netcdf/icon_eu_20201220_00_air_temperature_2m_000.nc \
+        ${DATA_PATH}/raw/icon_eu_20201220_00_air_temperature_2m_000.grib2
 
 .. _ecCodes software: https://confluence.ecmwf.int/display/ECC
 .. _How to convert GRIB to netCDF: https://confluence.ecmwf.int/display/OIFS/How+to+convert+GRIB+to+netCDF
@@ -77,13 +77,13 @@ In this example, we are using the `Hyrax Docker`_ distribution.
 
 Run::
 
-    export GM_DATA_PATH=.gribmagic-data
+    export DATA_PATH=.gribmagic-data
 
     docker run \
         --rm --interactive --tty \
         --publish 4000:8080 \
         --env NCWMS_BASE=http://localhost:4000 \
-        --volume $(pwd)/${GM_DATA_PATH}/netcdf:/usr/share/hyrax \
+        --volume $(pwd)/${DATA_PATH}/netcdf:/usr/share/hyrax \
         opendap/hyrax:latest
 
     open http://localhost:4000/
@@ -95,8 +95,8 @@ Server (Pydap)
 ==============
 ::
 
-    export GM_DATA_PATH=.gribmagic-data
-    pydap --data=${GM_DATA_PATH}/netcdf --port=4000
+    export DATA_PATH=.gribmagic-data
+    pydap --data=${DATA_PATH}/netcdf --port=4000
 
 
 Client (Xarray)

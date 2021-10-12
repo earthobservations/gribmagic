@@ -1,4 +1,3 @@
-from datetime import datetime
 from pathlib import Path
 from unittest.mock import patch
 
@@ -15,6 +14,7 @@ from gribmagic.unity.modules.config.constants import (
 from gribmagic.unity.modules.file_list_handling.file_list_handling import (
     build_model_file_lists,
 )
+from tests.unity.fixtures import recipe_icon
 
 
 @patch(
@@ -33,9 +33,7 @@ from gribmagic.unity.modules.file_list_handling.file_list_handling import (
     },
 )
 def test_build_model_file_lists():
-    to_test = build_model_file_lists(
-        WeatherModels.DWD_ICON_EU, 0, datetime(2020, 6, 10).date()
-    )
+    to_test = build_model_file_lists(recipe_icon)
     assert to_test == {
         "local_file_paths": [
             Path("/app/data/dwd-icon-eu_20200610_00_air_temperature_2m_000.grib"),

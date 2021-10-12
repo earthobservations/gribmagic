@@ -1,12 +1,10 @@
-""" functions to create remote lists of remote files that should be downloaded """
-from datetime import datetime
+""" Create remote lists of remote files that should be downloaded """
 from typing import List
 
-from gribmagic.unity.enumerations.weather_models import WeatherModels
 from gribmagic.unity.exceptions.wrong_weather_model_exception import (
     WrongWeatherModelException,
 )
-from gribmagic.unity.models import WeatherModelSettings
+from gribmagic.unity.models import AcquisitionRecipe, WeatherModelSettings
 from gribmagic.unity.modules.config.constants import (
     KEY_FORECAST_STEPS,
     KEY_FORECAST_STEPS_STR_LEN,
@@ -17,48 +15,29 @@ from gribmagic.unity.modules.config.constants import (
 )
 
 
-def build_remote_file_list(
-    weather_model: WeatherModels, initialization_time: int, run_date: datetime.date
-) -> List[str]:
+def build_remote_file_list(recipe: AcquisitionRecipe) -> List[str]:
     """
-    selects the right remote_file_path generation function
-
-    Args:
-        weather_model: defines the weather model
-        initialization_time: time of the day when forecast started
-        run_date: date when forecast started
+    Select the right `remote_file_path` generation function.
 
     Returns:
         List of remote file paths
-
     """
-    model = WeatherModelSettings(weather_model)
+    model = WeatherModelSettings(recipe.model)
     if model.has_grib_packages:
-        return remote_files_grib_packages(weather_model, initialization_time, run_date)
+        return remote_files_grib_packages(recipe)
     else:
-        return remote_files_grib_directories(
-            weather_model, initialization_time, run_date
-        )
+        return remote_files_grib_directories(recipe)
 
 
-def remote_files_grib_directories(
-    weather_model: WeatherModels, initialization_time: int, run_date: datetime.date
-) -> List[str]:
+def remote_files_grib_directories(recipe: AcquisitionRecipe) -> List[str]:
     """
-    This functions is a generic file path generator for
-    remote grib files within different directories.
-
-    Args:
-        weather_model: defines the weather model
-        initialization_time: time of the day when forecast started
-        run_date: date when forecast started
+    Generic file path generator for remote GRIB files within different directories.
 
     Returns:
         List of remote file paths
-
     """
 
-    model = WeatherModelSettings(weather_model)
+    model = WeatherModelSettings(recipe.model)
 
     # Sanity checks
     if model.has_grib_packages:
@@ -69,16 +48,16 @@ def remote_files_grib_directories(
     baseurl = model.info[KEY_URL_BASE]
     remote_file_list = []
     for variable in model.variables:
-        for forecast_step in model.info[KEY_FORECAST_STEPS][initialization_time]:
+        for forecast_step in model.info[KEY_FORECAST_STEPS][recipe.run_hour]:
             url_template = urljoin(
                 baseurl, model.info[KEY_URL_PATH], model.info[KEY_URL_FILE]
             )
             tplvars = dict(
                 level_type=model.level(variable),
-                initialization_date=run_date.strftime(
+                initialization_date=recipe.run_date.strftime(
                     model.info[KEY_INITIALIZATION_DATE_FORMAT]
                 ),
-                initialization_time=str(initialization_time).zfill(2),
+                initialization_time=str(recipe.run_hour).zfill(2),
                 forecast_step=str(forecast_step).zfill(3),
                 variable_name_upper=model.variable(variable).upper(),
                 variable_name_lower=model.variable(variable),
@@ -88,24 +67,15 @@ def remote_files_grib_directories(
     return remote_file_list
 
 
-def remote_files_grib_packages(
-    weather_model: WeatherModels, initialization_time: int, run_date: datetime.date
-) -> List[str]:
+def remote_files_grib_packages(recipe: AcquisitionRecipe) -> List[str]:
     """
-    This functions is a generic file path generator for
-    remote grib files within one or more grib data packages.
-
-    Args:
-        weather_model: defines the weather model
-        initialization_time: time of the day when forecast started
-        run_date: date when forecast started
+    Generic file path generator for remote GRIB files within one or more GRIB data package(s).
 
     Returns:
         List of remote file paths
-
     """
 
-    model = WeatherModelSettings(weather_model)
+    model = WeatherModelSettings(recipe.model)
 
     # Sanity checks
     if not model.has_grib_packages:
@@ -119,16 +89,16 @@ def remote_files_grib_packages(
     remote_file_list = []
     for grib_package in model.grib_packages:
         if "{forecast_step}" in model_config[KEY_URL_FILE]:
-            for forecast_step in model_config[KEY_FORECAST_STEPS][initialization_time]:
+            for forecast_step in model_config[KEY_FORECAST_STEPS][recipe.run_hour]:
                 url_template = urljoin(
                     baseurl, model.info[KEY_URL_PATH], model.info[KEY_URL_FILE]
                 )
                 tplvars = dict(
                     grib_package_type=grib_package,
-                    initialization_date=run_date.strftime(
+                    initialization_date=recipe.run_date.strftime(
                         model_config[KEY_INITIALIZATION_DATE_FORMAT]
                     ),
-                    initialization_time=str(initialization_time).zfill(2),
+                    initialization_time=str(recipe.run_hour).zfill(2),
                     forecast_step=str(forecast_step).zfill(
                         model_config[KEY_FORECAST_STEPS_STR_LEN]
                     ),
@@ -142,10 +112,10 @@ def remote_files_grib_packages(
                 baseurl, model.info[KEY_URL_PATH], model.info[KEY_URL_FILE]
             )
             tplvars = dict(
-                initialization_date=run_date.strftime(
+                initialization_date=recipe.run_date.strftime(
                     model_config[KEY_INITIALIZATION_DATE_FORMAT]
                 ),
-                initialization_time=str(initialization_time).zfill(2),
+                initialization_time=str(recipe.run_hour).zfill(2),
             )
             url = url_template.format(**tplvars)
             remote_file_list.append(url)

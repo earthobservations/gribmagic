@@ -50,8 +50,7 @@ Server
 ::
 
     export MAGPLUS_HOME=/usr/local/opt/magics
-    export GM_DATA_PATH=.gribmagic-data
-    skinny-wms --path=$GM_DATA_PATH/tmp
+    skinny-wms --path=.gribmagic-data/raw
     open http://localhost:5000/
 
 
