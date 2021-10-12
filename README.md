@@ -73,8 +73,7 @@ make test
 gribmagic unity list
 
 # Acquire data.
-export GM_DATA_PATH=.gribmagic-data
-gribmagic unity acquire --model=dwd-icon-eu --timestamp=2021-10-03T00:00:00Z
+gribmagic unity acquire --model=dwd-icon-eu --timestamp=2021-10-03T00:00:00Z --target=.gribmagic-data
 ```
 
 ### Configuration
@@ -88,7 +87,6 @@ GM_MODEL_VARIABLES_LEVELS_MAPPING={PATH_TO_PROJECT}/config/model_variables_level
 
 ECCODES_DEFINITION_PATH=/usr/share/eccodes/definitions:/usr/local/opt/eccodes/share/eccodes/definitions
 ```
-The **GM_DATA_PATH** points to the project intern **data** directory per default. 
 
 
 ## Run program in Docker

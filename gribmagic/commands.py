@@ -2,6 +2,7 @@
 import json
 import logging
 from datetime import datetime
+from pathlib import Path
 from typing import Union
 
 import click
@@ -42,10 +43,17 @@ def unity_list():
 @unity.command(name="acquire", help="Acquire NWP data")
 @click.option("--model", required=True, help="The weather model name.")
 @click.option("--timestamp", required=True, help="The initialization timestamp.")
-def unity_acquire(model: Union[str, WeatherModels], timestamp: Union[str, datetime]):
+@click.option(
+    "--target", required=True, envvar="GM_DATA_PATH", help="The target directory."
+)
+def unity_acquire(
+    model: Union[str, WeatherModels],
+    timestamp: Union[str, datetime],
+    target: Union[str, Path],
+):
     logger.info("Starting GribMagic")
     results = run_model_download(
-        weather_model=model, initialization_timestamp=timestamp
+        weather_model=model, initialization_timestamp=timestamp, target_directory=target
     )
 
     # If a func call raises an exception, then that exception will be raised

@@ -35,8 +35,7 @@ Server
 ======
 ::
 
-    export GM_DATA_PATH=.gribmagic-data
-    python demo/publishing/xpublish_server.py $GM_DATA_PATH/tmp/icon_eu_20201220_00_air_temperature_2m_000.grib2
+    python demo/publishing/xpublish_server.py .gribmagic-data/icon_eu_20201220_00_air_temperature_2m_000.grib2
     open http://localhost:9000/
 
 

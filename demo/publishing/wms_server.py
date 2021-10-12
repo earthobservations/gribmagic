@@ -6,7 +6,7 @@ import sys
 # of ``skinnywms.wmssvr`` on the global module scope.
 # Will have to send a pull request to get things straight.
 #
-# So, maybe better use ``skinny-wms --path=$GM_DATA_PATH/tmp``.
+# So, maybe better use ``skinny-wms --path=.gribmagic-data/raw``.
 
 
 def wms_server(filepath=None):

@@ -20,7 +20,7 @@ model_config = deepcopy(MODEL_CONFIG[WeatherModels.DWD_ICON_EU.value])
 model_config.update({KEY_VARIABLES: ["air_temperature_2m", "relative_humidity_2m"]})
 
 
-def test_command_gribmagic_unity_list(capsys):
+def test_command_gribmagic_unity_list():
     runner = CliRunner()
     result = runner.invoke(
         cli=cli,
@@ -50,19 +50,44 @@ def test_command_gribmagic_unity_list(capsys):
     "gribmagic.unity.models.MODEL_CONFIG",
     {WeatherModels.DWD_ICON_EU.value: model_config},
 )
-def test_command_gribmagic_unity_acquire(caplog):
+def test_command_gribmagic_unity_acquire_success_cmdline(caplog, capsys):
 
-    responses.add(
-        method=responses.GET,
-        url=re.compile(".*"),
-        # No need to shuffle actual data around.
-        body=b"",
-        stream=True,
-    )
+    mock_response()
+
+    tempdir = tempfile.mkdtemp()
+    with caplog.at_level(logging.DEBUG):
+        runner = CliRunner()
+        result = runner.invoke(
+            cli=cli,
+            args=[
+                "unity",
+                "acquire",
+                "--model=dwd-icon-eu",
+                "--timestamp=2021-10-03T00:00:00Z",
+                f"--target={tempdir}",
+            ],
+            catch_exceptions=False,
+        )
+
+    # result.exit_code == 1 -- why!?
+    # assert result.exit_code == 0
+
+    proof_success(caplog, result, tempdir)
+
+    shutil.rmtree(tempdir)
+
+
+@responses.activate
+@patch(
+    "gribmagic.unity.models.MODEL_CONFIG",
+    {WeatherModels.DWD_ICON_EU.value: model_config},
+)
+def test_command_gribmagic_unity_acquire_success_envvar(caplog, capsys):
+
+    mock_response()
 
     tempdir = tempfile.mkdtemp()
     with mock.patch.dict(os.environ, {"GM_DATA_PATH": tempdir}):
-
         with caplog.at_level(logging.DEBUG):
             runner = CliRunner()
             result = runner.invoke(
@@ -79,7 +104,50 @@ def test_command_gribmagic_unity_acquire(caplog):
     # result.exit_code == 1 -- why!?
     # assert result.exit_code == 0
 
-    assert "Starting GribMagic" in caplog.text
+    proof_success(caplog, result, tempdir)
+
+    shutil.rmtree(tempdir)
+
+
+@responses.activate
+@patch(
+    "gribmagic.unity.models.MODEL_CONFIG",
+    {WeatherModels.DWD_ICON_EU.value: model_config},
+)
+def test_command_gribmagic_unity_acquire_failure(caplog, capsys):
+
+    mock_response()
+
+    with caplog.at_level(logging.DEBUG):
+        runner = CliRunner()
+        result = runner.invoke(
+            cli=cli,
+            args=[
+                "unity",
+                "acquire",
+                "--model=dwd-icon-eu",
+                "--timestamp=2021-10-03T00:00:00Z",
+            ],
+            catch_exceptions=False,
+        )
+
+    assert result.exit_code == 2
+    assert "Error: Missing option '--target'." in result.output
+
+
+def mock_response():
+    responses.add(
+        method=responses.GET,
+        url=re.compile(".*"),
+        # No need to shuffle actual data around.
+        body=b"",
+        stream=True,
+    )
+
+
+def proof_success(caplog, result, tempdir):
+
+    assert "Starting GribMagic" in caplog.text, result.output
     assert (
         "WeatherModels.DWD_ICON_EU: Accessing parameter 'air_temperature_2m'"
         in caplog.messages
@@ -109,5 +177,3 @@ def test_command_gribmagic_unity_acquire(caplog):
     ]
     assert len(t2m_messages) == 93
     assert len(rh2m_messages) == 93
-
-    shutil.rmtree(tempdir)
