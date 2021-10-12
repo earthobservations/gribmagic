@@ -34,7 +34,7 @@ def download(
     n_processes: int = DEFAULT_NUMBER_OF_PARALLEL_PROCESSES,
 ) -> None:
     """
-    download weather forecasts
+    Download weather forecasts data.
     """
 
     model = WeatherModelSettings(weather_model)

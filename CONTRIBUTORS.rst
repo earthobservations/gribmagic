@@ -1,5 +1,8 @@
-This is a list of the people who directly contributed to
-GribMagic in one way or another, in the order of appearance.
+This is an alphabetically-ordered list of the people who contributed to
+GribMagic in one way or another.
 
-* Daniel Lassahn <daniel.lassahn@meteointelligence.de>
 * Andreas Motl <andreas.motl@panodata.org>
+* Benjamin Gutzmann <gutzemann@gmail.com>
+* Daniel Lassahn <daniel.lassahn@meteointelligence.de>
+* Matthias Mehldau <matthias.mehldau@panodata.org>
+* Michael Haberler <mah@mah.priv.at>

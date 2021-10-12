@@ -1,5 +1,5 @@
 #################
-gribmagic backlog
+GribMagic backlog
 #################
 
 
@@ -11,12 +11,13 @@ Prio 1
 - [x] Add demo program for selecting area of interest based on bounding box
 - [x] Inline default mapping YAML files into package
 - [x] Improve test coverage and reactivate Codecov uploads
-- [o] Code refactoring
 - [x] Get rid of ``tmp`` subdirectory
 - [x] Get rid of ``remote_server_type``
 - [x] Flip "Product » Provider" to "Provider » Product"
 - [x] Run ``isort`` and ``black``
-- [o] Optionally obtain target directory (``GM_DATA_PATH``) from command line parameter
+- [x] Obtain target directory from command line parameter
+- [o] Maybe use model name as subdirectory for storing data
+- [o] Large code refactoring
 - [o] Improve README
 - [o] Improve sandbox (just type ``make test``)
 - [o] CI: Add test matrix for Python 3.7, 3.8 and 3.9
@@ -45,10 +46,19 @@ Prio 2
 - [o] Improve documentation
     - https://www.nco.ncep.noaa.gov/pmb/products/gfs/
     - http://dcpc-nwp.meteo.fr/
+    - https://www.emc.ncep.noaa.gov/emc/pages/numerical_forecast_systems/gefs.php
     - https://en.wikipedia.org/wiki/National_Centers_for_Environmental_Prediction
+    - https://gsl.noaa.gov/focus-areas/unified_forecast_system
+    - https://vlab.noaa.gov/web/environmental-modeling-center/unified-forecast-system
+    - https://ufscommunity.org/
+    - https://ufscommunity.org/about/what-is-ufs/
+    - https://ufscommunity.org/news/srwa/
 
 - [o] Complete products
     - AROME has more grid resolutions
+
+- [o] Add more models
+    - https://de.wikipedia.org/wiki/Numerische_Wettervorhersage#Modelle
 
 
 ******

@@ -69,7 +69,7 @@ make test
 
 ### Ad hoc usage
 ```
-# List available labels.
+# List labels of available models.
 gribmagic unity list
 
 # Acquire data.
@@ -91,7 +91,7 @@ ECCODES_DEFINITION_PATH=/usr/share/eccodes/definitions:/usr/local/opt/eccodes/sh
 
 ## Run program in Docker
 
-To use gribmagic in a Docker container, you have to build the Docker image like
+To use GribMagic in a Docker container, you have to build the Docker image like
 ```
 docker build --tag gribmagic .
 ```
