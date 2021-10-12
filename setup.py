@@ -73,7 +73,7 @@ setup(name='gribmagic',
       },
       entry_points={
         'console_scripts': [
-          'gribmagic = gribmagic.commands:main',
+          'gribmagic = gribmagic.commands:cli',
         ],
       },
 )
