@@ -69,8 +69,12 @@ make test
 
 ### Ad hoc usage
 ```
+# List available labels.
+gribmagic unity list
+
+# Acquire data.
 export GM_DATA_PATH=.gribmagic-data
-gribmagic unity --model=dwd-icon-eu --timestamp=2021-10-03T00:00:00Z
+gribmagic unity acquire --model=dwd-icon-eu --timestamp=2021-10-03T00:00:00Z
 ```
 
 ### Configuration
@@ -96,7 +100,7 @@ docker build --tag gribmagic .
 
 and then invoke it like
 ```
-docker run -it --volume=$PWD/.gribmagic-data:/var/spool/gribmagic gribmagic:latest gribmagic unity --model=dwd-icon-eu --timestamp=2021-10-03T00:00:00Z
+docker run -it --volume=$PWD/.gribmagic-data:/var/spool/gribmagic gribmagic:latest gribmagic unity acquire --model=dwd-icon-eu --timestamp=2021-10-03T00:00:00Z
 ```
 
 ---

@@ -1,3 +1,4 @@
+import json
 import logging
 import os
 import re
@@ -10,7 +11,7 @@ from unittest.mock import patch
 import responses
 from click.testing import CliRunner
 
-from gribmagic.commands import main
+from gribmagic.commands import cli
 from gribmagic.unity.enumerations.weather_models import WeatherModels
 from gribmagic.unity.models import MODEL_CONFIG
 from gribmagic.unity.modules.config.constants import KEY_VARIABLES
@@ -19,12 +20,37 @@ model_config = deepcopy(MODEL_CONFIG[WeatherModels.DWD_ICON_EU.value])
 model_config.update({KEY_VARIABLES: ["air_temperature_2m", "relative_humidity_2m"]})
 
 
+def test_command_gribmagic_unity_list(capsys):
+    runner = CliRunner()
+    result = runner.invoke(
+        cli=cli,
+        args=[
+            "unity",
+            "list",
+        ],
+        # catch_exceptions=False,
+    )
+    labels = json.loads(result.output)
+    assert labels == [
+        "ncep-gfs-025",
+        "ncep-gfs-050",
+        "ncep-gfs-100",
+        "dwd-icon-global",
+        "dwd-icon-eu",
+        "dwd-icon-eu-eps",
+        "dwd-cosmo-d2",
+        "dwd-cosmo-d2-eps",
+        "meteo-france-arome",
+        "knmi-harmonie",
+    ]
+
+
 @responses.activate
 @patch(
     "gribmagic.unity.models.MODEL_CONFIG",
     {WeatherModels.DWD_ICON_EU.value: model_config},
 )
-def test_command_gribmagic_unity(caplog):
+def test_command_gribmagic_unity_acquire(caplog):
 
     responses.add(
         method=responses.GET,
@@ -40,9 +66,10 @@ def test_command_gribmagic_unity(caplog):
         with caplog.at_level(logging.DEBUG):
             runner = CliRunner()
             result = runner.invoke(
-                cli=main,
+                cli=cli,
                 args=[
                     "unity",
+                    "acquire",
                     "--model=dwd-icon-eu",
                     "--timestamp=2021-10-03T00:00:00Z",
                 ],
@@ -52,7 +79,6 @@ def test_command_gribmagic_unity(caplog):
     # result.exit_code == 1 -- why!?
     # assert result.exit_code == 0
 
-    # assert result.output == 'Hello Peter!\n'
     assert "Starting GribMagic" in caplog.text
     assert (
         "WeatherModels.DWD_ICON_EU: Accessing parameter 'air_temperature_2m'"
