@@ -37,9 +37,9 @@ test-coverage: testdata-download testoutput-clean
 		--cov-report=xml
 
 format:
-	$(pip) install --requirement=requirements-dev.txt --quiet
-	$(isort) --profile=black gribmagic tests
-	$(black) gribmagic tests
+	@$(pip) install --requirement=requirements-dev.txt --quiet
+	@$(isort) --profile=black gribmagic tests
+	@$(black) gribmagic tests
 
 install-magics:
 	mkdir -p tmp/download tmp/build/magics
