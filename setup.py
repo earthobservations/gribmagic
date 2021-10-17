@@ -9,7 +9,7 @@ setup(name='gribmagic',
       version='0.0.0',
       description='Download of public GRIB1/GRIB2 and netCDF data from numerical weather prediction models',
       long_description=README,
-      license="AGPL 3, EUPL 1.2",
+      license="MIT",
       classifiers=[
         "Programming Language :: Python",
         "Programming Language :: Python :: 3.7",
@@ -41,7 +41,7 @@ setup(name='gribmagic',
         "Operating System :: MacOS"
         ],
       author='Daniel Lassahn, Andreas Motl',
-      author_email='andreas.motl@panodata.org',
+      author_email='daniel.lassahn@gmail.com, andreas.motl@panodata.org',
       url='https://github.com/earthobservations/gribmagic',
       keywords='nwp weather data acquisition ' +
                'dwd icon cosmo ncep meteofrance arome knmi harmonie',

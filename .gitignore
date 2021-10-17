@@ -12,5 +12,7 @@ tmp
 var
 *.old
 
+.pytest_cache
+.pytest_results
 .coverage
 coverage.xml
