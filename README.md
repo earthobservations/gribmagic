@@ -50,18 +50,9 @@ apt-get install libeccodes0
 brew install eccodes
 ```
 
-Install Python packages.
+Install GribMagic Python package.
 ```
-git clone https://github.com/earthobservations/gribmagic
-cd gribmagic
-python3 -m venv .venv
-source .venv/bin/activate
-pip install --editable=.[test]
-```
-
-### Run tests
-```
-make test
+pip install gribmagic --upgrade
 ```
 
 
@@ -99,6 +90,23 @@ docker build --tag gribmagic .
 and then invoke it like
 ```
 docker run -it --volume=$PWD/.gribmagic-data:/var/spool/gribmagic gribmagic:latest gribmagic unity acquire --model=dwd-icon-eu --timestamp=2021-10-03T00:00:00Z
+```
+
+## Development
+
+### Acquire source code
+```
+git clone https://github.com/earthobservations/gribmagic
+cd gribmagic
+```
+
+### Run software tests
+```
+# Run all tests.
+make test
+
+# All tests, with code coverage report.
+make test-coverage
 ```
 
 ---

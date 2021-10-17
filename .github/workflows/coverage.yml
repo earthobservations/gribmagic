@@ -13,24 +13,31 @@ jobs:
     strategy:
       matrix:
         os: [ ubuntu-latest ]
+        python-version: ["3.7", "3.8", "3.9", "3.10"]
     env:
       OS: ${{ matrix.os }}
-      PYTHON: '3.8'
+      PYTHON: ${{ matrix.python-version }}
 
     steps:
 
     - name: Setup Python
       uses: actions/setup-python@v2
       with:
-        python-version: 3.8
+        python-version: ${{ matrix.python-version }}
 
     - name: Acquire sources
       uses: actions/checkout@v2
 
+    - uses: actions/cache@v2
+      with:
+        path: ${{ matrix.path }}
+        key: ${{ runner.os }}-pip-${{ hashFiles('setup.py', 'requirements-dev.txt') }}
+        restore-keys: |
+         ${{ runner.os }}-pip-
+
     - name: Install dependencies
       run: |
         sudo apt-get install libeccodes0
-        pip install --editable=.[test]
 
     - name: Run tests, with coverage
       run: make test-coverage
