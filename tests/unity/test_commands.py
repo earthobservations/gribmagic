@@ -12,11 +12,11 @@ import responses
 from click.testing import CliRunner
 
 from gribmagic.commands import cli
-from gribmagic.unity.enumerations.weather_models import WeatherModels
-from gribmagic.unity.models import MODEL_CONFIG
-from gribmagic.unity.modules.config.constants import KEY_VARIABLES
+from gribmagic.unity.configuration import MODEL_CONFIG
+from gribmagic.unity.configuration.constants import KEY_VARIABLES
+from gribmagic.unity.enumerations import WeatherModel
 
-model_config = deepcopy(MODEL_CONFIG[WeatherModels.DWD_ICON_EU.value])
+model_config = deepcopy(MODEL_CONFIG[WeatherModel.DWD_ICON_EU.value])
 model_config.update({KEY_VARIABLES: ["air_temperature_2m", "relative_humidity_2m"]})
 
 
@@ -47,8 +47,8 @@ def test_command_gribmagic_unity_list():
 
 @responses.activate
 @patch(
-    "gribmagic.unity.models.MODEL_CONFIG",
-    {WeatherModels.DWD_ICON_EU.value: model_config},
+    "gribmagic.unity.configuration.model.MODEL_CONFIG",
+    {WeatherModel.DWD_ICON_EU.value: model_config},
 )
 def test_command_gribmagic_unity_acquire_success_cmdline(caplog, capsys):
 
@@ -79,8 +79,8 @@ def test_command_gribmagic_unity_acquire_success_cmdline(caplog, capsys):
 
 @responses.activate
 @patch(
-    "gribmagic.unity.models.MODEL_CONFIG",
-    {WeatherModels.DWD_ICON_EU.value: model_config},
+    "gribmagic.unity.configuration.model.MODEL_CONFIG",
+    {WeatherModel.DWD_ICON_EU.value: model_config},
 )
 def test_command_gribmagic_unity_acquire_success_envvar(caplog, capsys):
 
@@ -111,8 +111,8 @@ def test_command_gribmagic_unity_acquire_success_envvar(caplog, capsys):
 
 @responses.activate
 @patch(
-    "gribmagic.unity.models.MODEL_CONFIG",
-    {WeatherModels.DWD_ICON_EU.value: model_config},
+    "gribmagic.unity.configuration.model.MODEL_CONFIG",
+    {WeatherModel.DWD_ICON_EU.value: model_config},
 )
 def test_command_gribmagic_unity_acquire_failure(caplog, capsys):
 
@@ -148,13 +148,9 @@ def mock_response():
 def proof_success(caplog, result, tempdir):
 
     assert "Starting GribMagic" in caplog.text, result.output
+    assert "WeatherModel.DWD_ICON_EU: Accessing parameter 'air_temperature_2m'" in caplog.messages
     assert (
-        "WeatherModels.DWD_ICON_EU: Accessing parameter 'air_temperature_2m'"
-        in caplog.messages
-    )
-    assert (
-        "WeatherModels.DWD_ICON_EU: Accessing parameter 'relative_humidity_2m'"
-        in caplog.messages
+        "WeatherModel.DWD_ICON_EU: Accessing parameter 'relative_humidity_2m'" in caplog.messages
     )
     assert (
         f"Downloading https://opendata.dwd.de/weather/nwp/icon-eu/grib/00/t_2m/icon-eu_europe_regular-lat-lon_single-level_2021100300_000_T_2M.grib2.bz2 to {tempdir}/dwd-icon-eu_20211003_00_air_temperature_2m_000.grib2"
@@ -166,9 +162,7 @@ def proof_success(caplog, result, tempdir):
     )
 
     t2m_messages = [
-        message
-        for message in caplog.messages
-        if "Downloading" in message and "t_2m" in message
+        message for message in caplog.messages if "Downloading" in message and "t_2m" in message
     ]
     rh2m_messages = [
         message

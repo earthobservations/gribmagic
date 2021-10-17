@@ -4,17 +4,17 @@ from pathlib import Path
 
 import responses
 
-from gribmagic.unity.enumerations.weather_models import WeatherModels
-from gribmagic.unity.modules.config.constants import (
+from gribmagic.unity.configuration.constants import (
     KEY_LOCAL_FILE_PATHS,
     KEY_LOCAL_STORE_FILE_PATHS,
     KEY_REMOTE_FILE_PATHS,
 )
-from gribmagic.unity.modules.download.download import (
+from gribmagic.unity.download.engine import (
     __download,
     __download_parallel,
-    download,
+    run_download,
 )
+from gribmagic.unity.enumerations import WeatherModel
 from tests.unity.fixtures import (
     gfs_input_file,
     gfs_output_file,
@@ -35,7 +35,7 @@ def test___download():
         stream=True,
     )
 
-    __download((WeatherModels.DWD_ICON_EU, icon_eu_output_file, "http://test/mock"))
+    __download((WeatherModel.DWD_ICON_EU, icon_eu_output_file, "http://test/mock"))
 
     assert icon_eu_output_file.is_file() == True
 
@@ -52,9 +52,7 @@ def test___download_parallel():
         stream=True,
     )
 
-    __download_parallel(
-        [(WeatherModels.DWD_ICON_EU, icon_eu_output_file, "http://test/mock")]
-    )
+    __download_parallel([(WeatherModel.DWD_ICON_EU, icon_eu_output_file, "http://test/mock")])
 
     assert icon_eu_output_file.is_file() == True
 
@@ -71,8 +69,8 @@ def test_download_store_bz2_sequential():
         stream=True,
     )
 
-    download(
-        WeatherModels.DWD_ICON_EU,
+    run_download(
+        WeatherModel.DWD_ICON_EU,
         {
             KEY_LOCAL_FILE_PATHS: [icon_eu_output_file],
             KEY_REMOTE_FILE_PATHS: ["http://test/mock"],
@@ -94,8 +92,8 @@ def test_download_store_bz2_parallel():
         stream=True,
     )
 
-    download(
-        WeatherModels.DWD_ICON_EU,
+    run_download(
+        WeatherModel.DWD_ICON_EU,
         {
             KEY_LOCAL_FILE_PATHS: [icon_eu_output_file],
             KEY_REMOTE_FILE_PATHS: ["http://test/mock"],
@@ -119,8 +117,8 @@ def test_download_store_tar():
         stream=True,
     )
 
-    download(
-        WeatherModels.KNMI_HARMONIE,
+    run_download(
+        WeatherModel.KNMI_HARMONIE,
         {
             KEY_LOCAL_FILE_PATHS: [harmonie_output_file],
             KEY_REMOTE_FILE_PATHS: ["http://test/mock"],
@@ -142,8 +140,8 @@ def test_download_store_uncompressed():
         stream=True,
     )
 
-    download(
-        WeatherModels.NCEP_GFS_100,
+    run_download(
+        WeatherModel.NCEP_GFS_100,
         {
             KEY_LOCAL_FILE_PATHS: [gfs_output_file],
             KEY_REMOTE_FILE_PATHS: ["http://test/mock"],

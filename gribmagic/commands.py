@@ -7,9 +7,9 @@ from typing import Union
 
 import click
 
+from gribmagic.unity.configuration.parser import parse_model_config
 from gribmagic.unity.core import run_model_download
-from gribmagic.unity.enumerations.weather_models import WeatherModels
-from gribmagic.unity.modules.config.parse_configurations import parse_model_config
+from gribmagic.unity.enumerations import WeatherModel
 from gribmagic.util import setup_logging
 
 logger = logging.getLogger(__name__)
@@ -43,11 +43,9 @@ def unity_list():
 @unity.command(name="acquire", help="Acquire NWP data")
 @click.option("--model", required=True, help="The weather model name.")
 @click.option("--timestamp", required=True, help="The initialization timestamp.")
-@click.option(
-    "--target", required=True, envvar="GM_DATA_PATH", help="The target directory."
-)
+@click.option("--target", required=True, envvar="GM_DATA_PATH", help="The target directory.")
 def unity_acquire(
-    model: Union[str, WeatherModels],
+    model: Union[str, WeatherModel],
     timestamp: Union[str, datetime],
     target: Union[str, Path],
 ):
