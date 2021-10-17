@@ -2,21 +2,21 @@ import os
 from datetime import datetime
 from pathlib import Path
 
-from gribmagic.unity.enumerations.weather_models import WeatherModels
-from gribmagic.unity.models import AcquisitionRecipe
+from gribmagic.unity.enumerations import WeatherModel
+from gribmagic.unity.model import AcquisitionRecipe
 
 recipe_icon = AcquisitionRecipe(
-    model=WeatherModels.DWD_ICON_EU,
+    model=WeatherModel.DWD_ICON_EU,
     timestamp=datetime(2020, 6, 10, 0, 0),
     target="/app/data",
 )
 recipe_arome = AcquisitionRecipe(
-    model=WeatherModels.METEO_FRANCE_AROME,
+    model=WeatherModel.METEO_FRANCE_AROME,
     timestamp=datetime(2020, 6, 10, 0, 0),
     target="/app/data",
 )
 recipe_harmonie = AcquisitionRecipe(
-    model=WeatherModels.KNMI_HARMONIE,
+    model=WeatherModel.KNMI_HARMONIE,
     timestamp=datetime(2020, 6, 10, 0, 0),
     target="/app/data",
 )

@@ -38,7 +38,7 @@ test-coverage: testdata-download testoutput-clean
 
 format:
 	@$(pip) install --requirement=requirements-dev.txt --quiet
-	@$(isort) --profile=black gribmagic tests
+	@$(isort) gribmagic tests
 	@$(black) gribmagic tests
 
 install-magics:

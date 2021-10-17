@@ -3,17 +3,15 @@ from datetime import datetime
 from pathlib import Path
 from typing import Union
 
-from gribmagic.unity.enumerations.weather_models import WeatherModels
-from gribmagic.unity.models import AcquisitionRecipe
-from gribmagic.unity.modules.download.download import download
-from gribmagic.unity.modules.file_list_handling.file_list_handling import (
-    build_model_file_lists,
-)
-from gribmagic.unity.modules.time.time_parsing import convert_iso_timestamp_to_date_time
+from gribmagic.unity.download.engine import run_download
+from gribmagic.unity.enumerations import WeatherModel
+from gribmagic.unity.index import make_fileindex
+from gribmagic.unity.model import AcquisitionRecipe
+from gribmagic.util import parse_timestamp
 
 
 def run_model_download(
-    weather_model: Union[str, WeatherModels],
+    weather_model: Union[str, WeatherModel],
     initialization_timestamp: Union[str, datetime],
     target_directory: Union[str, Path],
 ) -> None:
@@ -21,7 +19,7 @@ def run_model_download(
     Run a full stack model download as defined in `model_config.yml`.
 
     Args:
-        :param weather_model: One of `WeatherModels`.
+        :param weather_model: One of `WeatherModel`.
         :param initialization_timestamp: NWP run initialization time.
         :param target_directory: Where to store data into.
 
@@ -29,15 +27,13 @@ def run_model_download(
         Download weather forecast data and store into filesystem.
     """
 
-    weather_model = WeatherModels(weather_model)
+    weather_model = WeatherModel(weather_model)
 
     if isinstance(initialization_timestamp, str):
-        initialization_timestamp = convert_iso_timestamp_to_date_time(
-            initialization_timestamp
-        )
+        initialization_timestamp = parse_timestamp(initialization_timestamp)
 
     recipe = AcquisitionRecipe(
         model=weather_model, timestamp=initialization_timestamp, target=target_directory
     )
-    model_file_list = build_model_file_lists(recipe)
-    return download(weather_model, model_file_list, parallel_download=True)
+    model_file_list = make_fileindex(recipe)
+    return run_download(weather_model, model_file_list, parallel_download=True)
