@@ -18,6 +18,7 @@ jobs:
       OS: ${{ matrix.os }}
       PYTHON: ${{ matrix.python-version }}
 
+    name: Python ${{ matrix.python-version }} on OS ${{ matrix.os }}
     steps:
 
     - name: Setup Python
