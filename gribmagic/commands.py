@@ -7,6 +7,7 @@ from typing import Union
 
 import click
 
+import gribmagic.dwd.pipeline
 from gribmagic.unity.configuration.parser import parse_model_config
 from gribmagic.unity.core import run_model_download
 from gribmagic.unity.enumerations import WeatherModel
@@ -58,3 +59,12 @@ def unity_acquire(
     # when its value is retrieved from the iterator.
     # https://docs.python.org/3/library/concurrent.futures.html#concurrent.futures.Executor.map
     list(results)
+
+
+@cli.group(help="DWD GRIB data downloader")
+@click.pass_context
+def dwd(ctx):
+    pass
+
+
+dwd.add_command(gribmagic.dwd.pipeline.main, "acquire")

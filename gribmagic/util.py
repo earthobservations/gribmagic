@@ -1,6 +1,8 @@
 import logging
+import os
 import sys
 from datetime import datetime
+from pathlib import Path
 
 from dateutil.parser import parse
 
@@ -23,3 +25,45 @@ def parse_timestamp(value: str) -> datetime:
         raise ValueError("Timestamp is not timezone aware")
     else:
         return timestamp
+
+
+def load_module(name: str, path: str):
+    """
+    Import Python module from file.
+
+    This is needed because we can't import
+    ``opendata-downloader.py`` as a module directly.
+
+    However, we also use it for loading the recipe at runtime.
+
+    :param name:
+    :param path:
+    :return:
+    """
+
+    # Use absolute path.
+    modulefile = Path(path).absolute()
+
+    # Extend module search path.
+    modulepath = Path(modulefile).parent.absolute()
+
+    # Satisfy importing of ``extendedformatter.py``.
+    # No module named 'extendedformatter'
+    sys.path.append(str(modulepath))
+
+    # Satisfy reading of ``models.json``.
+    current_dir = os.getcwd()
+    os.chdir(modulepath)
+
+    # Import module.
+    # https://stackoverflow.com/a/67692
+    import importlib.util
+
+    spec = importlib.util.spec_from_file_location(name, modulefile)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+
+    # Restore working directory.
+    os.chdir(current_dir)
+
+    return mod

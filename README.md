@@ -37,9 +37,7 @@ be beta software. As this is an early-stage project, contributions are
 highly appreciated.
 
 
-## Development
-
-### Setup
+## Setup
 
 Install the [ecCodes package by ECMWF](https://confluence.ecmwf.int/display/ECC).
 ```
@@ -56,7 +54,7 @@ pip install gribmagic --upgrade
 ```
 
 
-## Run program
+## Run GribMagic Unity program
 
 ### Ad hoc usage
 ```
@@ -77,6 +75,18 @@ GM_MODEL_VARIABLES_MAPPING={PATH_TO_PROJECT}/config/model_variables_mapping.yml"
 GM_MODEL_VARIABLES_LEVELS_MAPPING={PATH_TO_PROJECT}/config/model_variables_levels_mapping.yml"
 
 ECCODES_DEFINITION_PATH=/usr/share/eccodes/definitions:/usr/local/opt/eccodes/share/eccodes/definitions
+```
+
+
+## Run DWD GRIB Downloader program
+```
+# Acquire wind-specific parameters from ICON-D2.
+wget https://raw.githubusercontent.com/earthobservations/gribmagic/98da3fd4f/examples/dwd/recipe_d2_wind.py
+gribmagic dwd acquire --recipe=recipe_d2_wind.py --timestamp="2021101800" --output=.gribmagic-data
+
+# Acquire assorted parameters from ICON-GLOBAL.
+wget https://raw.githubusercontent.com/earthobservations/gribmagic/98da3fd4f/examples/dwd/recipe_global_assorted.py
+gribmagic dwd acquire --recipe=recipe_global_assorted.py --timestamp="2021101800" --output=.gribmagic-data
 ```
 
 

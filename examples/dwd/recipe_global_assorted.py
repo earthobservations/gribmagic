@@ -1,7 +1,7 @@
 """
 Describe an example recipe for acquiring a subset of GRIB files.
 """
-from demo.pipeline.pipeline import Recipe, Parameter
+from gribmagic.dwd.pipeline import Recipe, Parameter
 
 recipe = Recipe(
     model="icon",
