@@ -33,3 +33,14 @@ class AcquisitionRecipe:
         Time of the day when forecast started.
         """
         return self.timestamp.hour
+
+
+@dataclasses.dataclass
+class DownloadItem:
+    """
+    The download specification.
+    """
+
+    model: WeatherModel
+    local_file: Path
+    remote_url: str

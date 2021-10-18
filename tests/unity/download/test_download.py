@@ -15,6 +15,7 @@ from gribmagic.unity.download.engine import (
     run_download,
 )
 from gribmagic.unity.enumerations import WeatherModel
+from gribmagic.unity.model import DownloadItem
 from tests.unity.fixtures import (
     gfs_input_file,
     gfs_output_file,
@@ -22,6 +23,10 @@ from tests.unity.fixtures import (
     harmonie_output_file,
     icon_eu_input_file,
     icon_eu_output_file,
+)
+
+TEST_ITEM = DownloadItem(
+    model=WeatherModel.DWD_ICON_EU, local_file=icon_eu_output_file, remote_url="http://test/mock"
 )
 
 
@@ -35,7 +40,7 @@ def test___download():
         stream=True,
     )
 
-    __download((WeatherModel.DWD_ICON_EU, icon_eu_output_file, "http://test/mock"))
+    __download(TEST_ITEM)
 
     assert icon_eu_output_file.is_file() == True
 
@@ -52,7 +57,7 @@ def test___download_parallel():
         stream=True,
     )
 
-    __download_parallel([(WeatherModel.DWD_ICON_EU, icon_eu_output_file, "http://test/mock")])
+    __download_parallel([TEST_ITEM])
 
     assert icon_eu_output_file.is_file() == True
 
