@@ -16,18 +16,19 @@ Prio 1
 - [x] Flip "Product » Provider" to "Provider » Product"
 - [x] Run ``isort`` and ``black``
 - [x] Obtain target directory from command line parameter
-- [o] Maybe use model name as subdirectory for storing data
-- [o] Large code refactoring
-- [o] Improve README
-- [o] Improve sandbox (just type ``make test``)
-- [o] CI: Add test matrix for Python 3.7, 3.8 and 3.9
-- [o] Add type hints for return values from "download-xyz" functions
+- [x] Large code refactoring
+- [x] Resolve download_specification[0] / [1] / [2]
+- [x] Improve README
+- [x] Improve sandbox (just type ``make test``)
+- [x] CI: Add test matrix for Python 3.7, 3.8 and 3.9
 - [o] Release on PyPI
 
 
 ******
 Prio 2
 ******
+- [o] Maybe use model name as subdirectory for storing data
+- [o] Add type hints for return values from "download-xyz" functions
 - [o] Ask Daniel for missing commits aac0f51, 6eac45e, 95c0662 re. "Fix KNMI download via API"
 - [o] ``--dry-run`` parameter, just printing the URLs
 - [o] Integrate dwd-data-downloader
@@ -59,6 +60,7 @@ Prio 2
 
 - [o] Add more models
     - https://de.wikipedia.org/wiki/Numerische_Wettervorhersage#Modelle
+- [o] Implement ``gribmagic/unity/modules/parsing/unify_data.py``
 
 
 ******
