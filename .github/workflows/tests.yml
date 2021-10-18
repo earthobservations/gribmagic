@@ -14,6 +14,13 @@ jobs:
       matrix:
         os: [ ubuntu-latest ]
         python-version: ["3.7", "3.8", "3.9", "3.10"]
+        include:
+        - os: ubuntu-latest
+          path: ~/.cache/pip
+        #- os: macos-latest
+        #  path: ~/Library/Caches/pip
+        #- os: windows-latest
+        #  path: ~\AppData\Local\pip\Cache
     env:
       OS: ${{ matrix.os }}
       PYTHON: ${{ matrix.python-version }}
