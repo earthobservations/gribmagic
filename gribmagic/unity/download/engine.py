@@ -4,7 +4,7 @@ Handle download of NWP data from remote servers.
 import logging
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
-from typing import Dict, List, Tuple
+from typing import Dict, List
 
 import requests
 
@@ -20,6 +20,7 @@ from gribmagic.unity.download.decoder import (
     decode_tarfile,
 )
 from gribmagic.unity.enumerations import WeatherModel
+from gribmagic.unity.model import DownloadItem
 
 session = requests.Session()
 logger = logging.getLogger(__name__)
@@ -48,7 +49,7 @@ def run_download(
 
     if parallel_download:
         download_specifications = [
-            (weather_model, local_file_path, remote_file)
+            DownloadItem(model=weather_model, local_file=local_file_path, remote_url=remote_file)
             for remote_file, local_file_path in zip(
                 model_file_lists[KEY_REMOTE_FILE_PATHS],
                 model_file_lists[KEY_LOCAL_FILE_PATHS],
@@ -61,11 +62,14 @@ def run_download(
             model_file_lists[KEY_REMOTE_FILE_PATHS],
             model_file_lists[KEY_LOCAL_FILE_PATHS],
         ):
-            results.append(__download((weather_model, local_file_path, remote_file)))
+            item = DownloadItem(
+                model=weather_model, local_file=local_file_path, remote_url=remote_file
+            )
+            results.append(__download(item))
             return results
 
 
-def __download(download_specification: Tuple[WeatherModel, Path, str]) -> None:
+def __download(item: DownloadItem) -> None:
     """
     base download function to manage single file download
 
@@ -79,12 +83,11 @@ def __download(download_specification: Tuple[WeatherModel, Path, str]) -> None:
         Stores a file in temporary directory
     """
 
-    weather_model = download_specification[0]
-    model = WeatherModelSettings(weather_model)
+    model = WeatherModelSettings(item.model)
 
     # Compute source URL and target file.
-    url = download_specification[2]
-    target_file = download_specification[1]
+    url = item.remote_url
+    target_file = item.local_file
 
     if target_file.exists():
         logger.info(f"Skipping existing file {target_file}")
@@ -111,7 +114,7 @@ def __download(download_specification: Tuple[WeatherModel, Path, str]) -> None:
 
 
 def __download_parallel(
-    download_specifications: List[Tuple[WeatherModel, Path, str]],
+    download_specifications: List[DownloadItem],
     n_processes: int = DEFAULT_NUMBER_OF_PARALLEL_PROCESSES,
 ) -> None:
     """
