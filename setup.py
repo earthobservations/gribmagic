@@ -9,6 +9,7 @@ setup(name='gribmagic',
       version='0.0.0',
       description='Download of public GRIB1/GRIB2 and netCDF data from numerical weather prediction models',
       long_description=README,
+      long_description_content_type="text/markdown",
       license="MIT",
       classifiers=[
         "Programming Language :: Python",
