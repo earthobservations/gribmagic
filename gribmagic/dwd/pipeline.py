@@ -2,15 +2,16 @@
 """
 Describe and invoke a downloading pipeline for GRIB data from DWD.
 
-Inspired from ``test-download.sh`` by Michael Haberler.
+Inspired by ``test-download.sh`` by Michael Haberler.
 See https://github.com/mhaberler/docker-dwd-open-data-downloader/commit/ff09dbc8.
 
 Based upon DWD Open Data Downloader by Eduard Rosert and Björn Reetz,
-with contributions by Michael Haberler.
+with contributions by Michael Haberler and Andreas Motl.
 
 - https://github.com/DeutscherWetterdienst/downloader
 - https://github.com/EduardRosert/docker-dwd-open-data-downloader
 - https://github.com/mhaberler/docker-dwd-open-data-downloader/tree/rewrite
+- https://github.com/earthobservations/dwd-grib-downloader
 
 Beforehand, install ``opendata-downloader.py`` by typing
 ``make install-dwd-grib-downloader`` within the toplevel directory.
@@ -24,10 +25,12 @@ from typing import List
 
 import click
 
-from demo.pipeline.util import setup_logging, load_module
+from gribmagic.util import load_module, setup_logging
 
 HERE = Path(__file__)
 GRIBMAGIC_PATH = HERE.parent.parent.parent
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -44,6 +47,7 @@ class Recipe:
     to download a subset of GRIB files from DWD.
 
     """
+
     model: str
     grid: str
     parameters: List[Parameter]
@@ -62,7 +66,8 @@ class DwdDownloader:
         # Load ``opendata-downloader.py`` as module.
         self.dwdgrib = load_module(
             name="dwd.grib.downloader",
-            path=GRIBMAGIC_PATH / "tools/dwd-grib-downloader/opendata-downloader.py")
+            path=GRIBMAGIC_PATH / "tools/dwd-grib-downloader/opendata-downloader.py",
+        )
 
         # Configure downloader.
         self.dwdgrib.maxWorkers = 4
@@ -83,11 +88,22 @@ class DwdDownloader:
         openDataDeliveryOffsetMinutes = selectedModel["openDataDeliveryOffsetMinutes"]
         modelIntervalHours = selectedModel["intervalHours"]
         latestTimestamp = self.dwdgrib.getMostRecentModelTimestamp(
-            waitTimeMinutes=openDataDeliveryOffsetMinutes, modelIntervalHours=modelIntervalHours, modelrun=modelrun)
+            waitTimeMinutes=openDataDeliveryOffsetMinutes,
+            modelIntervalHours=modelIntervalHours,
+            modelrun=modelrun,
+        )
 
         return latestTimestamp
 
-    def download(self, model: str, grid: str, parameter: str, level: str, timesteps: List[int], levels: List[int] = None):
+    def download(
+        self,
+        model: str,
+        grid: str,
+        parameter: str,
+        level: str,
+        timesteps: List[int],
+        levels: List[int] = None,
+    ):
         """
         Invoke ``opendata-downloader.py`` program.
 
@@ -110,6 +126,8 @@ class DwdDownloader:
             if not levels:
                 raise ValueError(f"""Addressing "{level}"-type data needs "levels" parameter""")
 
+        logger.info(f'Downloading to target directory "{self.output}"')
+
         results = self.dwdgrib.downloadGribDataSequence(
             model=model,
             flat=False,
@@ -119,7 +137,8 @@ class DwdDownloader:
             timestamp=timestamp,
             levelRange=levels,
             levtype=level,
-            destFilePath=str(self.output))
+            destFilePath=str(self.output),
+        )
 
         return results
 
@@ -136,6 +155,8 @@ def process(recipe: Recipe, timestamp: str, output: Path):
     downloader = DwdDownloader(output=output, timestamp=timestamp)
     for parameter in recipe.parameters:
 
+        logger.info(f"Running acquisition for {parameter}")
+
         # Merge parameter options, item-level takes precedence.
         options_default = deepcopy(recipe.parameter_options)
         options_item = deepcopy(parameter.options)
@@ -149,29 +170,23 @@ def process(recipe: Recipe, timestamp: str, output: Path):
             parameter=parameter.name,
             level=parameter.level,
             timesteps=options_effective.get("timesteps"),
-            levels=options_effective.get("levels")
+            levels=options_effective.get("levels"),
         )
 
         yield results
 
 
-def regrid(filepath):
-    pass
-
-
 @click.command(help="Download GRIB data from DWD.")
-@click.option("--recipe",
-              type=click.Path(exists=True, file_okay=True),
-              help="The recipe file",
-              required=True)
-@click.option("--timestamp",
-              type=str,
-              help="The timestamp/modelrun",
-              required=True)
-@click.option("--output",
-              type=click.Path(exists=False, file_okay=False, dir_okay=True),
-              help="The output directory",
-              required=True)
+@click.option(
+    "--recipe", type=click.Path(exists=True, file_okay=True), help="The recipe file", required=True
+)
+@click.option("--timestamp", type=str, help="The timestamp/modelrun", required=True)
+@click.option(
+    "--output",
+    type=click.Path(exists=False, file_okay=False, dir_okay=True),
+    help="The output directory",
+    required=True,
+)
 def main(recipe: Path, timestamp: str, output: Path):
 
     # Setup logging.
@@ -179,19 +194,10 @@ def main(recipe: Path, timestamp: str, output: Path):
 
     recipe_module = load_module("gribmagic.recipe", recipe)
     recipe_instance = recipe_module.recipe
-    print("Recipe:", recipe_instance)
+    logger.info(f"Invoking recipe: {recipe_instance}")
 
     results = process(recipe=recipe_instance, timestamp=timestamp, output=output)
     list(results)
-
-    """
-    for chunk in process(recipe=recipe_instance, timestamp=timestamp, output=output):
-        for item in chunk:
-            url = item["url"]
-            file = item["file"]
-            if file and "icosahedral" in file:
-                print(f"FIXME: Run regridding on {file}")
-    """
 
 
 if __name__ == "__main__":

@@ -6,8 +6,7 @@ PATH_RAW=.gribmagic-data/raw
 
 mkdir -p ${PATH_RAW}
 
-export PYTHONPATH=$(pwd)
-python demo/pipeline/pipeline.py \
-  --recipe="demo/pipeline/recipe_global_assorted.py" \
-  --timestamp="2021100312" \
+gribmagic dwd acquire \
+  --recipe="examples/dwd/recipe_global_assorted.py" \
+  --timestamp="2021101712" \
   --output="${PATH_RAW}"

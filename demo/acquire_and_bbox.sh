@@ -11,10 +11,9 @@ mkdir -p ${PATH_RAW}
 # Here: Wind - as defined per recipe.
 function acquire() {
     echo "Downloading files"
-    export PYTHONPATH=$(pwd)
-    python demo/pipeline/pipeline.py \
-      --recipe="demo/pipeline/recipe_d2_wind.py" \
-      --timestamp="2021100312" \
+    gribmagic dwd acquire \
+      --recipe="examples/dwd/recipe_d2_wind.py" \
+      --timestamp="2021101712" \
       --output="${PATH_RAW}"
 }
 

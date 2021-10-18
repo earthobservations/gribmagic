@@ -5,6 +5,9 @@ GribMagic changelog
 
 in progress
 ===========
+- Integrate DWD GRIB Downloader as ``gribmagic dwd acquire`` subcommand
+- Add command to install the DWD GRIB Downloader at runtime:
+  ``gribmagic install dwd-grib-downloader``.
 
 
 2021-10-18 0.1.0
