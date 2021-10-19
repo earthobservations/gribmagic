@@ -4,7 +4,7 @@ Describe an example recipe for acquiring a subset of GRIB files.
 Inspired from ``test-download.sh`` by Michael Haberler.
 See https://github.com/mhaberler/docker-dwd-open-data-downloader/commit/ff09dbc8.
 """
-from gribmagic.dwd.pipeline import Recipe, Parameter
+from gribmagic.dwd.download import Recipe, Parameter
 
 recipe = Recipe(
     model="icon-d2",

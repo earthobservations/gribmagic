@@ -4,7 +4,7 @@ import tempfile
 from datetime import datetime, timedelta
 from pathlib import Path
 
-from gribmagic.dwd.pipeline import process
+from gribmagic.dwd.download import process
 from gribmagic.util import load_module
 
 

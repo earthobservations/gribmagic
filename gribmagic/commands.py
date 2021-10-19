@@ -7,7 +7,7 @@ from typing import Union
 
 import click
 
-import gribmagic.dwd.pipeline
+import gribmagic.dwd.download
 import gribmagic.installer
 from gribmagic.unity.configuration.parser import parse_model_config
 from gribmagic.unity.core import run_model_download
@@ -68,5 +68,5 @@ def dwd(ctx):
     pass
 
 
-dwd.add_command(gribmagic.dwd.pipeline.main, "acquire")
+dwd.add_command(gribmagic.dwd.download.main, "acquire")
 cli.add_command(gribmagic.installer.main, "install")
