@@ -1,4 +1,5 @@
 import operator
+import re
 import tempfile
 from datetime import datetime, timedelta
 from pathlib import Path
@@ -41,9 +42,8 @@ def run_icon_d2_vmax_recipe(modelrun):
 
         results = sorted(results, key=operator.itemgetter("url"))
         url = results[0]["url"]
-        assert (
-            f"icon-d2_germany_regular-lat-lon_single-level_{modelrun}_000_2d_vmax_10m.grib2.bz2"
-            in url
+        assert re.match(
+            r".*icon-d2_germany_regular-lat-lon_single-level_\d+_000_2d_vmax_10m.grib2.bz2", url
         ), url
 
         return results
@@ -63,6 +63,6 @@ def run_icon_global_temp2m_recipe(modelrun):
 
         results = sorted(results, key=operator.itemgetter("url"))
         url = results[0]["url"]
-        assert f"icon_global_icosahedral_single-level_{modelrun}_000_T_2M.grib2.bz2" in url, url
+        assert re.match(r".*icon_global_icosahedral_single-level_\d+_000_T_2M.grib2.bz2", url), url
 
         return results

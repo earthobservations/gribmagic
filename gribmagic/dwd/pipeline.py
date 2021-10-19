@@ -21,7 +21,7 @@ import logging
 from copy import deepcopy
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import List
+from typing import List, Optional
 
 import click
 
@@ -115,7 +115,9 @@ class DwdDownloader:
         """
 
         # Compute timestamp.
+        logger.info(f"Using designated timestamp: {self.timestamp}")
         timestamp = self.get_most_recent_timestamp(model=model, modelrun=self.timestamp)
+        logger.info(f"Using effective timestamp: {timestamp}")
 
         # Default for "single-level" parameters.
         if level == "single-level":
@@ -178,14 +180,15 @@ def process(recipe: Recipe, timestamp: str, output: Path):
 @click.option(
     "--recipe", type=click.Path(exists=True, file_okay=True), help="The recipe file", required=True
 )
-@click.option("--timestamp", type=str, help="The timestamp/modelrun", required=True)
+@click.option("--timestamp", type=str, help="The timestamp/modelrun", required=False)
 @click.option(
     "--output",
     type=click.Path(exists=False, file_okay=False, dir_okay=True),
+    envvar="GM_DATA_PATH",
     help="The output directory",
     required=True,
 )
-def main(recipe: Path, timestamp: str, output: Path):
+def main(recipe: Path, timestamp: Optional[str], output: Path):
 
     # Setup logging.
     setup_logging(logging.DEBUG)

@@ -101,6 +101,14 @@ wget https://raw.githubusercontent.com/earthobservations/gribmagic/98da3fd4f/exa
 gribmagic dwd acquire --recipe=recipe_global_assorted.py --timestamp="2021101800" --output=.gribmagic-data
 ```
 
+When omitting the `--timestamp` parameter, the most recent modelrun is automatically selected.
+When omitting the `--output` parameter, it can be supplied using the `GM_DATA_PATH` environment variable.
+
+In this manner, the most compact form to invoke `gribmagic dwd` would be something like:
+```
+export GM_DATA_PATH=.gribmagic-data
+gribmagic dwd acquire --recipe=recipe_d2_wind.py
+```
 
 ## Run program in Docker
 
