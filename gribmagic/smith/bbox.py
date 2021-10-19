@@ -15,18 +15,18 @@ GNU Affero General Public License for more details.
 You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
+import dataclasses
 import glob
 import json
 import logging
 import os
 import sys
 import tempfile
-import dataclasses
 from pathlib import Path
 from typing import List
 
 import click
-from click_option_group import optgroup, RequiredMutuallyExclusiveOptionGroup
+from click_option_group import RequiredMutuallyExclusiveOptionGroup, optgroup
 
 logger = logging.getLogger(__name__)
 
@@ -45,6 +45,7 @@ class BBox:
     - ``from_country`` uses an ISO 2-letter country code
     - ``from_coordinates`` uses a 4-tuple (lat_min, lat_max, lon_min, lon_max)
     """
+
     latitude_min: float
     latitude_max: float
     longitude_min: float
@@ -67,7 +68,12 @@ class BBox:
         if not countries:
             raise ValueError(f"Unknown country iso code: {country_iso}")
         bbox = countries[0].bbox
-        bbox = BBox(latitude_min=bbox[1], latitude_max=bbox[3], longitude_min=bbox[0], longitude_max=bbox[2])
+        bbox = BBox(
+            latitude_min=bbox[1],
+            latitude_max=bbox[3],
+            longitude_min=bbox[0],
+            longitude_max=bbox[2],
+        )
         return bbox
 
     @staticmethod
@@ -92,7 +98,12 @@ class BBox:
         if lonlat:
             # Return tuple like (lon_min, lon_max, lat_min, lat_max)
             # This is needed for CDO.
-            bbox_tuple = (self.longitude_min, self.longitude_max, self.latitude_min, self.latitude_max)
+            bbox_tuple = (
+                self.longitude_min,
+                self.longitude_max,
+                self.latitude_min,
+                self.latitude_max,
+            )
         else:
             # Return tuple like (lat_min, lat_max, lon_min, lon_max)
             bbox_tuple = dataclasses.astuple(self)
@@ -117,9 +128,10 @@ class ProcessingResult:
     This holds information about the
     result from processing a single file.
     """
-    inputfile: Path
-    outputfile: Path = None
-    plotfile: Path = None
+
+    input: Path
+    output: Path = None
+    plot: Path = None
 
 
 class GRIBSubset:
@@ -137,7 +149,9 @@ class GRIBSubset:
     around that by using netCDF.
     """
 
-    def __init__(self, input: List[Path], output: str, bbox: BBox, method: str, use_netcdf: bool, plot: bool):
+    def __init__(
+        self, input: List[Path], output: str, bbox: BBox, method: str, use_netcdf: bool, plot: bool
+    ):
         """
         Create a new GRIBSubset instance.
 
@@ -170,19 +184,19 @@ class GRIBSubset:
 
             logger.info(f"Processing file {infile}")
 
-            item = ProcessingResult(inputfile=infile)
+            item = ProcessingResult(input=infile)
 
             # Render GRIB.
             gribfile_subgrid = self.extract_area(infile)
-            item.outputfile = gribfile_subgrid
+            item.output = gribfile_subgrid
 
             # Render PNG.
             if self.do_plot:
                 try:
                     pngfile = self.plot(gribfile_subgrid)
-                    item.plotfile = pngfile
+                    item.plot = pngfile
                 except Exception as ex:
-                    logger.warning(f"Unable to plot: {ex}")
+                    logger.error(f"Plotting failed: {ex}")
                     pass
 
             results.append(item)
@@ -264,9 +278,10 @@ class GRIBSubset:
         :return: Content of output file
         """
         import cdo
+
         bbox_string = self.bbox.to_string(",", lonlat=True)
         cdo = cdo.Cdo()
-        #cdo.debug = True
+        # cdo.debug = True
         tmpfile = tempfile.NamedTemporaryFile()
         cdo.sellonlatbox(bbox_string, input=str(infile), output=tmpfile.name)
         return self.to_grib_or_netcdf(tmpfile.name)
@@ -307,14 +322,17 @@ class GRIBSubset:
         :param infile: Path to input file
         :return: Content of output file
         """
-        import xarray as xr
         import cfgrib
+        import xarray as xr
+
         ds = xr.open_dataset(infile, engine="cfgrib")
         result = ds.where(
-            (ds.latitude >= self.bbox.latitude_min) &
-            (ds.latitude <= self.bbox.latitude_max) &
-            (ds.longitude >= self.bbox.longitude_min) &
-            (ds.longitude <= self.bbox.longitude_max), drop=True)
+            (ds.latitude >= self.bbox.latitude_min)
+            & (ds.latitude <= self.bbox.latitude_max)
+            & (ds.longitude >= self.bbox.longitude_min)
+            & (ds.longitude <= self.bbox.longitude_max),
+            drop=True,
+        )
         tmpfile = tempfile.NamedTemporaryFile()
         if self.use_netcdf:
             result.to_netcdf(tmpfile.name)
@@ -342,15 +360,17 @@ class GRIBSubset:
         outfile_real = str(outfile) + ".png"
 
         # Setting of the output file name
-        output = magics.output(output_name=str(outfile),
-                               output_formats=['png'],
-                               output_name_first_page_number="off")
+        output = magics.output(
+            output_name=str(outfile), output_formats=["png"], output_name_first_page_number="off"
+        )
 
         # Import the data
         if self.use_netcdf:
             # When plotting netCDF, the variable name has to be given.
             netcdf_variable = get_netcdf_main_variable(infile)
-            data = magics.mnetcdf(netcdf_filename=str(infile), netcdf_value_variable=netcdf_variable)
+            data = magics.mnetcdf(
+                netcdf_filename=str(infile), netcdf_value_variable=netcdf_variable
+            )
         else:
             data = magics.mgrib(grib_input_file_name=str(infile))
 
@@ -363,7 +383,7 @@ class GRIBSubset:
         projection = magics.mmap(
             subpage_map_library_area="on",
             subpage_map_area_name="central_europe",
-            page_id_line="off"
+            page_id_line="off",
         )
         """
         projection = magics.mmap(
@@ -375,8 +395,8 @@ class GRIBSubset:
         )
         """
 
-        #magics.plot(output, data, contour, projection, coast)
-        #magics.plot(output, projection, coast)
+        # magics.plot(output, data, contour, projection, coast)
+        # magics.plot(output, projection, coast)
         magics.plot(output, projection, data, contour, coast)
 
         return Path(outfile_real)
@@ -399,6 +419,7 @@ def get_netcdf_main_variable(filename: str) -> str:
     :return:
     """
     import netCDF4
+
     nc = netCDF4.Dataset(filename)
     first_variable = list(nc.variables.keys())[0]
     nc.close()
@@ -427,53 +448,57 @@ def json_serializer(obj):
         return str(obj)
 
 
-@click.command(help="""
-    Select area of interest from GRIB files using a bounding box.
+@click.command(
+    help="""
+    Extract area of interest from GRIB files using a bounding box.
     
     INPUT can be a single file or a list of files.
     
     For specifying the area of interest, either use "--country" or "--bbox".
     
-    """)
-@click.argument("input",
-              type=click.Path(file_okay=True, dir_okay=True),
-              required=True,
-              nargs=-1)
-@click.option("--output",
-              type=click.Path(exists=False, file_okay=False, dir_okay=True),
-              help="The output directory",
-              required=True)
-@optgroup.group('area', cls=RequiredMutuallyExclusiveOptionGroup,
-                help='The area of interest')
-@optgroup.option("--country",
-              type=str,
-              help="The country ISO code to derive a bounding box")
-@optgroup.option("--bbox",
-              type=click.Tuple([float, float, float, float]),
-              nargs=4,
-              help="The bounding box. Use a space-separated list of 'lat_min lat_max lon_min lon_max'",
-              default=(None, None, None, None))
-@click.option("--method",
-              type=click.Choice(["cdo-shellout", "cdo-python", "xarray"], case_sensitive=False),
-              help="Which bbox method to use, defaults to cdo-shellout",
-              required=False,
-              default="cdo-shellout")
-@click.option("--use-netcdf",
-              is_flag=True,
-              help="Whether to use netCDF",
-              required=False)
-@click.option("--plot",
-              is_flag=True,
-              help="Whether to produce png plots",
-              required=False)
-def main(input: List[str], output: str, country: str, bbox: tuple, method: str, use_netcdf: bool, plot: bool):
+    """
+)
+@click.argument("input", type=click.Path(file_okay=True, dir_okay=True), required=True, nargs=-1)
+@click.option(
+    "--output",
+    type=click.Path(exists=False, file_okay=False, dir_okay=True),
+    help="The output directory",
+    required=True,
+)
+@optgroup.group("area", cls=RequiredMutuallyExclusiveOptionGroup, help="The area of interest")
+@optgroup.option("--country", type=str, help="The country ISO code to derive a bounding box")
+@optgroup.option(
+    "--bbox",
+    type=click.Tuple([float, float, float, float]),
+    nargs=4,
+    help="The bounding box. Use a space-separated list of 'lat_min lat_max lon_min lon_max'",
+    default=(None, None, None, None),
+)
+@click.option(
+    "--method",
+    type=click.Choice(["cdo-shellout", "cdo-python", "xarray"], case_sensitive=False),
+    help="Which bbox method to use, defaults to cdo-shellout",
+    required=False,
+    default="cdo-shellout",
+)
+@click.option("--use-netcdf", is_flag=True, help="Whether to use netCDF", required=False)
+@click.option("--plot", is_flag=True, help="Whether to produce png plots", required=False)
+def main(
+    input: List[str],
+    output: str,
+    country: str,
+    bbox: tuple,
+    method: str,
+    use_netcdf: bool,
+    plot: bool,
+):
 
     # Setup logging.
     setup_logging(level=logging.INFO)
 
     # Create bounding box from selected area of interest.
     if country:
-        bbox = BBox.from_country("AT")
+        bbox = BBox.from_country(country)
     elif bbox:
         bbox = BBox.from_coordinates(bbox)
     logger.info(f"Using bounding box {bbox}")
@@ -485,7 +510,14 @@ def main(input: List[str], output: str, country: str, bbox: tuple, method: str, 
         input_paths += path
 
     # Invoke the machinery.
-    subgrid = GRIBSubset(input=map(Path, input_paths), output=output, bbox=bbox, method=method, use_netcdf=use_netcdf, plot=plot)
+    subgrid = GRIBSubset(
+        input=map(Path, input_paths),
+        output=output,
+        bbox=bbox,
+        method=method,
+        use_netcdf=use_netcdf,
+        plot=plot,
+    )
     results = subgrid.process()
 
     # Report about the outcome.

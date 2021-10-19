@@ -110,6 +110,33 @@ export GM_DATA_PATH=.gribmagic-data
 gribmagic dwd acquire --recipe=recipe_d2_wind.py
 ```
 
+## Run bbox tool
+Extract area of interest from GRIB files using a bounding box.
+
+Extract subset by coordinates, a space-separated list of `lat_min lat_max lon_min lon_max`.
+```
+gribmagic smith bbox \
+  ".gribmagic-data/raw/icon-d2/**/*regular-lat-lon*.grib2" --output=.gribmagic-data/subgrid \
+  --bbox=46.0 47.5 14.5 16.8
+```
+
+Extract subset by 2-letter country name.
+```
+gribmagic smith bbox \
+  ".gribmagic-data/raw/icon-d2/**/*regular-lat-lon*.grib2" --output=.gribmagic-data/subgrid \
+  --country=AT
+```
+
+For also plotting the result on a map, install `Magics` and use the `--plot` option:
+```
+make install-magics
+export MAGPLUS_HOME=/usr/local/opt/magics
+gribmagic smith bbox \
+  ".gribmagic-data/raw/icon-d2/**/*regular-lat-lon*.grib2" --output=.gribmagic-data/subgrid \
+  --country=AT \
+  --plot
+```
+
 ## Run program in Docker
 
 To use GribMagic in a Docker container, you have to build the Docker image like

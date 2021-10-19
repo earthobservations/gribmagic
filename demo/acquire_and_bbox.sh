@@ -21,7 +21,7 @@ function acquire() {
 function subgrid() {
     echo "Applying bounding box"
     export MAGPLUS_HOME=/usr/local/opt/magics
-    python demo/grib_bbox.py \
+    gribmagic smith bbox \
       "${PATH_RAW}/**/*regular-lat-lon*.grib2" --output=${PATH_SUBGRID} \
       --bbox=46.0 47.5 14.5 16.8 \
       --plot

@@ -25,6 +25,7 @@ Prio 1
 ******
 Prio 2
 ******
+- [o] Add ``gribmagic install magics``
 - [o] Integrate ``demo/grib_bbox.py``
 - [o] Add type hints for return values from "download-xyz" functions
 - [o] ``--dry-run`` parameter, just printing the index files and URLs
