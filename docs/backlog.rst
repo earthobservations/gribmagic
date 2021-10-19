@@ -6,6 +6,7 @@ GribMagic backlog
 ******
 Prio 1
 ******
+- [o] Complete pipeline demos
 - [o] Integrate regridding
     - https://github.com/jbusecke/cmip6_preprocessing/issues/38
     - https://github.com/DeutscherWetterdienst/regrid
@@ -102,3 +103,4 @@ Done
       into ``gribmagic.dwd`` module and as ``gribmagic dwd acquire`` subcommand.
 - [x] Unlock ICON-D2
 - [x] Download only specific parameters
+- [x] Use most recent modelrun

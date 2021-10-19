@@ -8,6 +8,8 @@ in progress
 - Integrate DWD GRIB Downloader as ``gribmagic dwd acquire`` subcommand
 - Add command to install the DWD GRIB Downloader at runtime:
   ``gribmagic install dwd-grib-downloader``.
+- Accept ``gribmagic dwd acquire`` without ``--timestamp`` parameter.
+  When the timestamp is omitted, the most recent available modelrun is used.
 
 
 2021-10-18 0.1.0

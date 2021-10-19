@@ -13,7 +13,6 @@ function acquire() {
     echo "Downloading files"
     gribmagic dwd acquire \
       --recipe="examples/dwd/recipe_d2_wind.py" \
-      --timestamp="2021101712" \
       --output="${PATH_RAW}"
 }
 
