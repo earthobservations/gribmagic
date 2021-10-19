@@ -36,6 +36,15 @@ This is a work in progress, as such GribMagic is currently considered to
 be beta software. As this is an early-stage project, contributions are
 highly appreciated.
 
+## Details
+The software package includes different code bases. Both provide their features
+by means of a `gribmagic` subcommand.
+
+- GribMagic Unity program: `gribmagic unity --help`
+- DWD GRIB Downloader program: `gribmagic dwd --help`
+
+You can find corresponding invocation examples later in this document.
+
 
 ## Setup
 
