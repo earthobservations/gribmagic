@@ -13,8 +13,8 @@ with contributions by Michael Haberler and Andreas Motl.
 - https://github.com/mhaberler/docker-dwd-open-data-downloader/tree/rewrite
 - https://github.com/earthobservations/dwd-grib-downloader
 
-Beforehand, install ``opendata-downloader.py`` by typing
-``make install-dwd-grib-downloader`` within the toplevel directory.
+Beforehand, install ``opendata-downloader.py`` by invoking
+``gribmagic install dwd-grib-downloader``.
 It
 """
 import logging
@@ -25,10 +25,8 @@ from typing import List
 
 import click
 
+from gribmagic.installer import DWD_GRIB_DOWNLOADER_PATH
 from gribmagic.util import load_module, setup_logging
-
-HERE = Path(__file__)
-GRIBMAGIC_PATH = HERE.parent.parent.parent
 
 logger = logging.getLogger(__name__)
 
@@ -66,7 +64,7 @@ class DwdDownloader:
         # Load ``opendata-downloader.py`` as module.
         self.dwdgrib = load_module(
             name="dwd.grib.downloader",
-            path=GRIBMAGIC_PATH / "tools/dwd-grib-downloader/opendata-downloader.py",
+            path=DWD_GRIB_DOWNLOADER_PATH / "opendata-downloader.py",
         )
 
         # Configure downloader.
