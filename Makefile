@@ -20,7 +20,7 @@ $(eval gribmagic    := $(venvpath)/bin/gribmagic)
 
 # Setup Python virtualenv
 setup-virtualenv:
-	@test -e $(python) || python3 -m venv $(venvpath)
+	@test -e $(python) || python3 -m venv --system-site-packages $(venvpath)
 
 
 # -------

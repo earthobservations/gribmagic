@@ -55,7 +55,6 @@ setup(name='gribmagic',
         ],
       },
       zip_safe=False,
-      test_suite='kotori.test',
       install_requires=[
         "requests>=2,<2.26",
         "cfgrib>=0.9,<1",
@@ -66,6 +65,7 @@ setup(name='gribmagic',
         "click>=8,<9",
         "click-option-group>=0.5,<0.6",
         "appdirs>=1.4,<2",
+        "country-bounding-boxes>=0.2,<1",
       ],
       extras_require={
         "test": [

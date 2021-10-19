@@ -10,6 +10,8 @@ in progress
   ``gribmagic install dwd-grib-downloader``.
 - Accept ``gribmagic dwd acquire`` without ``--timestamp`` parameter.
   When the timestamp is omitted, the most recent available modelrun is used.
+- Add subcommand ``gribmagic smith bbox``, in order to extract an area of
+  interest from GRIB files using a bounding box.
 
 
 2021-10-18 0.1.0
