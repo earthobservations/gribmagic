@@ -16,6 +16,7 @@ $(eval twine        := $(venvpath)/bin/twine)
 $(eval sphinx       := $(venvpath)/bin/sphinx-build)
 $(eval isort        := $(venvpath)/bin/isort)
 $(eval black        := $(venvpath)/bin/black)
+$(eval gribmagic    := $(venvpath)/bin/gribmagic)
 
 # Setup Python virtualenv
 setup-virtualenv:
@@ -27,8 +28,7 @@ setup-virtualenv:
 # -------
 
 # Run the main test suite
-test:
-	@test -e $(pytest) || $(MAKE) install-tests
+test: install-tests
 	@$(pytest) -vvv tests
 
 test-refresh: install-tests test
@@ -98,6 +98,7 @@ install-releasetools: setup-virtualenv
 
 install-tests: setup-virtualenv testdata-download testoutput-clean
 	@$(pip) install --quiet --editable=.[test] --upgrade
+	@$(gribmagic) install dwd-grib-downloader
 	@touch $(venvpath)/bin/activate
 	@mkdir -p .pytest_results
 
