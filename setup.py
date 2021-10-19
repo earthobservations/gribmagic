@@ -74,6 +74,9 @@ setup(name='gribmagic',
           "mock>=4,<5",
           "responses>=0.12,<1",
         ],
+        "plotting": [
+          "Magics==1.5.6",
+        ],
       },
       entry_points={
         'console_scripts': [
