@@ -8,6 +8,7 @@ from typing import Union
 import click
 
 import gribmagic.dwd.pipeline
+import gribmagic.installer
 from gribmagic.unity.configuration.parser import parse_model_config
 from gribmagic.unity.core import run_model_download
 from gribmagic.unity.enumerations import WeatherModel
@@ -68,3 +69,4 @@ def dwd(ctx):
 
 
 dwd.add_command(gribmagic.dwd.pipeline.main, "acquire")
+cli.add_command(gribmagic.installer.main, "install")

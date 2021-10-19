@@ -65,6 +65,7 @@ setup(name='gribmagic',
         "dask==2021.9.1",
         "click>=8,<9",
         "click-option-group>=0.5,<0.6",
+        "appdirs>=1.4,<2",
       ],
       extras_require={
         "test": [

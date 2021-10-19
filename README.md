@@ -80,6 +80,9 @@ ECCODES_DEFINITION_PATH=/usr/share/eccodes/definitions:/usr/local/opt/eccodes/sh
 
 ## Run DWD GRIB Downloader program
 ```
+# Install DWD GRIB Downloader program.
+gribmagic install dwd-grib-downloader
+
 # Acquire wind-specific parameters from ICON-D2.
 wget https://raw.githubusercontent.com/earthobservations/gribmagic/98da3fd4f/examples/dwd/recipe_d2_wind.py
 gribmagic dwd acquire --recipe=recipe_d2_wind.py --timestamp="2021101800" --output=.gribmagic-data
