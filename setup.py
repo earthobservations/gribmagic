@@ -75,7 +75,9 @@ setup(name='gribmagic',
           "responses>=0.12,<1",
         ],
         "plotting": [
-          "Magics",
+          # We need this version to be compatible with Magics 4.2.6, which is available
+          # in this version on GHA's `ubuntu-latest` image through package `libmagplus3v5`.
+          "Magics==1.1.2",
         ],
       },
       entry_points={
