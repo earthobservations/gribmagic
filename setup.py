@@ -75,7 +75,7 @@ setup(name='gribmagic',
           "responses>=0.12,<1",
         ],
         "plotting": [
-          "Magics==1.5.6",
+          "Magics",
         ],
       },
       entry_points={

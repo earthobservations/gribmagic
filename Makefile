@@ -97,7 +97,7 @@ install-releasetools: setup-virtualenv
 	@$(pip) install --quiet --requirement requirements-dev.txt --upgrade
 
 install-tests: setup-virtualenv testdata-download testoutput-clean
-	@$(pip) install --quiet --editable=.[test] --upgrade
+	@$(pip) install --quiet --editable=.[test,plotting] --upgrade
 	@$(gribmagic) install dwd-grib-downloader
 	@touch $(venvpath)/bin/activate
 	@mkdir -p .pytest_results

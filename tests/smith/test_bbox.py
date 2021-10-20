@@ -5,7 +5,7 @@ from click.testing import CliRunner
 from gribmagic.commands import cli
 
 
-def test_bbox_plain_success(capsys):
+def test_bbox_plain_success(tmpdir, capsys):
     runner = CliRunner()
 
     # Acquire data.
@@ -15,9 +15,10 @@ def test_bbox_plain_success(capsys):
             "dwd",
             "acquire",
             "--recipe=tests/dwd/recipe_icon_d2_vmax10m.py",
-            "--output=.gribmagic-data/raw",
+            f"--output={tmpdir}/raw",
         ],
     )
+    assert result.exit_code == 0
 
     # Run bbox on data.
     result = runner.invoke(
@@ -26,10 +27,11 @@ def test_bbox_plain_success(capsys):
             "smith",
             "bbox",
             "--country=AT",
-            ".gribmagic-data/raw/icon-d2/**/*regular-lat-lon*.grib2",
-            "--output=.gribmagic-data/subgrid",
+            f"{tmpdir}/raw/icon-d2/**/*regular-lat-lon*.grib2",
+            f"--output={tmpdir}/subgrid",
         ],
     )
+    assert result.exit_code == 0
 
     # Check results.
     report = json.loads(result.output)
@@ -46,7 +48,7 @@ def test_bbox_plain_success(capsys):
     assert first_item["plot"] is None
 
 
-def test_bbox_plot_success(capsys):
+def test_bbox_plot_success(tmpdir, capsys):
     runner = CliRunner()
 
     # Acquire data.
@@ -56,9 +58,10 @@ def test_bbox_plot_success(capsys):
             "dwd",
             "acquire",
             "--recipe=tests/dwd/recipe_icon_d2_vmax10m.py",
-            "--output=.gribmagic-data/raw",
+            f"--output={tmpdir}/raw",
         ],
     )
+    assert result.exit_code == 0
 
     # Run bbox on data.
     result = runner.invoke(
@@ -67,11 +70,12 @@ def test_bbox_plot_success(capsys):
             "smith",
             "bbox",
             "--country=AT",
-            ".gribmagic-data/raw/icon-d2/**/*regular-lat-lon*.grib2",
-            "--output=.gribmagic-data/subgrid",
+            f"{tmpdir}/raw/icon-d2/**/*regular-lat-lon*.grib2",
+            f"--output={tmpdir}/subgrid",
             "--plot",
         ],
     )
+    assert result.exit_code == 0
 
     # Check results.
     report = json.loads(result.output)
