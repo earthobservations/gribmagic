@@ -34,13 +34,14 @@ Setup
 
     MAGICS_VERSION=4.5.3
     MAGICS_VERSION=4.8.2
+    MAGICS_VERSION=4.9.3
 
     cd ~/Downloads
     wget https://confluence.ecmwf.int/download/attachments/3473464/Magics-${MAGICS_VERSION}-Source.tar.gz
     tar -xzf Magics-${MAGICS_VERSION}-Source.tar.gz
 
     rm -rf /tmp/build; mkdir -p /tmp/build; cd /tmp/build
-    cmake -DCMAKE_INSTALL_PREFIX=/usr/local/opt/magics ~/Downloads/Magics-${MAGICS_VERSION}-Source
+    cmake -DCMAKE_INSTALL_PREFIX=/usr/local/opt/magics-${MAGICS_VERSION} ~/Downloads/Magics-${MAGICS_VERSION}-Source
     make -j8
     make install
 
@@ -52,7 +53,7 @@ Demo
 
     pip install Magics
 
-    export MAGPLUS_HOME=/usr/local/opt/magics
+    export MAGPLUS_HOME=/usr/local/opt/magics-${MAGICS_VERSION}
     python -m Magics selfcheck
 
     wget http://download.ecmwf.int/test-data/magics/2m_temperature.grib

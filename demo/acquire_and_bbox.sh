@@ -1,4 +1,12 @@
 #/bin/sh
+# Acquire a subset of NWP data from DWD and extract an area of interest defined
+# by a bounding box or country code.
+#
+# Installation notes:
+# - Data acquisition from DWD needs the DWD GRIB Downloader.
+#   To install it, invoke `gribmagic install dwd-grib-downloader`.
+# - Plotting needs a `Magics` installation. To install it, invoke
+#   `make magics-install`.
 
 set -e
 
@@ -20,7 +28,7 @@ function acquire() {
 # Here: Austria: West + Oststeiermark - as defined per bounding box.
 function subgrid() {
     echo "Applying bounding box"
-    export MAGPLUS_HOME=/usr/local/opt/magics
+    export MAGPLUS_HOME=/usr/local/opt/magics-4.9.3
     gribmagic smith bbox \
       "${PATH_RAW}/**/*regular-lat-lon*.grib2" --output=${PATH_SUBGRID} \
       --bbox=46.0 47.5 14.5 16.8 \
