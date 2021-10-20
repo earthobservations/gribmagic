@@ -21,6 +21,12 @@ Prio 1
 - [o] Fill gaps from some products
     - AROME has more grid resolutions
 
+- [o] ``gribmagic info``::
+
+        - Versions of Numpy, cfgrib, xarray, Dask
+        - Magics version: Magics.version().decode()
+        - cdo and eccodes versions
+
 
 ******
 Prio 2

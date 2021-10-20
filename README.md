@@ -51,10 +51,10 @@ You can find corresponding invocation examples later in this document.
 Install the [ecCodes package by ECMWF](https://confluence.ecmwf.int/display/ECC).
 ```
 # Debian Linux
-apt-get install libeccodes0
+apt-get install --yes libeccodes0 cdo
 
 # macOS/Homebrew
-brew install eccodes
+brew install eccodes cdo
 ```
 
 Install GribMagic Python package.
@@ -127,10 +127,21 @@ gribmagic smith bbox \
   --country=AT
 ```
 
-For also plotting the result on a map, install `Magics` and use the `--plot` option:
+For plotting the result on a map, install `Magics`:
 ```
+# Linux
+apt-get install --yes libmagplus3v5
+
+# macOS
 make install-magics
 export MAGPLUS_HOME=/usr/local/opt/magics
+
+# Install GribMagic with Magics bindings
+pip install gribmagic[plotting]
+```
+
+and use the `--plot` option:
+```
 gribmagic smith bbox \
   ".gribmagic-data/raw/icon-d2/**/*regular-lat-lon*.grib2" --output=.gribmagic-data/subgrid \
   --country=AT \
