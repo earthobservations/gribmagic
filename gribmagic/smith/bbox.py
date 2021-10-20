@@ -196,8 +196,8 @@ class GRIBSubset:
                     pngfile = self.plot(gribfile_subgrid)
                     item.plot = pngfile
                 except Exception as ex:
-                    logger.error(f"Plotting failed: {ex}")
-                    pass
+                    logger.exception(f"Plotting failed: {ex}")
+                    raise
 
             results.append(item)
 

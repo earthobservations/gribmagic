@@ -48,6 +48,7 @@ jobs:
     - name: Install dependencies
       run: |
         sudo apt-get install --yes libeccodes0 cdo python3-magics++
+        python -m Magics selfcheck
 
     - name: Run tests, with coverage
       run: make test-coverage
