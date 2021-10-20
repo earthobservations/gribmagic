@@ -49,7 +49,7 @@ Server
 ======
 ::
 
-    export MAGPLUS_HOME=/usr/local/opt/magics
+    export MAGPLUS_HOME=/usr/local/opt/magics-4.9.3
     skinny-wms --path=.gribmagic-data/raw
     open http://localhost:5000/
 

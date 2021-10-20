@@ -135,7 +135,7 @@ apt-get install --yes libmagplus3v5
 # macOS
 make magics-install
 make magics-info
-export MAGPLUS_HOME=/usr/local/opt/magics
+export MAGPLUS_HOME=/usr/local/opt/magics-4.9.3
 
 # Install GribMagic with Magics bindings
 pip install gribmagic[plotting]

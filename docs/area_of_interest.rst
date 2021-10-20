@@ -55,7 +55,7 @@ Obtain subset area using bounding box, with plotting::
     # For plotting, install Magics.
     # See ``magics.rst``.
 
-    export MAGPLUS_HOME=/usr/local/opt/magics
+    export MAGPLUS_HOME=/usr/local/opt/magics-4.9.3
     export INFILE=.gribmagic-data/tmp/icon_eu_20201220_00_air_temperature_2m_000.grib2
     export OUTDIR=.gribmagic-data/subgrid
 

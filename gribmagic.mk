@@ -1,4 +1,7 @@
-MAGICS_PREFIX = /usr/local/opt/magics
+#MAGICS_VERSION ?= 4.2.6
+#MAGICS_VERSION ?= 4.5.2
+MAGICS_VERSION ?= 4.9.3
+MAGICS_PREFIX = /usr/local/opt/magics-${MAGICS_VERSION}
 PATH_TESTDATA_INPUT = $(PWD)/.gribmagic-testdata/input
 PATH_TESTDATA_OUTPUT = $(PWD)/.gribmagic-testdata/output
 
@@ -24,12 +27,17 @@ testoutput-clean:
 	@echo
 
 magics-install:
-	mkdir -p tmp/download tmp/build/magics
-	wget https://confluence.ecmwf.int/download/attachments/3473464/Magics-4.5.2-Source.tar.gz \
-	    --directory-prefix=tmp/download --no-clobber
-	cd tmp/download; tar -xzf Magics-4.5.2-Source.tar.gz
-	cd tmp/build/magics; \
-	    cmake -DCMAKE_INSTALL_PREFIX=$(MAGICS_PREFIX) ../../download/Magics-4.5.2-Source; \
+	$(eval TMP := tmp/magics)
+	mkdir -p ${TMP}/download ${TMP}/build/${MAGICS_VERSION}
+	wget https://confluence.ecmwf.int/download/attachments/3473464/Magics-${MAGICS_VERSION}-Source.tar.gz \
+	    --directory-prefix=${TMP}/download --no-clobber
+	cd ${TMP}/download; \
+	    tar -xzf Magics-${MAGICS_VERSION}-Source.tar.gz
+	cd ${TMP}/build/${MAGICS_VERSION}; \
+	    cmake \
+	        -DCMAKE_INSTALL_PREFIX=${MAGICS_PREFIX} \
+	        -DPYTHON_EXECUTABLE=$(shell which python3) \
+	        ../../download/Magics-${MAGICS_VERSION}-Source; \
 	    make -j8 && make install
 
 magics-info:
