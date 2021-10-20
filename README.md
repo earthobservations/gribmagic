@@ -133,7 +133,8 @@ For plotting the result on a map, install `Magics`:
 apt-get install --yes libmagplus3v5
 
 # macOS
-make install-magics
+make magics-install
+make magics-info
 export MAGPLUS_HOME=/usr/local/opt/magics
 
 # Install GribMagic with Magics bindings
