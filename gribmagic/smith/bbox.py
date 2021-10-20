@@ -1,6 +1,6 @@
 """
 grib_bbox.py
-Copyright (C) 2020  Andreas Motl
+Copyright (C) 2020-2021  Andreas Motl
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published by
@@ -262,7 +262,8 @@ class GRIBSubset:
         """
 
         command = f"cdo --eccodes --cmor {output_format} sellonlatbox,{bbox_string} '{infile}' '{tmpfile.name}'"
-        os.system(command)
+        exitcode = os.system(command)
+        assert exitcode == 0, f"Invoking `cdo` failed. command={command}"
 
         return self.to_grib_or_netcdf(tmpfile.name)
 
@@ -322,22 +323,23 @@ class GRIBSubset:
         :param infile: Path to input file
         :return: Content of output file
         """
-        import cfgrib
         import xarray as xr
+        from cfgrib.xarray_to_grib import to_grib
 
         ds = xr.open_dataset(infile, engine="cfgrib")
-        result = ds.where(
+        result: xr.Dataset = ds.where(
             (ds.latitude >= self.bbox.latitude_min)
             & (ds.latitude <= self.bbox.latitude_max)
             & (ds.longitude >= self.bbox.longitude_min)
             & (ds.longitude <= self.bbox.longitude_max),
             drop=True,
         )
+
         tmpfile = tempfile.NamedTemporaryFile()
         if self.use_netcdf:
             result.to_netcdf(tmpfile.name)
         else:
-            cfgrib.to_grib(result, tmpfile.name)
+            to_grib(result, tmpfile.name)
         return open(tmpfile.name, "rb").read()
 
     def plot(self, infile: Path) -> Path:
@@ -461,6 +463,7 @@ def json_serializer(obj):
 @click.argument("input", type=click.Path(file_okay=True, dir_okay=True), required=True, nargs=-1)
 @click.option(
     "--output",
+    envvar="GM_DATA_PATH",
     type=click.Path(exists=False, file_okay=False, dir_okay=True),
     help="The output directory",
     required=True,
@@ -524,5 +527,5 @@ def main(
     print(json.dumps(results, default=json_serializer, indent=4))
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: nocover
     main()

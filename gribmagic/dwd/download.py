@@ -201,5 +201,5 @@ def main(recipe: Path, timestamp: Optional[str], output: Path):
     list(results)
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: nocover
     main()

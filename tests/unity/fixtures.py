@@ -24,6 +24,10 @@ recipe_harmonie = AcquisitionRecipe(
 
 testdata_path = Path(f"{os.getcwd()}/.gribmagic-testdata")
 
+icon_global_input_file = (
+    testdata_path / "input" / "icon-global_regular-lat-lon_air-temperature_level-90.grib2"
+)
+
 icon_eu_input_file = (
     testdata_path
     / "input/icon-eu_europe_regular-lat-lon_single-level_2020062300_000_T_2M.grib2.bz2"
