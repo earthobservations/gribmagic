@@ -94,11 +94,11 @@ gribmagic install dwd-grib-downloader
 
 # Acquire wind-specific parameters from ICON-D2.
 wget https://raw.githubusercontent.com/earthobservations/gribmagic/98da3fd4f/examples/dwd/recipe_d2_wind.py
-gribmagic dwd acquire --recipe=recipe_d2_wind.py --timestamp="2021101800" --output=.gribmagic-data
+gribmagic dwd acquire --recipe=recipe_d2_wind.py --timestamp="2021101800" --output=.gribmagic-data/raw
 
 # Acquire assorted parameters from ICON-GLOBAL.
 wget https://raw.githubusercontent.com/earthobservations/gribmagic/98da3fd4f/examples/dwd/recipe_global_assorted.py
-gribmagic dwd acquire --recipe=recipe_global_assorted.py --timestamp="2021101800" --output=.gribmagic-data
+gribmagic dwd acquire --recipe=recipe_global_assorted.py --timestamp="2021101800" --output=.gribmagic-data/raw
 ```
 
 When omitting the `--timestamp` parameter, the most recent modelrun is automatically selected.
@@ -106,7 +106,7 @@ When omitting the `--output` parameter, it can be supplied using the `GM_DATA_PA
 
 In this manner, the most compact form to invoke `gribmagic dwd` would be something like:
 ```
-export GM_DATA_PATH=.gribmagic-data
+export GM_DATA_PATH=.gribmagic-data/raw
 gribmagic dwd acquire --recipe=recipe_d2_wind.py
 ```
 
@@ -116,14 +116,16 @@ Extract area of interest from GRIB files using a bounding box.
 Extract subset by coordinates, a space-separated list of `lat_min lat_max lon_min lon_max`.
 ```
 gribmagic smith bbox \
-  ".gribmagic-data/raw/icon-d2/**/*regular-lat-lon*.grib2" --output=.gribmagic-data/subgrid \
+  ".gribmagic-data/raw/icon-d2/**/*regular-lat-lon*.grib2" \
+  --output=.gribmagic-data/subgrid/icon-d2 \
   --bbox=46.0 47.5 14.5 16.8
 ```
 
 Extract subset by 2-letter country name.
 ```
 gribmagic smith bbox \
-  ".gribmagic-data/raw/icon-d2/**/*regular-lat-lon*.grib2" --output=.gribmagic-data/subgrid \
+  ".gribmagic-data/raw/icon-d2/**/*regular-lat-lon*.grib2" \
+  --output=.gribmagic-data/subgrid/icon-d2 \
   --country=AT
 ```
 
@@ -144,7 +146,8 @@ pip install gribmagic[plotting]
 and use the `--plot` option:
 ```
 gribmagic smith bbox \
-  ".gribmagic-data/raw/icon-d2/**/*regular-lat-lon*.grib2" --output=.gribmagic-data/subgrid \
+  ".gribmagic-data/raw/icon-d2/**/*regular-lat-lon*.grib2" \
+  --output=.gribmagic-data/subgrid \
   --country=AT \
   --plot
 ```

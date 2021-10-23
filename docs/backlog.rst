@@ -26,6 +26,9 @@ Prio 1
         - Versions of Numpy, cfgrib, xarray, Dask
         - Magics version: Magics.version().decode()
         - cdo and eccodes versions
+- [o] Load asset files from different directory than ``appdirs_user()``.
+- [o] GFS API: https://github.com/jagoosw/getgfs
+
 
 
 ******
@@ -51,6 +54,8 @@ Prio 2
         - https://ufscommunity.org/news/srwa/
     - Unlock ERA5 and TIGGE
 - [o] Implement ``gribmagic/unity/modules/parsing/unify_data.py``
+- [o] What about https://opendata.dwd.de/weather/lib/grib/eccodes_definitions.edzw-2.22.1-1.tar.bz2 ?
+- [o] Elevation data from https://github.com/bopen/elevation?
 
 
 ******

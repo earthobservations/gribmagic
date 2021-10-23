@@ -29,6 +29,9 @@ setup-virtualenv:
 
 # Run the main test suite
 test: install-tests
+	@echo "==================="
+	@echo "Invoking test suite"
+	@echo "==================="
 	@$(pytest) -vvv tests
 
 test-refresh: install-tests test
@@ -37,6 +40,9 @@ test-junit: install-tests
 	@$(pytest) tests --junit-xml .pytest_results/pytest.xml
 
 test-coverage: install-tests
+	@echo "==================="
+	@echo "Invoking test suite"
+	@echo "==================="
 	@$(pytest) -vvv tests \
 		--cov=gribmagic --cov-branch \
 		--cov-report=term-missing \
@@ -97,11 +103,21 @@ install-releasetools: setup-virtualenv
 	@$(pip) install --quiet --requirement requirements-dev.txt --upgrade
 
 install-tests: setup-virtualenv testdata-download testoutput-clean
+
+	@mkdir -p .pytest_results
+
+	@echo "========================================"
+	@echo "Installing/upgrading sandbox environment"
+	@echo "========================================"
 	@$(pip) install --quiet --editable=.[test,plotting] --upgrade
 	@$(MAKE) magics-info
+	@echo
+
+	@echo "=============================="
+	@echo "Installing DWD GRIB Downloader"
+	@echo "=============================="
 	@$(gribmagic) install dwd-grib-downloader
-	@touch $(venvpath)/bin/activate
-	@mkdir -p .pytest_results
+	@echo
 
 
 # ==============

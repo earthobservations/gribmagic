@@ -29,6 +29,8 @@ testoutput-clean:
 	@echo
 
 magics-install:
+	# Downloads and install Magics release from https://confluence.ecmwf.int/display/MAGP/Releases.
+	# Needs `apt-get install --yes build-essential cmake libeccodes-dev libeccodes-tools libproj-dev libexpat-dev libcairo2-dev libpangocairo-1.0-0`.
 	$(eval TMP := tmp/magics)
 	mkdir -p ${TMP}/download ${TMP}/build/${MAGICS_VERSION}
 	wget https://confluence.ecmwf.int/download/attachments/3473464/Magics-${MAGICS_VERSION}-Source.tar.gz \
@@ -39,6 +41,7 @@ magics-install:
 	    cmake \
 	        -DCMAKE_INSTALL_PREFIX=${MAGICS_PREFIX} \
 	        -DPYTHON_EXECUTABLE=$(shell which python3) \
+	        -DENABLE_TESTS=off \
 	        ../../download/Magics-${MAGICS_VERSION}-Source; \
 	    make -j8 && make install
 
@@ -62,6 +65,8 @@ magics-info:
 	@printf "Library: "
 	@$(python) -c "import Magics; print(Magics.dll)" || true
 	@printf ""
+
+	@echo
 
 install-skinnywms-macos-10-13:
 	wget https://files.pythonhosted.org/packages/e9/2f/28cdbfbf7165d89c4c574babe7ac12e994266e03fe3cae201d63cc0f471a/ecmwflibs-0.0.94-cp38-cp38-macosx_10_14_x86_64.whl
