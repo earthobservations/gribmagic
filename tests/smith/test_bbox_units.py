@@ -7,12 +7,14 @@ import re
 from pathlib import Path
 
 import cfgrib
+import numpy
 import pytest
 import xarray as xr
 from funcy import project
 
-from gribmagic.smith.bbox import BBox, GRIBSubset, ProcessingResult
-from tests.unity.fixtures import icon_global_input_file
+from gribmagic.smith.bbox import BBox, GRIBSubset
+from gribmagic.smith.util import ProcessingResult
+from tests.unity.fixtures import icon_global_latlon_input_file
 
 
 @pytest.mark.bbox
@@ -114,11 +116,11 @@ def test_gribsubset_success(gm_data_path, method):
     if method == "xarray":
         raise pytest.xfail("Method 'xarray' is currently broken")
 
-    # Check dimensions if input file.
-    ds_in: xr.Dataset = cfgrib.open_file(icon_global_input_file)
-    assert ds_in.dimensions == {"latitude": 721, "longitude": 1440}
+    # Check dimensions of input file.
+    ds_in: xr.Dataset = cfgrib.open_dataset(icon_global_latlon_input_file)
+    assert ds_in.dims == {"latitude": 721, "longitude": 1440}
 
-    input_paths = [icon_global_input_file]
+    input_paths = [icon_global_latlon_input_file]
     output = gm_data_path
     bbox = BBox(
         latitude_min=46.399, latitude_max=49.001, longitude_min=9.524, longitude_max=17.147
@@ -149,8 +151,7 @@ def test_gribsubset_success(gm_data_path, method):
     assert result.plot is None
 
     # Verify output GRIB file.
-
-    ds_out: xr.Dataset = cfgrib.open_file(result.output)
+    ds_out: xr.Dataset = cfgrib.open_dataset(result.output)
 
     reference = {
         "GRIB_edition": 2,
@@ -160,13 +161,13 @@ def test_gribsubset_success(gm_data_path, method):
         "Conventions": "CF-1.7",
         "institution": "Offenbach ",
     }
-    attributes = project(ds_out.attributes, reference.keys())
+    attributes = project(ds_out.attrs, reference.keys())
     assert attributes == reference
 
-    # Check dimensions if output file.
-    assert ds_out.dimensions == {"latitude": 11, "longitude": 30}
+    # Check dimensions of output file.
+    assert ds_out.dims == {"latitude": 11, "longitude": 30}
 
-    assert ds_out.encoding["encode_cf"] == ("parameter", "time", "geography", "vertical")
+    assert list(map(str, ds_out.data_vars)) == ["t"]
 
     assert list(ds_out.variables) == [
         "time",
@@ -177,9 +178,10 @@ def test_gribsubset_success(gm_data_path, method):
         "valid_time",
         "t",
     ]
-    assert ds_out.variables["time"].data == 1628251200
+    assert ds_out.variables["time"].data == numpy.datetime64("2021-08-06T12:00:00.000000000")
     assert len(ds_out.variables["latitude"].data) == 11
     assert len(ds_out.variables["longitude"].data) == 30
 
-    elements = ds_out.variables["t"].data.build_array()
-    assert len(elements) == 11
+    assert ds_out.variables["t"].attrs["standard_name"] == "air_temperature"
+    assert ds_out.variables["t"].attrs["units"] == "K"
+    assert len(ds_out.variables["t"]) == 11

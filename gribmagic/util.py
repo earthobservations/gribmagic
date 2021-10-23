@@ -6,6 +6,8 @@ from pathlib import Path
 
 from dateutil.parser import parse
 
+logger = logging.getLogger(__name__)
+
 
 def setup_logging(level=logging.INFO) -> None:
     log_format = "%(asctime)-15s [%(name)-30s] %(levelname)-7s: %(message)s"
@@ -67,3 +69,9 @@ def load_module(name: str, path: str):
     os.chdir(current_dir)
 
     return mod
+
+
+def run_command(command):
+    logger.debug(f"Running command: {command}")
+    exitcode = os.WEXITSTATUS(os.system(command))
+    assert exitcode == 0, exitcode

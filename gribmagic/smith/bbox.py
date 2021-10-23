@@ -16,17 +16,18 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 import dataclasses
-import glob
 import json
 import logging
 import os
-import sys
 import tempfile
 from pathlib import Path
 from typing import List
 
 import click
 from click_option_group import RequiredMutuallyExclusiveOptionGroup, optgroup
+
+from gribmagic.smith.util import FileProcessor, ProcessingResult, json_serializer
+from gribmagic.util import setup_logging
 
 logger = logging.getLogger(__name__)
 
@@ -122,18 +123,6 @@ class BBox:
         return separator.join(map(str, bbox_tuple))
 
 
-@dataclasses.dataclass
-class ProcessingResult:
-    """
-    This holds information about the
-    result from processing a single file.
-    """
-
-    input: Path
-    output: Path = None
-    plot: Path = None
-
-
 class GRIBSubset:
     """
     The main workhorse to read a number of GRIB files and
@@ -150,7 +139,14 @@ class GRIBSubset:
     """
 
     def __init__(
-        self, input: List[Path], output: str, bbox: BBox, method: str, use_netcdf: bool, plot: bool
+        self,
+        input: List[Path],
+        output: Path,
+        bbox: BBox,
+        method: str,
+        use_netcdf: bool,
+        plot: bool,
+        dry_run: bool = False,
     ):
         """
         Create a new GRIBSubset instance.
@@ -168,6 +164,7 @@ class GRIBSubset:
         self.method = method
         self.use_netcdf = use_netcdf
         self.do_plot = plot
+        self.dry_run = dry_run
 
         # Compute output folder.
         subdirectory = f'bbox_{self.bbox.to_string("_")}'
@@ -179,29 +176,31 @@ class GRIBSubset:
 
         :return: List of ``ProcessingResult`` instances
         """
-        results: List[ProcessingResult] = []
-        for infile in self.input:
 
-            logger.info(f"Processing file {infile}")
+        processor = FileProcessor(input=self.input, method=self.step)
+        return processor.resolve().run()
 
-            item = ProcessingResult(input=infile)
+    def step(self, item: ProcessingResult) -> None:
+        """
+        Process a singe input item.
 
-            # Render GRIB.
-            gribfile_subgrid = self.extract_area(infile)
-            item.output = gribfile_subgrid
+        :param item:
+        :return:
+        """
 
-            # Render PNG.
-            if self.do_plot:
-                try:
-                    pngfile = self.plot(gribfile_subgrid)
-                    item.plot = pngfile
-                except Exception as ex:
-                    logger.exception(f"Plotting failed: {ex}")
-                    raise
+        # Render GRIB.
+        gribfile_subgrid = self.extract_area(item.input)
+        item.output = gribfile_subgrid
 
-            results.append(item)
-
-        return results
+        # Render PNG.
+        if self.do_plot:
+            try:
+                pngfile = self.plot(gribfile_subgrid)
+                item.plot = pngfile
+            except Exception as ex:
+                logger.exception(f"Plotting failed: {ex}")
+                # TODO: Raise exception conditionally.
+                raise
 
     def extract_area(self, infile: Path) -> Path:
         """
@@ -210,13 +209,6 @@ class GRIBSubset:
         :param infile: Path to input file
         :return: Path to output file
         """
-        # Apply bounding box to GRIB file.
-        if self.method == "cdo-shellout":
-            payload = self.bbox_cdo_shellout(infile)
-        elif self.method == "cdo-python":
-            payload = self.bbox_cdo_python(infile)
-        elif self.method == "xarray":
-            payload = self.bbox_xarray(infile)
 
         # Prepare information about output file.
         if self.use_netcdf:
@@ -232,6 +224,17 @@ class GRIBSubset:
         outfile = outfolder.joinpath(infile.name)
         if suffix:
             outfile = outfile.with_suffix(suffix)
+
+        if self.dry_run:
+            return outfile
+
+        # Apply bounding box to GRIB file.
+        if self.method == "cdo-shellout":
+            payload = self.bbox_cdo_shellout(infile)
+        elif self.method == "cdo-python":
+            payload = self.bbox_cdo_python(infile)
+        elif self.method == "xarray":
+            payload = self.bbox_xarray(infile)
 
         # Write output file.
         open(outfile, "wb").write(payload)
@@ -281,8 +284,7 @@ class GRIBSubset:
         import cdo
 
         bbox_string = self.bbox.to_string(",", lonlat=True)
-        cdo = cdo.Cdo()
-        # cdo.debug = True
+        cdo = cdo.Cdo(logging=True, debug=False)
         tmpfile = tempfile.NamedTemporaryFile()
         cdo.sellonlatbox(bbox_string, input=str(infile), output=tmpfile.name)
         return self.to_grib_or_netcdf(tmpfile.name)
@@ -359,7 +361,10 @@ class GRIBSubset:
         outfolder = self.outfolder.joinpath("png")
         outfolder.mkdir(parents=True, exist_ok=True)
         outfile = outfolder.joinpath(infile.name)
-        outfile_real = str(outfile) + ".png"
+        outfile_real = outfile.with_suffix(".png")
+
+        if self.dry_run:
+            return outfile_real
 
         # Setting of the output file name
         output = magics.output(
@@ -401,7 +406,7 @@ class GRIBSubset:
         # magics.plot(output, projection, coast)
         magics.plot(output, projection, data, contour, coast)
 
-        return Path(outfile_real)
+        return outfile_real
 
 
 def get_netcdf_main_variable(filename: str) -> str:
@@ -426,28 +431,6 @@ def get_netcdf_main_variable(filename: str) -> str:
     first_variable = list(nc.variables.keys())[0]
     nc.close()
     return first_variable
-
-
-def setup_logging(level=logging.INFO) -> None:
-    """
-    Setup Python logging
-
-    :param level:
-    :return:
-    """
-    log_format = "%(asctime)-15s [%(name)-15s] %(levelname)-7s: %(message)s"
-    logging.basicConfig(format=log_format, stream=sys.stderr, level=level)
-
-
-def json_serializer(obj):
-    """
-    JSON serializer for custom objects not serializable by default json code
-    """
-
-    if isinstance(obj, ProcessingResult):
-        return dataclasses.asdict(obj)
-    elif isinstance(obj, Path):
-        return str(obj)
 
 
 @click.command(
@@ -486,14 +469,18 @@ def json_serializer(obj):
 )
 @click.option("--use-netcdf", is_flag=True, help="Whether to use netCDF", required=False)
 @click.option("--plot", is_flag=True, help="Whether to produce png plots", required=False)
+@click.option(
+    "--dry-run", is_flag=True, help="Whether to simulate processing", required=False, default=False
+)
 def main(
-    input: List[str],
-    output: str,
+    input: List[Path],
+    output: Path,
     country: str,
     bbox: tuple,
     method: str,
     use_netcdf: bool,
     plot: bool,
+    dry_run: bool,
 ):
 
     # Setup logging.
@@ -506,20 +493,15 @@ def main(
         bbox = BBox.from_coordinates(bbox)
     logger.info(f"Using bounding box {bbox}")
 
-    # Resolve wildcards from input parameter.
-    input_paths = []
-    for input_element in input:
-        path = glob.glob(input_element, recursive=True)
-        input_paths += path
-
     # Invoke the machinery.
     subgrid = GRIBSubset(
-        input=map(Path, input_paths),
+        input=input,
         output=output,
         bbox=bbox,
         method=method,
         use_netcdf=use_netcdf,
         plot=plot,
+        dry_run=dry_run,
     )
     results = subgrid.process()
 
