@@ -6,7 +6,7 @@ here = os.path.abspath(os.path.dirname(__file__))
 README = open(os.path.join(here, 'README.md')).read()
 
 setup(name='gribmagic',
-      version='0.2.0',
+      version='0.2.1',
       description='Download of public GRIB1/GRIB2 and netCDF data from numerical weather prediction models',
       long_description=README,
       long_description_content_type="text/markdown",
