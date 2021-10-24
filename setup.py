@@ -76,6 +76,7 @@ setup(name='gribmagic',
           "pytest-xdist>=2.4,<3",
           "mock>=4,<5",
           "responses>=0.12,<1",
+          "freezegun>=1.1,<2",
         ],
         "plotting": [
           # We need this version to be compatible with Magics 4.2.6, which is available

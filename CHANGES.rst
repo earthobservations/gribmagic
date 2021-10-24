@@ -5,7 +5,8 @@ GribMagic changelog
 
 in progress
 ===========
-- CI: Parallelize test execution using `pytest-xdist`
+- CI: Parallelize test execution using ``pytest-xdist``
+- Fix day turnover computation in ``previous_modelrun()``
 
 
 2021-10-24 0.2.0
