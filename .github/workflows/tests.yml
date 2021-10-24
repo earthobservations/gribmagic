@@ -38,12 +38,19 @@ jobs:
     - name: Acquire sources
       uses: actions/checkout@v2
 
-    - uses: actions/cache@v2
+    - name: Cache Python packages
+      uses: actions/cache@v2
       with:
         path: ${{ matrix.path }}
         key: ${{ runner.os }}-pip-${{ hashFiles('setup.py', 'requirements-dev.txt') }}
-        restore-keys: |
-         ${{ runner.os }}-pip-
+
+    - name: Cache programs and data
+      uses: actions/cache@v2
+      with:
+        path: |
+          /home/runner/.local/share/gribmagic
+          .gribmagic-testdata/input
+        key: programs-data-${{ hashFiles('gribmagic.mk') }}
 
     - name: Install dependencies
       run: |
