@@ -56,7 +56,14 @@ Prio 2
 - [o] Implement ``gribmagic/unity/modules/parsing/unify_data.py``
 - [o] What about https://opendata.dwd.de/weather/lib/grib/eccodes_definitions.edzw-2.22.1-1.tar.bz2 ?
 - [o] Elevation data from https://github.com/bopen/elevation?
+- [o] https://github.com/prayer007/dwdGribExtractor
 
+- [o] ICON-D2:
+        '''Gets the number of the current run by current time.
+        The latest run is fully available ~2h after initialisation.
+        e.g. The 09 run will be finished at approx 11:00 UTC.
+
+  -- https://github.com/prayer007/dwdGribExtractor/blob/be1481e968123a04d5700016fe6a2fa4259b6048/dwdGribExtractor/icon.py#L94-L96
 
 ******
 Prio 3
