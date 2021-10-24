@@ -5,6 +5,7 @@ GribMagic changelog
 
 in progress
 ===========
+- CI: Parallelize test execution using `pytest-xdist`
 
 
 2021-10-24 0.2.0

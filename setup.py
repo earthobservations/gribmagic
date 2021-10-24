@@ -73,6 +73,7 @@ setup(name='gribmagic',
         "test": [
           "pytest>=6,<7",
           "pytest-cov>=2.10,<3",
+          "pytest-xdist>=2.4,<3",
           "mock>=4,<5",
           "responses>=0.12,<1",
         ],

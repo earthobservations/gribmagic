@@ -87,7 +87,7 @@ def __download(item: DownloadItem) -> None:
 
     # Compute source URL and target file.
     url = item.remote_url
-    target_file = item.local_file
+    target_file = Path(item.local_file)
 
     if target_file.exists():
         logger.info(f"Skipping existing file {target_file}")
