@@ -7,6 +7,11 @@ in progress
 ===========
 
 
+2021-10-24 0.2.2
+================
+- Improve usability
+
+
 2021-10-24 0.2.1
 ================
 - CI: Parallelize test execution using ``pytest-xdist``

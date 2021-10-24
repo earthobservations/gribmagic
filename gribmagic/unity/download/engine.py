@@ -99,7 +99,7 @@ def __download(item: DownloadItem) -> None:
         response = session.get(url, stream=True)
         response.raise_for_status()
     except Exception as ex:
-        logger.warning(f"Accessing resource {url} failed: {ex}")
+        logger.warning(f"Failed accessing resource {url}: {ex}")
         return
 
     if not target_file.parent.is_dir():
@@ -154,7 +154,7 @@ def __download_tar_file(
         response = session.get(url, stream=True)
         response.raise_for_status()
     except Exception as ex:
-        logger.warning(f"Accessing resource {url} failed: {ex}")
+        logger.warning(f"Failed accessing resource {url}: {ex}")
         return
 
     return decode_tarfile(response.raw, local_file_list)
