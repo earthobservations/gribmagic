@@ -208,6 +208,10 @@ make test-coverage
 
 # Run specific tests, with coverage report.
 .venv/bin/pytest -vvv --cov-report=term-missing --cov=gribmagic.smith.regrid -k test_regrid
+
+# Run tests in parallel.
+make test-parallel
+make test-coverage-parallel
 ```
 
 ---
