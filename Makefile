@@ -32,7 +32,10 @@ test: install-tests
 	@echo "==================="
 	@echo "Invoking test suite"
 	@echo "==================="
-	@$(pytest) -vvv tests
+	@$(pytest) -vvv tests ${ARGS}
+
+test-parallel:
+	@$(MAKE) test ARGS=--numprocesses=auto
 
 test-refresh: install-tests test
 
@@ -48,7 +51,11 @@ test-coverage: install-tests
 		--cov-report=term-missing \
 		--cov-report=html:.pytest_results/htmlcov \
 		--cov-report=xml:.pytest_results/coverage.xml \
-		--junit-xml=.pytest_results/pytest.xml
+		--junit-xml=.pytest_results/pytest.xml \
+		${ARGS}
+
+test-coverage-parallel:
+	@$(MAKE) test-coverage ARGS=--numprocesses=auto
 
 
 # ----------------------

@@ -1,4 +1,3 @@
-import os
 from io import BytesIO
 
 import numpy as np
@@ -35,13 +34,11 @@ def test_concatenate_all_variable_files():
     assert dataset.time.values == np.datetime64("2020-06-23T00:00:00.000000000")
     assert dataset.step.values == np.timedelta64(0)
 
-    os.remove(icon_eu_output_file)
 
+def test_open_grib_file_one_variable(tmpgribfile):
 
-def test_open_grib_file_one_variable():
-
-    decode_bunzip(BytesIO(test_data), icon_eu_output_file)
-    dataset = open_grib_file(icon_eu_output_file)[0]
+    decode_bunzip(BytesIO(test_data), tmpgribfile)
+    dataset = open_grib_file(tmpgribfile)[0]
 
     assert dataset.latitude.shape == (657,)
     assert dataset.longitude.shape == (1097,)
@@ -50,14 +47,12 @@ def test_open_grib_file_one_variable():
     assert dataset.step.values == np.timedelta64(0)
 
 
-def test_create_inventory():
+def test_create_inventory(tmpgribfile):
 
-    decode_bunzip(BytesIO(test_data), icon_eu_output_file)
-    dataset = open_grib_file(icon_eu_output_file)
-    variables_inventory = create_inventory(dataset)
+    decode_bunzip(BytesIO(test_data), tmpgribfile)
+    datasets = open_grib_file(tmpgribfile)
+    variables_inventory = create_inventory(datasets)
 
     assert variables_inventory == {
         "t2m": [{KEY_LIST_INDEX: 0, KEY_LEVEL_TYPE: "heightAboveGround"}]
     }
-
-    os.remove(icon_eu_output_file)

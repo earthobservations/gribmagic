@@ -57,7 +57,7 @@ jobs:
         sudo apt-get install --yes libeccodes0 cdo libmagplus3v5
 
     - name: Run tests, with coverage
-      run: make test-coverage
+      run: make test-coverage-parallel
 
     - name: Upload coverage report to Codecov
       uses: codecov/codecov-action@v2
