@@ -14,8 +14,12 @@ def nearest_multiple(number, base=10):
 
 def previous_modelrun():
     timestamp = datetime.utcnow() - timedelta(hours=6)
+    day = timestamp.day
     hour = nearest_multiple(timestamp.hour, base=6)
-    timestamp = timestamp.replace(hour=hour, minute=0, second=0, microsecond=0)
+    if hour == 24:
+        day += 1
+        hour = 0
+    timestamp = timestamp.replace(day=day, hour=hour, minute=0, second=0, microsecond=0)
     modelrun = timestamp.strftime("%Y%m%d%H")
     return modelrun
 
