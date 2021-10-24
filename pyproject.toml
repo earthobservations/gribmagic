@@ -11,4 +11,5 @@ markers = [
     "command: Tests invoking the command line interface.",
     "unit: Unit tests FTW.",
     "bbox: Tests related to bounding box extraction.",
+    "regrid: Tests related to regridding.",
 ]

@@ -10,8 +10,10 @@ in progress
   ``gribmagic install dwd-grib-downloader``.
 - [dwd] Accept ``gribmagic dwd acquire`` without ``--timestamp`` parameter.
   When the timestamp is omitted, the most recent available modelrun is used.
-- [dwd] Add subcommand ``gribmagic smith bbox``, in order to extract an area of
+- [tool] Add subcommand ``gribmagic smith bbox``, in order to extract an area of
   interest from GRIB files using a bounding box, or a two-letter country code.
+- [tool] Add subcommand ``gribmagic smith regrid``, in order to transform DWD ICON's
+  icosahedral-gridded files into regular grids in ``long1`` format.
 
 
 2021-10-18 0.1.0

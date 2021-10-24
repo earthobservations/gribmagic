@@ -30,5 +30,16 @@ def install_package(name: str):
             git clone --branch=amo/develop https://github.com/earthobservations/dwd-grib-downloader '{DWD_GRIB_DOWNLOADER_PATH}' 
         """.strip()
         os.system(command)
+
+    elif name == "dwd-grid-information":
+        from gribmagic.smith.regrid.engine import GridTransformationLibrary
+        from gribmagic.smith.regrid.model import GRID_METADATA_PATH
+
+        logger.info(f"Installing grid information files to '{GRID_METADATA_PATH}'")
+        for item in GridTransformationLibrary.description_weight_files:
+            item.install()
+        for item in GridTransformationLibrary.grid_files:
+            item.install()
+
     else:
         raise ValueError(f"Unknown package {name}")
