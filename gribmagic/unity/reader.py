@@ -72,18 +72,18 @@ def open_grib_file(file_path: Path) -> List[xarray.Dataset]:
 
 
 def create_inventory(
-    dataset: List[xarray.Dataset],
+    datasets: List[xarray.Dataset],
 ) -> Dict[Hashable, List[Union[Dict[str, Union[int, any]], Dict[str, Union[str, int]]]]]:
     """
     Create a dictionary mapping GRIB variables to level_type and index in the list.
     Args:
-        dataset:
+        datasets:
 
     Returns:
         Dict with Level und Index information
     """
     variables_inventory = {}
-    for idx, dat in enumerate(dataset):
+    for idx, dat in enumerate(datasets):
         for item in dat.variables.items():
             varname, xelement = item
             if varname not in NOT_RELEVANT_ATTRIBUTES:

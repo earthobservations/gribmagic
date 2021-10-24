@@ -25,9 +25,9 @@ from gribmagic.util import setup_logging
 @click.option(
     "--resolution",
     type=float,
-    help="Which resolution to select. Use `0.125` or `0.25`",
+    help="Which resolution to select. Use `0.125` or `0.250`",
     required=False,
-    default=0.25,
+    default=0.250,
 )
 @click.option(
     "--dry-run", is_flag=True, help="Whether to simulate processing", required=False, default=False

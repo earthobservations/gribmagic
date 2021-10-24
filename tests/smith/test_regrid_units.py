@@ -1,4 +1,8 @@
-from pathlib import Path
+"""
+Invoke the tests in this file using::
+
+    pytest -vvv -m "regrid and unit"
+"""
 from typing import List
 
 import cfgrib
@@ -25,7 +29,7 @@ def test_regrid_success(gm_data_path, tmpdir):
 
     # Load grid transformation asset files.
     gridlib = GridTransformationLibrary()
-    gridinfo = gridlib.get_info(kind="global", resolution_dw=0.25)
+    gridinfo = gridlib.get_info(kind="global", resolution_dw=0.250)
 
     # Transform grid / regrid.
     transformer = RegridTransformer(
@@ -63,20 +67,14 @@ def test_regrid_success(gm_data_path, tmpdir):
 @pytest.mark.unit
 def test_regrid_dryrun_success(gm_data_path, tmpdir):
 
-    # Check dimensions and grid type of input file.
-    # ds_in: xr.Dataset = cfgrib.open_dataset(icon_global_icosahedral_input_file)
-    # assert ds_in.dims == {"values": 2949120}
-    # assert ds_in.variables["gust"].attrs["GRIB_gridType"] == "unstructured_grid"
-
     # Load grid transformation asset files.
     gridlib = GridTransformationLibrary()
-    gridinfo = gridlib.get_info(kind="global", resolution_dw=0.25)
+    gridinfo = gridlib.get_info(kind="global", resolution_dw=0.250)
 
     # Transform grid / regrid.
     transformer = RegridTransformer(
         gridinfo=gridinfo, input=[icon_global_icosahedral_input_file], output=tmpdir, dry_run=True
     )
-    # transformer.setup()
     results: List[ProcessingResult] = transformer.process()
 
     # Check output filename.
@@ -85,6 +83,8 @@ def test_regrid_dryrun_success(gm_data_path, tmpdir):
     assert not item.output.exists()
 
 
+@pytest.mark.regrid
+@pytest.mark.unit
 def test_kind_from_model():
 
     gtl = GridTransformationLibrary()
