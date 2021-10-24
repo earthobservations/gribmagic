@@ -355,6 +355,9 @@ class GRIBSubset:
         :param infile: Path to input file
         :return: Path to output file
         """
+
+        # Suppress banner output on STDOUT.
+        os.environ["MAGPLUS_QUIET"] = "true"
         from Magics import macro as magics
 
         # Compute outfile location.

@@ -50,6 +50,7 @@ def test_bbox_basic_success(gm_data_path, capsys):
     assert "plot" in first_item
 
     assert first_item["input"].endswith(".grib2")
+    assert first_item["output"].endswith(".grib2")
     assert "bbox_" in first_item["output"]
     assert first_item["plot"] is None
 

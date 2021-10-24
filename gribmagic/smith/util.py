@@ -1,5 +1,7 @@
 import dataclasses as dataclasses
 import logging
+import sys
+from contextlib import redirect_stdout
 from pathlib import Path
 from typing import Callable, List
 
@@ -60,7 +62,8 @@ class FileProcessor:
         for infile in self.input:
             logger.info(f"Processing file {infile}")
             item = ProcessingResult(input=infile)
-            self.method(item)
+            with redirect_stdout(sys.stderr):
+                self.method(item)
             results.append(item)
 
         return results
