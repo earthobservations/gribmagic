@@ -24,8 +24,16 @@ recipe_harmonie = AcquisitionRecipe(
 
 testdata_path = Path(f"{os.getcwd()}/.gribmagic-testdata")
 
-icon_global_input_file = (
+icon_global_latlon_input_file = (
     testdata_path / "input" / "icon-global_regular-lat-lon_air-temperature_level-90.grib2"
+)
+
+icon_global_icosahedral_input_file = (
+    testdata_path / "input" / "icon_global_icosahedral_single-level_2021102018_001_VMAX_10M.grib2"
+)
+
+icon_global_icosahedral_regridded_output_filename = (
+    "icon_global_icosahedral_single-level_2021102018_001_VMAX_10M-latlon-long1.grib2"
 )
 
 icon_eu_input_file = (

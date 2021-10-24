@@ -45,8 +45,8 @@ class FileProcessor:
         """
         input_paths = []
         for path_raw in self.input:
-            path = glob.glob(str(path_raw), recursive=True)
-            input_paths += path
+            paths = glob.glob(str(path_raw), recursive=True)
+            input_paths += paths
         self.input = list(map(Path, input_paths))
         return self
 

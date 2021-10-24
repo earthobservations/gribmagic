@@ -10,6 +10,7 @@ import click
 import gribmagic.dwd.download
 import gribmagic.installer
 import gribmagic.smith.bbox
+import gribmagic.smith.regrid.cli
 from gribmagic.unity.configuration.parser import parse_model_config
 from gribmagic.unity.core import run_model_download
 from gribmagic.unity.enumerations import WeatherModel
@@ -21,7 +22,7 @@ logger = logging.getLogger(__name__)
 # The logging has to be configured on the module level
 # in order to make it apply in ProcessPoolExecutor contexts.
 # https://stackoverflow.com/a/49791106
-setup_logging()
+setup_logging(level=logging.DEBUG)
 
 
 @click.group()
@@ -80,3 +81,4 @@ def smith(ctx):
 
 
 smith.add_command(gribmagic.smith.bbox.main, "bbox")
+smith.add_command(gribmagic.smith.regrid.cli.main, "regrid")

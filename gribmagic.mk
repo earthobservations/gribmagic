@@ -11,6 +11,8 @@ testdata-download:
 	@echo "===================="
 	mkdir -p $(PATH_TESTDATA_INPUT)
 	mkdir -p $(PATH_TESTDATA_OUTPUT)
+	wget https://github.com/earthobservations/testdata/raw/main/opendata.dwd.de/weather/nwp/icon/grib/18/vmax_10m/icon_global_icosahedral_single-level_2021102018_001_VMAX_10M.grib2 \
+	    --directory-prefix $(PATH_TESTDATA_INPUT) --no-clobber
 	wget https://github.com/earthobservations/testdata/raw/main/opendata.dwd.de/weather/nwp/icon/grib/18/t/icon-global_regular-lat-lon_air-temperature_level-90.grib2 \
 	    --directory-prefix $(PATH_TESTDATA_INPUT) --no-clobber
 	wget https://github.com/earthobservations/testdata/raw/main/opendata.dwd.de/weather/nwp/icon-eu/grib/00/t_2m/icon-eu_europe_regular-lat-lon_single-level_2020062300_000_T_2M.grib2.bz2 \

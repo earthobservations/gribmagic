@@ -152,6 +152,32 @@ gribmagic smith bbox \
   --plot
 ```
 
+
+## Run regridding tool
+
+Acquire grid information files.
+```
+gribmagic install dwd-grid-information
+```
+
+Process regridding on a single file. The default is to assume ICON GLOBAL files and the
+regridding will take place with 0.250° resolution.
+```
+gribmagic smith regrid \
+  ".gribmagic-data/raw/icon/**/*icon_global_icosahedral*.grib2" \
+  --output=.gribmagic-data/regridded/icon-global
+```
+
+When aiming to regrid with 0.125° resolution, please specify the `--resolution=0.125` argument, like:
+```
+gribmagic smith regrid \
+  ".gribmagic-data/raw/icon/**/*icon_global_icosahedral*.grib2" \
+  --output=.gribmagic-data/regridded/icon-global \
+  --resolution=0.125
+```
+
+
+
 ## Run program in Docker
 
 To use GribMagic in a Docker container, you have to build the Docker image like
@@ -179,6 +205,9 @@ make test
 
 # All tests, with code coverage report.
 make test-coverage
+
+# Run specific tests, with coverage report.
+.venv/bin/pytest -vvv --cov-report=term-missing --cov=gribmagic.smith.regrid -k test_regrid
 ```
 
 ---
