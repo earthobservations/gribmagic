@@ -6,6 +6,7 @@ from pathlib import Path
 from typing import Any, List, Union
 
 from cdo import Cdo
+from numpy.distutils.misc_util import as_list
 
 from gribmagic.smith.regrid.model import (
     GridDescriptionWeight,
@@ -146,7 +147,7 @@ class GridTransformationLibrary:
         model = model.lower()
 
         # TODO: Improve heuristics.
-        if "global" in model:
+        if "global" in model or model == "icon":
             if resolution == 0.125:
                 kind = GridKind.ICON_GLOBAL2WORLD_0125
             elif resolution == 0.250:
@@ -190,7 +191,7 @@ class RegridTransformer:
         self, gridinfo: GridInformation, input: List[Path], output: Path, dry_run: bool = False
     ):
         self.gridinfo = gridinfo
-        self.input = input
+        self.input = map(Path, as_list(input))
         self.output = Path(output)
         self.dry_run = dry_run
         with redirect_stdout(sys.stderr):

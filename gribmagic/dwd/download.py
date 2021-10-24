@@ -17,15 +17,17 @@ Beforehand, install ``opendata-downloader.py`` by invoking
 ``gribmagic install dwd-grib-downloader``.
 It
 """
+import json
 import logging
 from copy import deepcopy
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import List, Optional
+from typing import List, Optional, Union
 
 import click
 
 from gribmagic.installer import DWD_GRIB_DOWNLOADER_PATH
+from gribmagic.smith.util import json_serializer
 from gribmagic.util import load_module, setup_logging
 
 logger = logging.getLogger(__name__)
@@ -143,7 +145,7 @@ class DwdDownloader:
         return results
 
 
-def process(recipe: Recipe, timestamp: str, output: Path):
+def process(recipe: Union[Recipe, Path, str], timestamp: str, output: Path):
     """
     Process whole GRIB acquisition recipe.
 
@@ -152,6 +154,12 @@ def process(recipe: Recipe, timestamp: str, output: Path):
     :param output:
     :return:
     """
+
+    # Load recipe.
+    if not isinstance(recipe, Recipe):
+        recipe = load_recipe(recipe)
+    logger.info(f"Invoking recipe: {recipe}")
+
     downloader = DwdDownloader(output=output, timestamp=timestamp)
     for parameter in recipe.parameters:
 
@@ -176,6 +184,12 @@ def process(recipe: Recipe, timestamp: str, output: Path):
         yield results
 
 
+def load_recipe(recipefile):
+    recipe_module = load_module("<unknown>", recipefile)
+    recipe_instance = recipe_module.recipe
+    return recipe_instance
+
+
 @click.command(help="Download GRIB data from DWD.")
 @click.option(
     "--recipe", type=click.Path(exists=True, file_okay=True), help="The recipe file", required=True
@@ -193,12 +207,12 @@ def main(recipe: Path, timestamp: Optional[str], output: Path):
     # Setup logging.
     setup_logging(logging.DEBUG)
 
-    recipe_module = load_module("gribmagic.recipe", recipe)
-    recipe_instance = recipe_module.recipe
-    logger.info(f"Invoking recipe: {recipe_instance}")
+    # Invoke machinery.
+    results = process(recipe=recipe, timestamp=timestamp, output=output)
+    results = list(results)
 
-    results = process(recipe=recipe_instance, timestamp=timestamp, output=output)
-    list(results)
+    # Report about the outcome.
+    print(json.dumps(results, default=json_serializer, indent=4))
 
 
 if __name__ == "__main__":  # pragma: nocover

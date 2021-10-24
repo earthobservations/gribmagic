@@ -6,6 +6,7 @@ GribMagic backlog
 ******
 Prio 1
 ******
+- [o] Expand return parameter of ``DwdDownloader.download()``
 - [o] Complete pipeline demos
 - [o] Integrate regridding
     - https://github.com/jbusecke/cmip6_preprocessing/issues/38
@@ -28,6 +29,7 @@ Prio 1
         - cdo and eccodes versions
 - [o] Load asset files from different directory than ``appdirs_user()``.
 - [o] GFS API: https://github.com/jagoosw/getgfs
+- [o] Rename ``acquire`` to ``download``?
 
 
 
